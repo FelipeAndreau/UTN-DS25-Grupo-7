@@ -12,3 +12,9 @@ Grupo Numero 7 de la materia Desarrollo de Software
 - Legajo: 33294  
 - Alias de Slack: Felipe Andreau
 - GitHub: https://github.com/FelipeAndreau
+
+-------------------------------------------------
+- Nombre completo: Melissa Braunstein
+- Legajo: 33535
+- Alias de Slack: Melissa Braunstein
+- GitHub: https://github.com/mmmelissa099
