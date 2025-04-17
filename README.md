@@ -6,8 +6,9 @@ Grupo Numero 7 de la materia Desarrollo de Software
 - Nombre completo: Katrina Ariadna Fernandez
 - Legajo: 33182  
 - Alias de Slack: Fernandez Katrina
-- GitHub: https://github.com/kattrinita
-
-Grupo Numero 7 de la materia Desarrollo de Software <br>
-Miembros del Equipo:
-main
+- GitHub: https://github.com/kattrinita <br>
+-------------------------------------------------
+- Nombre completo: Felipe Andreau
+- Legajo: 33294  
+- Alias de Slack: Felipe Andreau
+- GitHub: https://github.com/FelipeAndreau
