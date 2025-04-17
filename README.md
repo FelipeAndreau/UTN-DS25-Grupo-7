@@ -8,6 +8,7 @@ Grupo Numero 7 de la materia Desarrollo de Software
 - Alias de Slack: Fernandez Katrina
 - GitHub: https://github.com/kattrinita
 
-Grupo Numero 7 de la materia Desarrollo de Software <br>
-Miembros del Equipo:
-main
+- Nombre completo: Felipe Andreau
+- Legajo: 33294  
+- Alias de Slack: Felipe Andreau
+- GitHub: https://github.com/FelipeAndreau
