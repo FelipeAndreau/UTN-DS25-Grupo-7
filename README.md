@@ -36,3 +36,5 @@ transacciones.
 - Legajo: 33289
 - Alias de Slack: Bernardita La Gioiosa
 - GitHub: https://github.com/berni-lagio
+
+
