@@ -30,3 +30,9 @@ transacciones.
 - Legajo: 33514
 - Alias de Slack: Wagner Pilar
 - GitHub: https://github.com/pilarwagnerr
+
+-------------------------------------------------
+- Nombre completo: Bernardita La Gioiosa
+- Legajo: 33289
+- Alias de Slack: Bernardita La Gioiosa
+- GitHub: https://github.com/berni-lagio
