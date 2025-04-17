@@ -1,12 +1,6 @@
 # UTN-DS25-Grupo-7
 Grupo Numero 7 de la materia Desarrollo de Software
 
-## Descripción
-Sistema de Venta de Automóviles. El proyecto consiste en desarrollar un sistema de venta de automóviles 
-que permita gestionar el inventario de vehículos, registrar ventas, 
-clientes y vendedores, además de poder generar un reporte de 
-transacciones.
-
 ## Miembros del Equipo 
 - Nombre completo: Katrina Ariadna Fernandez
 - Legajo: 33182  
