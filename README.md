@@ -36,3 +36,9 @@ transacciones.
 - Legajo: 33289
 - Alias de Slack: Bernardita La Gioiosa
 - GitHub: https://github.com/berni-lagio
+
+-------------------------------------------------
+- Nombre completo: Ulises Mateo Bucchino
+- Legajo: 33326
+- Alias de Slack: Ulises Bucchino
+- GitHub: https://github.com/ulisesutnfrlp7
