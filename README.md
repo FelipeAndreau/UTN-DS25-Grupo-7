@@ -1,5 +1,5 @@
 # UTN-DS25-Grupo-7
-Grupo Numero 7 de la materia Desarrollo de Software
+Grupo número 7 de la materia Desarrollo de Software
 
 ## Descripción
 Sistema de Venta de Automóviles. El proyecto consiste en desarrollar un sistema de venta de automóviles 
