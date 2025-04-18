@@ -2,9 +2,7 @@
 Grupo número 7 de la materia Desarrollo de Software
 
 ## Descripción
-Sistema de Venta de Automóviles. El proyecto consiste en desarrollar un sistema de venta de automóviles 
-que permita gestionar el inventario de vehículos, registrar ventas, 
-clientes y vendedores, además de poder generar un reporte de transacciones.
+Sistema de Venta de Automóviles. El proyecto consiste en desarrollar un sistema de venta de automóviles que permita gestionar el inventario de vehículos, registrar ventas, clientes y vendedores, además de poder generar un reporte de transacciones.
 
 ## Documento de Visión y Alcance del proyecto
 [DDS GRUPO 7 VISIÓN Y ALCANCE DEL PRODUCTO.pdf](https://github.com/user-attachments/files/19805795/DDS.GRUPO.7.VISION.Y.ALCANCE.DEL.PRODUCTO.pdf)
