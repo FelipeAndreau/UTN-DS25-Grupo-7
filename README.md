@@ -27,7 +27,7 @@ transacciones.
 - Alias de Slack: Melissa Braunstein
 - GitHub: https://github.com/mmmelissa099
 
-  -----------------------------------------------
+-------------------------------------------------
 
 - Nombre completo: Pilar Wagner
 - Legajo: 33514
