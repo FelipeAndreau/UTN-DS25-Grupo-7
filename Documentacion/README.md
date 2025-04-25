@@ -4,6 +4,7 @@
 ## Analisis Inicial
 [1.1 Diagrama de Flujo de Negocio](./01%20-%20Analisis%20Inicial/1.1-Diagrama_de_flujo(v1.0).jpg) <br>
 [1.2.1 Diagrama Contextual](./01%20-%20Analisis%20Inicial/1.2.1_diagrama_contextual(v1.0).png) <br>
+[1.2.2 Mapa Funcional](./01%20-%20Analisis%20Inicial/1.2.2_mapa_funcional(v1.0).jpg) <br>
 [1.3 Matriz de Riesgos](./01%20-%20Analisis%20Inicial/1.3-Matriz_de_Riesgos(v1.0).pdf) <br>
 
 ## Modelado de Dominio 
