@@ -9,4 +9,4 @@
 
 ## Modelado de Dominio 
 [2.1.1 Glosario_Oficial](./02%20-%20Modelado%20de%20Dominio/2.1.1-Glosario_Oficial(v1.0).pdf) <br>
-[2.1.1 Glosario_Oficial](./02%20-%20Modelado%20de%20Dominio/2.1.2%20Modelo%20del20Dominio) <br>
+[2.1.2 Modelo_De_Dominio](./02%20-%20Modelado%20de%20Dominio/2.1.2%20Modelo%20del20Dominio) <br>
