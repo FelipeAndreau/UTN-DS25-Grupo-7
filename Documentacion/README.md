@@ -2,5 +2,6 @@
 [Documento de Visión y Alcance del proyecto del Grupo 7](https://github.com/user-attachments/files/19805795/DDS.GRUPO.7.VISION.Y.ALCANCE.DEL.PRODUCTO.pdf)
 
 ## Analisis Inicial
-[Diagrama de Flujo de Negocio](./01%20-%20Analisis%20Inicial/Diagrama_de_flujo(v1.0).jpg)
-[Matriz_de_Riesgos](./01%20-%20Analisis%20Inicial/Matriz_de_Riesgos(v1.0).pdf)
+[Diagrama de Flujo de Negocio](./01%20-%20Analisis%20Inicial/1.1-Diagrama_de_flujo(v1.0).jpg)<br>
+[Matriz_de_Riesgos](./01%20-%20Analisis%20Inicial/1.3-Matriz_de_Riesgos(v1.0).pdf)<br>
+[Diagrama de Diagrama Contextual](./01%20-%20Analisis%20Inicial/1.2.1_diagrama_contextual(v1.0).png)<br>
