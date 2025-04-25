@@ -3,3 +3,4 @@
 
 ## Analisis Inicial
 [Diagrama de Flujo de Negocio](./01%20-%20Analisis%20Inicial/Diagrama_de_flujo(v1.0).jpg)
+[Matriz_de_Riesgos](./01%20-%20Analisis%20Inicial/Matriz_de_Riesgos(v1.0).pdf)
