@@ -1,0 +1,13 @@
+# 3.6 Subdivisión Técnica
+
+Se identifican las siguientes áreas técnicas clave en el desarrollo del sistema de venta de automóviles, junto con sus responsabilidades principales:
+
+| Área Técnica         | Actividades o entregables esperados |
+|----------------------|--------------------------------------|
+| **Modelado de datos** | - Definición de entidades<br>- Relaciones entre tablas (PK, FK)<br>- Migraciones con Entity Framework |
+| **Backend (ASP.NET)** | - Implementación de servicios<br>- Endpoints REST en controladores<br>- Validaciones y lógica de negocio |
+| **Frontend (React)**  | - Desarrollo de componentes<br>- Integración con API REST<br>- Manejo de formularios y estado |
+| **UI/UX**             | - Diseño de wireframes<br>- Prototipos navegables<br>- Consistencia en la interfaz |
+| **QA / Testing**      | - Casos de prueba manuales<br>- Pruebas unitarias (xUnit)<br>- Pruebas de integración y validación funcional |
+| **Documentación técnica** | - Documentación de endpoints (Swagger)<br>- Manual de despliegue y ejecución<br>- README y documentación en GitHub |
+
