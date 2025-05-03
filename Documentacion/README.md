@@ -11,3 +11,8 @@
 [2.1.1 Glosario_Oficial](./02%20-%20Modelado%20de%20Dominio/2.1.1-Glosario_Oficial(v1.0).pdf) <br>
 [2.1.2 Diagrama_De_Clases](./02%20-%20Modelado%20de%20Dominio/2.1.2_Diagrama_De_Clases(v1.0).jpg) <br>
 [2.2 Reglas de Negocio](./02%20-%20Modelado%20de%20Dominio/2.2_Definición_De_Reglas_De_Negocio(v1.0).pdf)
+
+# MProduct Backlog
+[3.1 Elaboracion de Epicas](./03%20-%20Product%20Backlog/3.1-Elaboración-De-Épicas.md<br>
+[3.2 Refinamiento de Epicas](./02%20-%20Modelado%20de%20Dominio/2.1.2_Diagrama_De_Clases(v1.0).jpg) <br>
+
