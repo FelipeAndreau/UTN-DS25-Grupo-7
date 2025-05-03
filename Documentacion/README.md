@@ -16,6 +16,7 @@
 [3.1 Elaboracion de Epicas](./03%20-%20Product%20Backlog/3.1-Elaboración-De-Épicas.md)<br>
 [3.2 Refinamiento de Epicas](./03%20-%20Product%20Backlog/3.2-Refinamiento-De-Épicas-En-Features.md) <br>
 [3.3 Diagramas](./03%20-%20Product%20Backlog/3.3-Diagramas.pdf.pdf)<br>
+[3.4 Historias de Usuario por Feature](./03%20-%20Product%20Backlog/3.4-Historias-de-Usuario-por-Feature.pdf)<br>
 [3.6 Subdivision Tecnica](./03%20-%20Product%20Backlog/3.6-Subdivision-Tecnica.md)<br>
 [3.7 Planificacion de Capacidad Inicial](./03%20-%20Product%20Backlog/3.7-Planificacion-de-Capacidad-Inicial.md)<br>
 
