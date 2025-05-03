@@ -15,7 +15,7 @@
 # Product Backlog
 [3.1 Elaboracion de Epicas](./03%20-%20Product%20Backlog/3.1-Elaboración-De-Épicas.md)<br>
 [3.2 Refinamiento de Epicas](./03%20-%20Product%20Backlog/3.2-Refinamiento-De-Épicas-En-Features.md) <br>
-[3.3 Diagramas](./03%20-%20Product%20Backlog/3.3%20Diagramas)<br>
+[3.3 Diagramas](./03%20-%20Product%20Backlog/3.3-Diagramas.pdf.pdf)<br>
 
 
 
