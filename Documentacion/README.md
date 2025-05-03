@@ -14,5 +14,5 @@
 
 # Product Backlog
 [3.1 Elaboracion de Epicas](./03%20-%20Product%20Backlog/3.1-Elaboración-De-Épicas.md)<br>
-[3.2 Refinamiento de Epicas](./02%20-%20Modelado%20de%20Dominio/2.1.2_Diagrama_De_Clases(v1.0).jpg) <br>
+[3.2 Refinamiento de Epicas](./03%20-%20Product%20Backlog/3.2-Refinamiento-De-Épicas-En-Features.md) <br>
 
