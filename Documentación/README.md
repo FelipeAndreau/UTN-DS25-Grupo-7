@@ -23,10 +23,10 @@ Sistema de Venta de Automóviles. El proyecto consiste en desarrollar un sistema
 ### 🧩 Análisis Inicial
 | Documento | Descripción |
 |-----------|-------------|
-| [1.1 Diagrama de Flujo de Negocio](./01%20-%20Analisis%20Inicial/1.1-Diagrama_de_flujo(v1.0).jpg) | Flujo principal del negocio |
-| [1.2.1 Diagrama Contextual](./01%20-%20Analisis%20Inicial/1.2.1_diagrama_contextual(v1.0).png) | Contexto del sistema |
-| [1.2.2 Mapa Funcional](./01%20-%20Analisis%20Inicial/1.2.2_mapa_funcional(v1.0).jpg) | Mapa de funcionalidades |
-| [1.3 Matriz de Riesgos](./01%20-%20Analisis%20Inicial/1.3-Matriz_de_Riesgos(v1.0).pdf) | Análisis de riesgos |
+| [1.1 Diagrama de Flujo de Negocio](./01%20-%20Análisis%20Inicial/1.1-Diagrama_de_flujo(v1.0).jpg) | Flujo principal del negocio |
+| [1.2.1 Diagrama Contextual](./01%20-%20Análisis%20Inicial/1.2.1_diagrama_contextual(v1.0).png) | Contexto del sistema |
+| [1.2.2 Mapa Funcional](./01%20-%20Análisis%20Inicial/1.2.2_mapa_funcional(v1.0).jpg) | Mapa de funcionalidades |
+| [1.3 Matriz de Riesgos](./01%20-%20Análisis%20Inicial/1.3-Matriz_de_Riesgos(v1.0).pdf) | Análisis de riesgos |
 
 ### 📘 Modelado de Dominio
 | Documento | Descripción |
@@ -49,6 +49,6 @@ Sistema de Venta de Automóviles. El proyecto consiste en desarrollar un sistema
 ### 🕵️ Fase 4: Validación y Trazabilidad
 | Documento | Descripción |
 |-----------|-------------|
-| [4.1 Revisión Cruzada](./04%20-%20Validacion%20y%20Trazabilidad/4.1-Revisión-Cruzada.md) | Revisión Cruzada |
-| [4.2 Matriz de Trazabilidad](./04%20-%20Validacion%20y%20Trazabilidad/4.2-Matriz-De-Trazabilidad.pdf) | Matriz de Trazabilidad |
-| [4.3 Feedback y Validación del Cliente](./04%20-%20Validacion%20y%20Trazabilidad/4.3_Feedback_y_Validación_del_cliente.pdf) | Validacion Cliente |
+| [4.1 Revisión Cruzada](./04%20-%20Validación%20y%20Trazabilidad/4.1-Revisión-Cruzada.md) | Revisión Cruzada |
+| [4.2 Matriz de Trazabilidad](./04%20-%20Validación%20y%20Trazabilidad/4.2-Matriz-De-Trazabilidad.pdf) | Matriz de Trazabilidad |
+| [4.3 Feedback y Validación del Cliente](./04%20-%20Validación%20y%20Trazabilidad/4.3_Feedback_y_Validación_del_cliente.pdf) | Validacion Cliente |
