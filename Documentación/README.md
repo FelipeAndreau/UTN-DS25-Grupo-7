@@ -40,11 +40,11 @@ Sistema de Venta de Automóviles. El proyecto consiste en desarrollar un sistema
 |-----------|-------------|
 | [3.1 Elaboración de Épicas](./03%20-%20Product%20Backlog/3.1-Elaboración-De-Épicas.md) | Definición de épicas |
 | [3.2 Refinamiento de Épicas](./03%20-%20Product%20Backlog/3.2-Refinamiento-De-Épicas-En-Features.md) | Desglose de épicas |
-| [3.3 Diagramas](./03%20-%20Product%20Backlog/3.3-Diagramas.pdf.pdf) | Diagramas del sistema |
+| [3.3 Diagramas](./03%20-%20Product%20Backlog/3.3-Diagramas.pdf) | Diagramas del sistema |
 | [3.4 Historias de Usuario](./03%20-%20Product%20Backlog/3.4-Historias-de-Usuario-por-Feature.pdf) | Historias por feature |
 | [3.5 División de Historias](./03%20-%20Product%20Backlog/3.5-División-Historias-de-Usuario.md) | Desglose de historias |
-| [3.6 Subdivisión Técnica](./03%20-%20Product%20Backlog/3.6-Subdivision-Tecnica.md) | Aspectos técnicos |
-| [3.7 Planificación de Capacidad](./03%20-%20Product%20Backlog/3.7-Planificacion-de-Capacidad-Inicial.md) | Planificación inicial |
+| [3.6 Subdivisión Técnica](./03%20-%20Product%20Backlog/3.6-Subdivisión-Técnica.md) | Aspectos técnicos |
+| [3.7 Planificación de Capacidad](./03%20-%20Product%20Backlog/3.7-Planificación-de-Capacidad-Inicial.md) | Planificación inicial |
 
 ### 🕵️ Fase 4: Validación y Trazabilidad
 | Documento | Descripción |
