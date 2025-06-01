@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoSales · Maquetación</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-content">
+      <h1 class="logo">AutoSales</h1>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#hero">Inicio</a></li>
+          <li><a href="#vehiculos">Vehículos</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#catalogo">Catálogo</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+      <button class="btn-mobile-menu" aria-label="Abrir menú">☰</button>
+    </div>
+  </header>
+
+  <section id="hero" class="hero-section">
+    <div class="container hero-content">
+      <h2>Encuentra tu auto ideal</h2>
+      <p>La mejor selección de vehículos nuevos y usados con las mejores condiciones de financiamiento.</p>
+      <a href="#catalogo" class="btn btn-primary">Ver catálogo</a>
+    </div>
+  </section>
+
+  <section id="vehiculos" class="section">
+    <div class="container">
+      <h3 class="section-title">Vehículos destacados</h3>
+      <div class="cards-grid">
+        <div class="card vehiculo-card">
+          <div class="card-image">
+            <img src="images/toyota_corolla.jpg" alt="Toyota Corolla 2023" />
+          </div>
+          <div class="card-body">
+            <h4>Toyota Corolla 2023</h4>
+            <span class="badge nuevo">Nuevo</span>
+            <p>Sedán compacto con excelente rendimiento de combustible y tecnología avanzada.</p>
+            <span class="price">$25,000</span>
+            <button class="btn btn-secondary btn-detalles" data-modelo="Toyota Corolla 2023">
+              Ver detalles
+            </button>
+          </div>
+        </div>
+        <div class="card vehiculo-card">
+          <div class="card-image">
+            <img src="images/honda_crv.jpg" alt="Honda CR-V 2022" />
+          </div>
+          <div class="card-body">
+            <h4>Honda CR-V 2022</h4>
+            <span class="badge seminuevo">Seminuevo</span>
+            <p>SUV espaciosa con tracción en las cuatro ruedas y características de seguridad avanzadas.</p>
+            <span class="price">$28,000</span>
+            <button class="btn btn-secondary btn-detalles" data-modelo="Honda CR-V 2022">
+              Ver detalles
+            </button>
+          </div>
+        </div>
+        <div class="card vehiculo-card">
+          <div class="card-image">
+            <img src="images/ford_mustang.jpg" alt="Ford Mustang 2021" />
+          </div>
+          <div class="card-body">
+            <h4>Ford Mustang 2021</h4>
+            <span class="badge usado">Usado</span>
+            <p>Deportivo clásico con motor V8 y acabados premium. Excelente estado.</p>
+            <span class="price">$35,000</span>
+            <button class="btn btn-secondary btn-detalles" data-modelo="Ford Mustang 2021">
+              Ver detalles
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="servicios" class="section bg-light">
+    <div class="container">
+      <h3 class="section-title">Nuestros servicios</h3>
+      <div class="cards-grid servicios-grid">
+        <div class="card servicio-card">
+          <div class="icono-servicio">💲</div>
+          <h4>Financiamiento</h4>
+          <p>Ofrecemos las mejores tasas del mercado con aprobación rápida y sin complicaciones.</p>
+        </div>
+        <div class="card servicio-card">
+          <div class="icono-servicio">🛡️</div>
+          <h4>Garantía extendida</h4>
+          <p>Protege tu inversión con nuestros planes de garantía extendida con cobertura completa.</p>
+        </div>
+        <div class="card servicio-card">
+          <div class="icono-servicio">⚡</div>
+          <h4>Servicio técnico</h4>
+          <p>Mantenimiento y reparaciones con técnicos certificados y repuestos originales.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="catalogo" class="section">
+    <div class="container">
+      <h3 class="section-title">Catálogo completo</h3>
+      <p class="section-subtitle">Explora todos nuestros autos disponibles y filtra por categoría.</p>
+      <div class="filtro-catalogo">
+        <label for="filtro-tipo">Filtrar por tipo:</label>
+        <select id="filtro-tipo">
+          <option value="todos">Todos</option>
+          <option value="nuevo">Nuevo</option>
+          <option value="seminuevo">Seminuevo</option>
+          <option value="usado">Usado</option>
+        </select>
+      </div>
+      <div class="cards-grid catalogo-grid">
+        <div class="card vehiculo-card" data-tipo="nuevo">
+          <div class="card-image">
+            <img src="images/chevrolet_onix.jpg" alt="Chevrolet Onix 2023" />
+          </div>
+          <div class="card-body">
+            <h4>Chevrolet Onix 2023</h4>
+            <span class="badge nuevo">Nuevo</span>
+            <p>Compacto ágil y económico ideal para la ciudad.</p>
+            <span class="price">$23,000</span>
+            <button class="btn btn-secondary btn-detalles" data-modelo="Chevrolet Onix 2023">
+              Ver detalles
+            </button>
+          </div>
+        </div>
+        <div class="card vehiculo-card" data-tipo="seminuevo">
+          <div class="card-image">
+            <img src="images/volkswagen_golf.jpg" alt="Volkswagen Golf 2021" />
+          </div>
+          <div class="card-body">
+            <h4>Volkswagen Golf 2021</h4>
+            <span class="badge seminuevo">Seminuevo</span>
+            <p>Hatchback versátil con buena performance y confort.</p>
+            <span class="price">$22,000</span>
+            <button class="btn btn-secondary btn-detalles" data-modelo="Volkswagen Golf 2021">
+              Ver detalles
+            </button>
+          </div>
+        </div>
+        <div class="card vehiculo-card" data-tipo="usado">
+          <div class="card-image">
+            <img src="images/bmw_serie3.jpg" alt="BMW Serie 3 2020" />
+          </div>
+          <div class="card-body">
+            <h4>BMW Serie 3 2020</h4>
+            <span class="badge usado">Usado</span>
+            <p>Lujo y desempeño en una berlina deportiva con bajo kilometraje.</p>
+            <span class="price">$30,000</span>
+            <button class="btn btn-secondary btn-detalles" data-modelo="BMW Serie 3 2020">
+              Ver detalles
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" class="section bg-light">
+    <div class="container">
+      <h3 class="section-title">Contacto</h3>
+      <p class="section-subtitle">¿Tienes alguna duda o consulta? Escríbenos.</p>
+      <form id="form-contacto" class="form-contacto">
+        <div class="form-group">
+          <label for="nombre">Nombre completo:</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Correo electrónico:</label>
+          <input type="email" id="email" name="email" placeholder="ejemplo@dominio.com" required />
+        </div>
+        <div class="form-group">
+          <label for="mensaje">Mensaje:</label>
+          <textarea id="mensaje" name="mensaje" rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+        <p id="mensaje-exito" class="mensaje-exito hidden">¡Gracias! Tu mensaje ha sido enviado.</p>
+      </form>
+    </div>
+  </section>
+
+  <div id="modal-detalles" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="modal-image-container">
+        <img id="modal-imagen" src="" alt="Imagen del vehículo" />
+      </div>
+      <h4 id="modal-titulo">Título del vehículo</h4>
+      <p id="modal-texto">Aquí irán los detalles ampliados del vehículo.</p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <h4>autoSales</h4>
+        <p>Tu concesionario de confianza para encontrar el vehículo perfecto a precios competitivos.</p>
+        <div class="social-icons">
+          <a href="#" aria-label="Facebook">Facebook</a>
+          <a href="#" aria-label="Twitter">Twitter</a>
+          <a href="#" aria-label="Instagram">Instagram</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h5>Enlaces rápidos</h5>
+        <ul>
+          <li><a href="#hero">Inicio</a></li>
+          <li><a href="#catalogo">Catálogo</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+          <li><a href="#servicios">Financiamiento</a></li>
+          <li><a href="#servicios">Servicio técnico</a></li>
+        </ul>
+      </div>
+      <div class="footer-vehiculos">
+        <h5>Vehículos</h5>
+        <ul>
+          <li><a href="#vehiculos">Nuevos</a></li>
+          <li><a href="#vehiculos">Seminuevos</a></li>
+          <li><a href="#vehiculos">Usados</a></li>
+          <li><a href="#catalogo">Ofertas especiales</a></li>
+          <li><a href="#contacto">Vende tu auto</a></li>
+        </ul>
+      </div>
+      <div class="footer-contacto">
+        <h5>Contacto</h5>
+        <ul class="contact-info">
+          <li>📍 Calle 13 , La Plata</li>
+          <li>📞 (+54) 221 633-5590</li>
+          <li>✉️ info@autosales.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2025 AutoSales. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
