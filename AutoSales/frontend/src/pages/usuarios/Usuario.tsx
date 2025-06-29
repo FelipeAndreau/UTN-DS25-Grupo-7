@@ -6,6 +6,8 @@ import "slick-carousel/slick/slick-theme.css";
 
 const Usuario = () => {
   const [seccionActiva, setSeccionActiva] = useState("inicio");
+  const [filtroMarca, setFiltroMarca] = useState("");
+  const [filtroModelo, setFiltroModelo] = useState("");
   const [usuario, setUsuario] = useState({
     nombre: "Juan Pérez",
     email: "juan.perez@email.com",
@@ -73,7 +75,6 @@ const Usuario = () => {
   const handleReservar = (vehiculoId: string) => {
     const vehiculo = vehiculos.find((v) => v.id === vehiculoId);
     if (vehiculo && vehiculo.estado === "Disponible") {
-      // Agregar a reservas
       setReservas((prevReservas) => [
         ...prevReservas,
         {
@@ -84,7 +85,6 @@ const Usuario = () => {
         },
       ]);
 
-      // Actualizar el estado del vehículo
       setVehiculos((prevVehiculos) =>
         prevVehiculos.map((v) =>
           v.id === vehiculoId ? { ...v, estado: "Reservado" } : v
@@ -100,7 +100,6 @@ const Usuario = () => {
   const handleCancelarReserva = (reservaId: string) => {
     const reserva = reservas.find((r) => r.id === reservaId);
     if (reserva) {
-      // Actualizar el estado del vehículo a "Disponible"
       setVehiculos((prevVehiculos) =>
         prevVehiculos.map((vehiculo) =>
           vehiculo.marca + " " + vehiculo.modelo === reserva.vehiculo
@@ -109,9 +108,7 @@ const Usuario = () => {
         )
       );
 
-      // Eliminar la reserva de la lista
       setReservas((prevReservas) => prevReservas.filter((r) => r.id !== reservaId));
-
       alert("Reserva cancelada con éxito.");
     }
   };
@@ -124,6 +121,14 @@ const Usuario = () => {
   const guardarCambios = () => {
     alert("Cambios guardados correctamente.");
   };
+  
+  const vehiculosFiltrados = vehiculos.filter((vehiculo) => {
+    const coincideMarca =
+      filtroMarca === "" || vehiculo.marca.toLowerCase().includes(filtroMarca.toLowerCase());
+    const coincideModelo =
+      filtroModelo === "" || vehiculo.modelo.toLowerCase().includes(filtroModelo.toLowerCase());
+    return coincideMarca && coincideModelo;
+  });
 
   return (
     <div className="flex h-screen">
@@ -203,31 +208,58 @@ const Usuario = () => {
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
               <FaCar /> Vehículos Disponibles
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {vehiculos.map((vehiculo) => (
-                <div
-                  key={vehiculo.id}
-                  className="p-4 bg-white rounded-lg shadow-md flex flex-col items-start"
-                >
-                  <img
-                    src={vehiculo.imagen}
-                    alt={`${vehiculo.marca} ${vehiculo.modelo}`}
-                    className="w-full h-40 object-cover rounded-md mb-3"
-                  />
-                  <h3 className="text-lg font-bold">{vehiculo.marca} {vehiculo.modelo}</h3>
-                  <p className="text-sm text-gray-500 mb-2">{vehiculo.descripcion}</p>
-                  <p className="text-sm text-gray-500">Estado: {vehiculo.estado}</p>
-                  {vehiculo.estado === "Disponible" && (
-                    <button
-                      onClick={() => handleReservar(vehiculo.id)}
-                      className="mt-3 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                    >
-                      Reservar
-                    </button>
-                  )}
-                </div>
-              ))}
+
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Buscar por MARCA..."
+                value={filtroMarca}
+                onChange={(e) => setFiltroMarca(e.target.value)}
+                className="p-2 border border-gray-300 rounded-md w-full md:w-1/2"
+              />
             </div>
+
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Buscar por MODELO..."
+                value={filtroModelo}
+                onChange={(e) => setFiltroModelo(e.target.value)}
+                className="p-2 border border-gray-300 rounded-md w-full md:w-1/2"
+              />
+            </div>
+
+            {vehiculosFiltrados.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {vehiculosFiltrados.map((vehiculo) => (
+                  <div
+                    key={vehiculo.id}
+                    className="p-4 bg-white rounded-lg shadow-md flex flex-col items-start"
+                  >
+                    <img
+                      src={vehiculo.imagen}
+                      alt={`${vehiculo.marca} ${vehiculo.modelo}`}
+                      className="w-full h-40 object-cover rounded-md mb-3"
+                    />
+                    <h3 className="text-lg font-bold">
+                      {vehiculo.marca} {vehiculo.modelo}
+                    </h3>
+                    <p className="text-sm text-gray-500 mb-2">{vehiculo.descripcion}</p>
+                    <p className="text-sm text-gray-500">Estado: {vehiculo.estado}</p>
+                    {vehiculo.estado === "Disponible" && (
+                      <button
+                        onClick={() => handleReservar(vehiculo.id)}
+                        className="mt-3 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                      >
+                        Reservar
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-600">No se encontraron vehículos con esa marca.</p>
+            )}
           </div>
         )}
 
@@ -253,9 +285,7 @@ const Usuario = () => {
                     <td className="border border-gray-300 p-2">
                       <span
                         className={`px-2 py-1 rounded-full text-white text-sm ${
-                          reserva.estado === "Activa"
-                            ? "bg-green-500"
-                            : "bg-gray-500"
+                          reserva.estado === "Activa" ? "bg-green-500" : "bg-gray-500"
                         }`}
                       >
                         {reserva.estado}
