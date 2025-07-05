@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { carService } from "../../services/api";
 
 interface Vehiculo {
   id: number;
@@ -36,6 +37,22 @@ const GestionVehiculos = () => {
 
   const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState<Vehiculo | null>(null);
   const [modalTipo, setModalTipo] = useState("");
+
+  useEffect(() => {
+    carService.getAllCars().then((cars) => {
+      const vehiculos = cars.map(car => ({
+        id: car.id ?? 0,
+        marca: car.make,
+        modelo: car.model,
+        anio: car.year,
+        precio: car.price,
+        estado: car.isAvailable ? "Disponible" : "Vendido",
+        imagen: car.imageUrl ?? "",
+        descripcion: car.description ?? "",
+      }));
+      setVehiculos(vehiculos);
+    });
+  }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
