@@ -323,6 +323,13 @@ const GestionClientes = () => {
                 </td>
               </tr>
             ))}
+            {filtrarClientes().length === 0 && (
+                <tr>
+                  <td colSpan={6} className="p-2 text-gray-500 text-center">
+                    No hay clientes registrados.
+                  </td>
+                </tr>
+              )}
           </tbody>
         </table>
       </div>
