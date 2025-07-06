@@ -62,6 +62,7 @@ const GestionClientes = () => {
     telefono: "",
     tipo: "Particular",
     estado: "Activo",
+    actividad: "", // <-- Agregar campo actividad
   });
 
   const [clienteSeleccionado, setClienteSeleccionado] = useState<{
@@ -76,13 +77,17 @@ const GestionClientes = () => {
   const [modalTipo, setModalTipo] = useState(""); // "ver" o "editar"
 
   const agregarCliente = () => {
-    if (nuevoCliente.nombre && nuevoCliente.email && nuevoCliente.telefono) {
+    if (
+      nuevoCliente.nombre &&
+      nuevoCliente.email &&
+      nuevoCliente.telefono &&
+      nuevoCliente.actividad // <-- Validar actividad
+    ) {
       setClientes((prevClientes) => [
         ...prevClientes,
         {
           id: `CL-${Math.floor(Math.random() * 10000)}`,
           ...nuevoCliente,
-          actividad: "Nuevo cliente agregado",
         },
       ]);
       setNuevoCliente({
@@ -91,6 +96,7 @@ const GestionClientes = () => {
         telefono: "",
         tipo: "Particular",
         estado: "Activo",
+        actividad: "", // <-- Limpiar actividad
       });
     } else {
       alert("Por favor, completa todos los campos antes de agregar un cliente.");
@@ -218,6 +224,15 @@ const GestionClientes = () => {
               value={nuevoCliente.telefono}
               onChange={(e) =>
                 setNuevoCliente({ ...nuevoCliente, telefono: e.target.value })
+              }
+              className="p-2 border border-gray-300 rounded-md flex-1"
+            />
+            <input
+              type="text"
+              placeholder="Observación / Actividad"
+              value={nuevoCliente.actividad}
+              onChange={(e) =>
+                setNuevoCliente({ ...nuevoCliente, actividad: e.target.value })
               }
               className="p-2 border border-gray-300 rounded-md flex-1"
             />
@@ -385,6 +400,57 @@ const GestionClientes = () => {
                 className="p-2 border border-gray-300 rounded-md w-full"
                 disabled={modalTipo === "ver"}
               />
+            </div>
+            <div className="mb-5">
+              <label className="block text-sm font-semibold mb-1">Observación / Actividad</label>
+              <input
+                type="text"
+                value={clienteSeleccionado.actividad}
+                onChange={(e) =>
+                  setClienteSeleccionado({
+                    ...clienteSeleccionado,
+                    actividad: e.target.value,
+                  })
+                }
+                className="p-2 border border-gray-300 rounded-md w-full"
+                disabled={modalTipo === "ver"}
+              />
+            </div>
+            <div className="mb-5">
+              <label className="block text-sm font-semibold mb-1">Tipo</label>
+              <select
+                value={clienteSeleccionado.tipo}
+                onChange={(e) =>
+                  setClienteSeleccionado({
+                    ...clienteSeleccionado,
+                    tipo: e.target.value,
+                  })
+                }
+                className="p-2 border border-gray-300 rounded-md w-full"
+                disabled={modalTipo === "ver"}
+              >
+                <option value="Particular">Particular</option>
+                <option value="Empresa">Empresa</option>
+              </select>
+            </div>
+            <div className="mb-5">
+              <label className="block text-sm font-semibold mb-1">Estado</label>
+              <select
+                value={clienteSeleccionado.estado}
+                onChange={(e) =>
+                  setClienteSeleccionado({
+                    ...clienteSeleccionado,
+                    estado: e.target.value,
+                  })
+                }
+                className="p-2 border border-gray-300 rounded-md w-full"
+                disabled={modalTipo === "ver"}
+              >
+                <option value="Activo">Activo</option>
+                <option value="En proceso">En proceso</option>
+                <option value="Financiamiento">Financiamiento</option>
+                <option value="Potencial">Potencial</option>
+              </select>
             </div>
             <div className="flex justify-end gap-2">
               <button
