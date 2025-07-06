@@ -49,7 +49,7 @@ const Login = () => {
             <MdAlternateEmail className="text-gray-500" />
             <input
               type="email"
-              placeholder="Email address"
+              placeholder="admin@example.com O user@example.com"
               className="bg-transparent border-0 w-full outline-none text-sm md:text-base"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -61,7 +61,7 @@ const Login = () => {
             <FaFingerprint className="text-gray-500" />
             <input
               type={showPassword ? "text" : "password"}
-              placeholder="Password"
+              placeholder="admin123 O user123"
               className="bg-transparent border-0 w-full outline-none text-sm md:text-base"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
