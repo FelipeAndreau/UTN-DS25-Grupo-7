@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaEye, FaEdit } from "react-icons/fa";
+import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 
 const GestionClientes = () => {
   const [clientes, setClientes] = useState([
@@ -94,6 +94,13 @@ const GestionClientes = () => {
       });
     } else {
       alert("Por favor, completa todos los campos antes de agregar un cliente.");
+    }
+  };
+
+  const eliminarCliente = (id: string) => {
+    if (confirm("¿Estás seguro de que deseas eliminar este cliente?")) {
+      setClientes(prev => prev.filter(c => c.id !== id));
+      alert("Cliente eliminado localmente");
     }
   };
 
@@ -305,6 +312,12 @@ const GestionClientes = () => {
                       onClick={() => abrirModal(cliente, "editar")}
                     >
                       <FaEdit />
+                    </button>
+                    <button
+                      className="p-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                      onClick={() => eliminarCliente(cliente.id)}
+                    >
+                      <FaTrash />
                     </button>
                   </div>
                 </td>
