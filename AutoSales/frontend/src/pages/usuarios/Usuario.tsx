@@ -258,7 +258,7 @@ const Usuario = () => {
                 ))}
               </div>
             ) : (
-              <p className="text-gray-600">No se encontraron vehículos con esa marca.</p>
+              <p className="text-gray-600">No se encontraron vehículos con esa marca o modelo.</p>
             )}
           </div>
         )}
