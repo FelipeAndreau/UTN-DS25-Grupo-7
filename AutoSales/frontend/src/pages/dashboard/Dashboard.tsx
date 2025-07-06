@@ -75,13 +75,9 @@ const Dashboard = () => {
   };
 
   return (
-    <div
-      className={`w-full h-screen flex ${
-        tema === "oscuro" ? "bg-gray-800 text-white" : "bg-gray-100 text-black"
-      }`}
-    >
+    <div className={`flex h-screen ${tema === "oscuro" ? "bg-gray-800 text-white" : "bg-gray-100 text-black"}`}>
       {/* Sidebar */}
-      <div className="w-1/5 bg-gray-900 text-white p-5">
+      <div className="w-1/5 h-full bg-gray-900 text-white p-5 flex flex-col">
         <h2 className="text-lg font-semibold mb-5 flex items-center gap-2">
           <FaHome /> AutoSales
         </h2>
@@ -110,7 +106,7 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="w-4/5 p-5">
+      <div className="w-4/5 h-full overflow-y-auto p-5">
         {seccionActiva === "dashboard" && (
           <div className="p-6 bg-gray-100 min-h-screen">
             <h1 className="text-2xl font-bold mb-6 text-gray-800">Dashboard</h1>
