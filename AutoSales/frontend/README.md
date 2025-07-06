@@ -49,7 +49,7 @@ frontend/
 
 | Nombre             | Tipo            | Props clave                        | Descripción                                      |
 |--------------------|-----------------|------------------------------------|--------------------------------------------------|
-| **Configuracion**  | Presentational  | onCambiarTema, onCambiarIdioma     | Panel para cambiar tema e idioma                 |
+| **Configuración**  | Presentational  | onCambiarTema, onCambiarIdioma     | Panel para cambiar tema e idioma                 |
 | **GestionUsuarios**| Container       | –                                  | ABM de usuarios con tabla dinámica               |
 | **GestionClientes**| Container       | –                                  | Filtro avanzado y modal de edición de clientes   |
 | **GestionVehiculos**| Container      | –                                  | CRUD de vehículos con carga de imágenes base64 y conexión a API |
@@ -209,7 +209,7 @@ pnpm dev     # o npm run dev
 
 ## 🛣️ Roadmap
 
-- [x] ABM de usuarios/clientes/vehículos
+- [x] ABM de usuarios / clientes / vehículos
 - [x] Conexión a API con Fetch y carga de datos
 - [x] Uso de hooks y useEffect en componentes clave
 - [ ] Tests automáticos
