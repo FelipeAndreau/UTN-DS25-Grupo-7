@@ -2,6 +2,8 @@ import { MdAlternateEmail } from "react-icons/md";
 import { FaFingerprint, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Aurora from './Aurora';
+import StarBorder from './StarBorder.tsx';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -32,10 +34,17 @@ const Login = () => {
   };
 
   return (
-    <div
-      className="w-full h-screen flex items-center justify-center bg-gray-100 bg-cover bg-center"
-      style={{ backgroundImage: "url('/images/fondos/wallpaper.png')" }}
-    >
+    <div className="relative w-full h-screen flex items-center justify-center overflow-hidden">
+      {/* Fondo Aurora */}
+      <div className="absolute inset-0 -z-10">
+        <Aurora
+          colorStops={["#3A29FF", "#7cf666", "#3A29FF"]}
+          blend={0.8}
+          amplitude={1.5}
+          speed={0.5}
+        />
+      </div>
+      {/* Contenido del login */}
       <div className="w-[90%] max-w-sm md:max-w-md lg:max-w-lg p-6 bg-white flex flex-col items-center gap-4 rounded-xl shadow-lg">
         <img src="/images/fondos/logo.png" alt="logo" className="w-16 md:w-20" />
         <h1 className="text-xl md:text-2xl font-bold text-gray-800">Welcome Back</h1>
@@ -82,12 +91,15 @@ const Login = () => {
 
           {error && <p className="text-red-500 text-xs">{error}</p>}
 
-          <button
+          <StarBorder
+            as="button"
             type="submit"
-            className="w-full p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm md:text-base"
+            className="w-full mt-2"
+            color="cyan"
+            speed="5s"
           >
             Login
-          </button>
+          </StarBorder>
         </form>
       </div>
     </div>
