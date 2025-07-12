@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Bar, Pie, Line } from "react-chartjs-2";
+import { Bar, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,7 +10,7 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
-import { FaUsers, FaCar, FaChartPie, FaCog, FaHome, FaCalendarAlt } from "react-icons/fa";
+import { FaUsers, FaCar, FaChartPie, FaCog, FaHome } from "react-icons/fa";
 import GestionUsuarios from "../gestion/GestionUsuarios";
 import GestionClientes from "../gestion/GestionClientes";
 import GestionVehiculos from "../gestion/GestionVehiculos";
