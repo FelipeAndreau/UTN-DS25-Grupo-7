@@ -16,7 +16,7 @@
 |---------|--------|-----|------------------|------|
 | Inicio de sesión | `POST` | `/auth/login` | Verifica credenciales y entrega token | ❌ |
 
-**Interfaces:**
+**INTERFACES:**
 ```ts
 interface LoginRequest {
   email: string;
@@ -36,6 +36,7 @@ interface LoginResponse {
 |---------|--------|-----|------------------|------|
 | Obtener métricas | `GET` | `/dashboard/stats` | Devuelve KPIs globales | ✅ |
 
+**INTERFAZ:**
 ```ts
 interface DashboardResponse {
   totalClientes: number;
@@ -54,7 +55,7 @@ interface DashboardResponse {
 | Editar cliente | `PUT` | `/clientes/:id` | Actualiza datos por ID | ✅ |
 | Eliminar cliente | `DELETE` | `/clientes/:id` | Elimina por ID | ✅ |
 
-**Interfaces:**
+**INTERFACES:**
 ```ts
 interface Cliente {
   id: string;
@@ -81,7 +82,7 @@ type ClienteResponse = Cliente[];
 | Editar vehículo | `PUT` | `/vehiculos/:id` | Actualiza campos existentes | ✅ |
 | Eliminar vehículo | `DELETE` | `/vehiculos/:id` | Borra vehículo por ID | ✅ |
 
-**Interfaces:**
+**INTERFACES:**
 ```ts
 interface Vehiculo {
   id: number;
@@ -109,7 +110,7 @@ type VehiculoResponse = Vehiculo[];
 | Editar usuario | `PUT` | `/usuarios/:id` | Cambiar rol o datos | ✅ |
 | Eliminar usuario | `DELETE` | `/usuarios/:id` | Soft-delete | ✅ |
 
-**Interfaces:**
+**INTERFACES:**
 ```ts
 interface Usuario {
   id: string;
@@ -130,6 +131,8 @@ type UsuarioResponse = Usuario[];
 |---------|--------|-----|------------------|------|
 | Generar reporte | `GET` | `/reportes?mes=7&tipo=ventas` | KPIs por mes/segmento | ✅ |
 
+**INTERFAZ:**
+
 ```ts
 interface ReporteResponse {
   mes: string;
@@ -147,6 +150,8 @@ interface ReporteResponse {
 | Obtener config | `GET` | `/config` | Preferencias UI, temas, etc. | ✅ |
 | Actualizar config | `PUT` | `/config` | Guarda preferencias por usuario | ✅ |
 
+**INTERFAZ:**
+
 ```ts
 interface Config {
   idioma: string;
@@ -157,7 +162,7 @@ interface Config {
 
 ---
 
-## 🔐 Autenticación sugerida
+## 🔐 AUTENTICACIÓN
 Todos los endpoints excepto `/auth/login` deben protegerse con JWT en los headers (`Authorization: Bearer <token>`). Se puede usar middleware tipo `authMiddleware` en Express para validar acceso.
 
 ---
