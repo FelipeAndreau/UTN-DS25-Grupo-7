@@ -42,6 +42,8 @@ interface DashboardResponse {
   totalClientes: number;
   totalVehiculos: number;
   ventasMensuales: number[];
+  clientesPorEstado: Record<string, number>;
+  vehiculosPorEstado: Record<string, number>;
 }
 ```
 
@@ -129,14 +131,16 @@ type UsuarioResponse = Usuario[];
 ### 6. **Reportes.tsx**
 | Endpoint | Método | URL | Regla de negocio | Auth |
 |---------|--------|-----|------------------|------|
-| Generar reporte | `GET` | `/reportes?mes=7&tipo=ventas` | KPIs por mes/segmento | ✅ |
+| Reporte de ventas | `GET` | `/reportes/ventas?mes=7` | KPIs mensuales | ✅ |
+| Reporte de clientes | `GET` | `/reportes/clientes?mes=7` | Nuevos clientes por mes | ✅ |
+| Reporte de vehículos | `GET` | `/reportes/vehiculos?mes=7` | Vehículos vendidos por mes | ✅ |
 
 **INTERFAZ:**
 
 ```ts
 interface ReporteResponse {
   mes: string;
-  tipo: string;
+  tipo: "ventas" | "clientes" | "vehiculos";
   total: number;
   grafico: number[];
 }
