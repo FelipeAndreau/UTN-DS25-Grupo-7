@@ -6,13 +6,12 @@ import {
   putVehiculo,
   deleteVehiculo,
 } from "../controllers/vehiculos.controller";
-import { authMiddleware } from "../middlewares/authMiddleware";
 
 const router = Router();
 
-router.get("/", authMiddleware, getVehiculos);
-router.post("/", authMiddleware, postVehiculo);
-router.put("/:id", authMiddleware, putVehiculo);
-router.delete("/:id", authMiddleware, deleteVehiculo);
+router.get("/", getVehiculos);
+router.post("/", postVehiculo);
+router.put("/:id", putVehiculo);
+router.delete("/:id", deleteVehiculo);
 
 export default router;

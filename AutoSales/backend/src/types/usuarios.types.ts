@@ -1,11 +1,17 @@
 // src/types/usuarios.types.ts
-export interface Usuario {
+import { Rol } from "../generated/prisma"
+
+export interface UsuarioAdminDTO {
     id: string;
     nombre: string;
     email: string;
-    rol: "admin" | "vendedor" | "viewer";
+    rol: Rol;
+    activo: boolean;
 }
 
-export type UsuarioRequest = Omit<Usuario, "id">;
-
-export type UsuarioResponse = Usuario[];
+export type UsuarioRequest = {
+    nombre: string;
+    email: string;
+    password: string;
+    rol: Rol;
+};

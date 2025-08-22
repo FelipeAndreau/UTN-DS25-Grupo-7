@@ -1,14 +1,8 @@
 // src/types/clientes.types.ts
-export interface Cliente {
-    id: string;
-    nombre: string;
-    email: string;
-    telefono: string;
-    tipo: "Particular" | "Empresa";
-    estado: "Activo" | "En proceso" | "Financiamiento" | "Potencial";
-    actividad: string;
-}
+import { Cliente } from "../generated/prisma";
 
-export type ClienteRequest = Omit<Cliente, "id">;
+export type CreateClienteRequest = Omit<Cliente, "id" | "creadoEn" | "actualizadoEn">;
 
-export type ClienteResponse = Cliente[];
+export type UpdateClienteRequest = Partial<CreateClienteRequest>
+
+export type ClienteResponse = Omit<Cliente, "creadoEn" | "actualizadoEn">;
