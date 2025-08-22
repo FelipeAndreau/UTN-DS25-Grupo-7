@@ -13,8 +13,8 @@ export const getUsuarios = async (_: Request, res: Response) => {
 };
 
 export const postUsuario = async (req: Request, res: Response) => {
-  await registrarUsuario(req.body);
-  res.status(201).json({ message: "Usuario creado" });
+  const usuario = await registrarUsuario(req.body);
+  res.status(201).json(usuario);
 };
 
 export const putUsuario = async (req: Request, res: Response) => {

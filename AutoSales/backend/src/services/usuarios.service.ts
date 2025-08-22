@@ -1,5 +1,6 @@
 // src/services/usuarios.service.ts
-import prisma from "@/config/prisma";
+import prisma from "../config/prisma";
+import { Usuario } from "../generated/prisma"
 import { UsuarioRequest, UsuarioAdminDTO } from "../types/usuarios.types";
 import bcrypt from "bcrypt";
 
@@ -26,15 +27,18 @@ export const registrarUsuario = async (data: UsuarioRequest) => {
   });
 };
 
-export const editarUsuario = async (id: string, data: UsuarioRequest) => {
+export const editarUsuario = async (id: string, data: Partial<UsuarioRequest>) => {
+  const updateData: any = {
+    ...(data.nombre && { nombre: data.nombre }),
+    ...(data.email && { email: data.email }),
+    ...(data.rol && { rol: data.rol }),
+  };
+  if (data.password) {
+    updateData.password = bcrypt.hashSync(data.password, 10);
+  }
   await prisma.usuario.update({
     where: { id },
-    data: {
-      nombre: data.nombre,
-      email: data.email,
-      password: bcrypt.hashSync(data.password, 10),
-      rol: data.rol,
-    },
+    data: updateData,
   });
 };
 

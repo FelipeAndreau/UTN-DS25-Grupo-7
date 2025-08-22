@@ -10,7 +10,7 @@ export async function listarVehiculos(): Promise<Vehiculo[]> {
   return prisma.vehiculo.findMany({
     orderBy: { creadoEn: "desc" },
   });
-}
+};
 
 /**
  * Obtener un vehículo por ID.
@@ -24,7 +24,7 @@ export async function obtenerVehiculoPorId(id: number): Promise<Vehiculo> {
     throw error;
   }
   return vehiculo;
-}
+};
 
 /**
  * Registrar un nuevo vehículo.
@@ -53,7 +53,7 @@ export async function registrarVehiculo(data: CreateVehiculoRequest): Promise<Ve
       descripcion: data.descripcion,
     },
   });
-}
+};
 
 /**
  * Editar un vehículo existente.
@@ -85,7 +85,7 @@ export async function editarVehiculo(
     }
     throw e;
   }
-}
+};
 
 /**
  * Eliminar un vehículo por ID.
@@ -104,4 +104,4 @@ export async function eliminarVehiculo(id: number): Promise<Vehiculo> {
     }
     throw e;
   }
-}
+};

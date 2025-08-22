@@ -1,17 +1,8 @@
 // src/types/vehiculos.types.ts
-export interface Vehiculo {
-    id: number;
-    marca: string;
-    modelo: string;
-    anio: number;
-    precio: number;
-    estado: "Disponible" | "Reservado" | "Vendido";
-    imagen: string;
-    descripcion: string;
-}
+import { Vehiculo } from "../generated/prisma";
 
-export type CreateVehiculoRequest = Omit<Vehiculo, "id">;
+export type CreateVehiculoRequest = Omit<Vehiculo, "id" | "creadoEn" | "actualizadoEn">;
 
-export type UpdateVehiculoRequest = Partial<CreateVehiculoRequest>
+export type UpdateVehiculoRequest = Partial<CreateVehiculoRequest>;
 
-export type VehiculoResponse = Vehiculo[];
+export type VehiculoResponse = Omit<Vehiculo, "creadoEn" | "actualizadoEn">;

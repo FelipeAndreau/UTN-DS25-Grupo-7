@@ -29,6 +29,7 @@ model Usuario {
   creadoEn       DateTime       @default(now())
   actualizadoEn  DateTime       @updatedAt
   configuracion  Configuracion?
+  cliente Cliente?
 }
 
 
@@ -52,6 +53,10 @@ model Cliente {
   tipo          TipoCliente
   estado        EstadoCliente
   actividad     String
+  usuarioId     String?        @unique
+  usuario       Usuario?       @relation(fields: [usuarioId], references: [id])
+  reservas Reserva[]
+  ventas Venta[]
   creadoEn      DateTime       @default(now())
   actualizadoEn DateTime       @updatedAt
 }
@@ -73,6 +78,8 @@ model Vehiculo {
   descripcion String
   creadoEn      DateTime       @default(now())
   actualizadoEn DateTime       @updatedAt
+  reservas Reserva[]
+  ventas Venta[]
 }
 
 enum Tema {
@@ -90,3 +97,24 @@ model Configuracion {
   actualizadoEn DateTime @updatedAt
 }
 
+model Reserva {
+  id         Int      @id @default(autoincrement())
+  clienteId  String
+  vehiculoId Int
+  fecha      DateTime @default(now())
+  estado     String   @default("Activa")
+  cliente    Cliente  @relation(fields: [clienteId], references: [id])
+  vehiculo   Vehiculo @relation(fields: [vehiculoId], references: [id])
+}
+
+model Venta {
+  id         Int       @id @default(autoincrement())
+  clienteId  String
+  vehiculoId Int
+  fecha      DateTime  @default(now())
+  monto      Float
+  cliente    Cliente   @relation(fields: [clienteId], references: [id])
+  vehiculo   Vehiculo  @relation(fields: [vehiculoId], references: [id])
+  creadoEn      DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
+}

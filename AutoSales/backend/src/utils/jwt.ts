@@ -1,3 +1,5 @@
+// src/utils/jwt.ts
+
 import jwt from "jsonwebtoken";
 
 const secret = process.env.JWT_SECRET!;
