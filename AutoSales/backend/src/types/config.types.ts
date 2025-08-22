@@ -1,10 +1,7 @@
 // src/types/config.ts
-export interface Config {
-    idioma: string;
-    tema: "claro" | "oscuro";
-    notificaciones: boolean;
-}
+import { Configuracion } from "../generated/prisma";
 
-export interface ConfigResponse extends Config {}
+export type ConfigResponse = Omit<Configuracion, "id" | "usuarioId" | "creadoEn" | "actualizadoEn">;
 
-export type ConfigRequest = Partial<Config>; // Permite actualizar solo algunos campos
+
+export type UpdateConfigRequest = Partial<ConfigResponse>;

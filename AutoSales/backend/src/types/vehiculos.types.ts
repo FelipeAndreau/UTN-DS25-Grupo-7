@@ -10,6 +10,8 @@ export interface Vehiculo {
     descripcion: string;
 }
 
-export type VehiculoRequest = Omit<Vehiculo, "id">;
+export type CreateVehiculoRequest = Omit<Vehiculo, "id">;
+
+export type UpdateVehiculoRequest = Partial<CreateVehiculoRequest>
 
 export type VehiculoResponse = Vehiculo[];

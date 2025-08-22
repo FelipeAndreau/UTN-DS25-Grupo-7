@@ -2,15 +2,14 @@
 import { Request, Response } from "express";
 import { obtenerConfiguracion, actualizarConfiguracion } from "../services/config.service";
 
-export async function getConfig(req: Request, res: Response) {
+export const getConfig = async (req: Request, res: Response) => {
   const userId = req.user.id;
-  const config = await obtenerConfiguracion(req.db, userId);
-  if (!config) return res.status(404).json({ error: "Configuración no encontrada" });
+  const config = await obtenerConfiguracion(userId);
   res.json(config);
-}
+};
 
-export async function putConfig(req: Request, res: Response) {
+export const putConfig = async (req: Request, res: Response) => {
   const userId = req.user.id;
-  await actualizarConfiguracion(req.db, userId, req.body);
-  res.status(204).send();
-}
+  await actualizarConfiguracion(userId, req.body);
+  res.json({ message: "Configuración actualizada" });
+};

@@ -20,13 +20,17 @@ enum Rol {
 }
 
 model Usuario {
-  id       String   @id @default(uuid())
-  nombre   String
-  email    String   @unique
-  password String
-  rol      Rol
-  activo   Boolean  @default(true)
+  id             String         @id @default(uuid())
+  nombre         String
+  email          String         @unique
+  password       String
+  rol            Rol
+  activo         Boolean        @default(true)
+  creadoEn       DateTime       @default(now())
+  actualizadoEn  DateTime       @updatedAt
+  configuracion  Configuracion?
 }
+
 
 enum TipoCliente {
   Particular
@@ -51,3 +55,38 @@ model Cliente {
   creadoEn      DateTime       @default(now())
   actualizadoEn DateTime       @updatedAt
 }
+
+enum EstadoVehiculo {
+  Disponible
+  Reservado
+  Vendido
+}
+
+model Vehiculo {
+  id          Int      @id @default(autoincrement())
+  marca       String
+  modelo      String
+  anio        Int
+  precio      Float
+  estado      EstadoVehiculo @default(Disponible)
+  imagen      String
+  descripcion String
+  creadoEn      DateTime       @default(now())
+  actualizadoEn DateTime       @updatedAt
+}
+
+enum Tema {
+  claro
+  oscuro
+}
+
+model Configuracion {
+  id        String   @id @default(uuid())
+  idioma    String   @default("es")
+  tema      Tema     @default(claro)
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+  usuarioId String   @unique
+  creadoEn  DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
+}
+
