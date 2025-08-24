@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Bar, Pie, Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -10,12 +10,26 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
-import { FaUsers, FaCar, FaChartPie, FaCog, FaHome, FaCalendarAlt } from "react-icons/fa";
+import { FaUsers, FaCar, FaChartPie, FaCog, FaHome, FaCalendarAlt, FaSignOutAlt } from "react-icons/fa";
+import { dashboardService, DashboardStats } from "../../services/api";
+import { useAuth } from "../../context/AuthContext";
+
+const sidebarItems = [
+  { id: "dashboard", icon: <FaChartPie />, label: "Dashboard" },
+  { id: "usuarios", icon: <FaUsers />, label: "Gestión de Usuarios" },
+  { id: "clientes", icon: <FaUsers />, label: "Gestión de Clientes" },
+  { id: "vehiculos", icon: <FaCar />, label: "Gestión de Vehículos" },
+  { id: "ventas", icon: <FaCalendarAlt />, label: "Gestión de Ventas" },
+  { id: "reportes", icon: <FaChartPie />, label: "Reportes" },
+  { id: "configuracion", icon: <FaCog />, label: "Configuración" }
+];
+
 import GestionUsuarios from "../gestion/GestionUsuarios";
 import GestionClientes from "../gestion/GestionClientes";
 import GestionVehiculos from "../gestion/GestionVehiculos";
 import Reportes from "../reportes/Reportes";
 import Configuracion from "../../components/Configuracion";
+import VentasAdmin from '../gestion/VentasAdmin';
 
 ChartJS.register(
   CategoryScale,
@@ -30,19 +44,37 @@ ChartJS.register(
 const Dashboard = () => {
   const [seccionActiva, setSeccionActiva] = useState<string>("dashboard");
   const [tema, setTema] = useState<string>("claro");
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const { logout } = useAuth();
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
+    try {
+      const data = await dashboardService.getStats();
+      setStats(data);
+    } catch (error) {
+      console.error('Error al cargar estadísticas:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const manejarCambioTema = (nuevoTema: string) => {
     setTema(nuevoTema);
     document.documentElement.classList.toggle("dark", nuevoTema === "oscuro");
   };
 
-  // Datos para los gráficos
+  // Datos para los gráficos usando estadísticas reales
   const ventasPorMes = {
-    labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"],
+    labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
     datasets: [
       {
         label: "Ventas ($)",
-        data: [12000, 15000, 8000, 20000, 17000, 25000],
+        data: stats?.ventasMensuales || Array(12).fill(0),
         backgroundColor: "rgba(54, 162, 235, 0.6)",
         borderColor: "rgba(54, 162, 235, 1)",
         borderWidth: 1,
@@ -51,22 +83,22 @@ const Dashboard = () => {
   };
 
   const clientesPorEstado = {
-    labels: ["Activos", "Potenciales", "Inactivos"],
+    labels: Object.keys(stats?.clientesPorEstado || {}),
     datasets: [
       {
         label: "Clientes",
-        data: [30, 20, 10],
-        backgroundColor: ["#4CAF50", "#FFC107", "#F44336"],
+        data: Object.values(stats?.clientesPorEstado || {}),
+        backgroundColor: ["#4CAF50", "#FFC107", "#F44336", "#2196F3"],
       },
     ],
   };
 
   const vehiculosData = {
-    labels: ["Disponibles", "Reservados", "Vendidos"],
+    labels: Object.keys(stats?.vehiculosPorEstado || {}),
     datasets: [
       {
         label: "Vehículos",
-        data: [60, 20, 20],
+        data: Object.values(stats?.vehiculosPorEstado || {}),
         backgroundColor: ["#4CAF50", "#FFC107", "#F44336"],
         borderColor: ["#4CAF50", "#FFC107", "#F44336"],
         borderWidth: 1,
@@ -82,14 +114,7 @@ const Dashboard = () => {
           <FaHome /> AutoSales
         </h2>
         <ul className="space-y-4">
-          {[
-            { id: "dashboard", icon: <FaChartPie />, label: "Dashboard" },
-            { id: "usuarios", icon: <FaUsers />, label: "Gestión de Usuarios" },
-            { id: "clientes", icon: <FaUsers />, label: "Gestión de Clientes" },
-            { id: "vehiculos", icon: <FaCar />, label: "Gestión de Vehículos" },
-            { id: "reportes", icon: <FaChartPie />, label: "Reportes" },
-            { id: "configuracion", icon: <FaCog />, label: "Configuración" },
-          ].map((item) => (
+          {sidebarItems.map((item) => (
             <li
               key={item.id}
               className={`p-3 rounded-lg flex items-center gap-2 cursor-pointer transition-all duration-300 text-sm md:text-base ${
@@ -103,6 +128,16 @@ const Dashboard = () => {
             </li>
           ))}
         </ul>
+        
+        {/* Botón de Logout */}
+        <div className="mt-auto pt-4">
+          <button
+            onClick={logout}
+            className="w-full p-3 rounded-lg flex items-center gap-2 cursor-pointer transition-all duration-300 text-sm md:text-base bg-red-600 hover:bg-red-700 text-white"
+          >
+            <FaSignOutAlt /> <span className="hidden sm:inline">Cerrar Sesión</span>
+          </button>
+        </div>
       </div>
 
       {/* Main Content */}
@@ -110,25 +145,72 @@ const Dashboard = () => {
         {seccionActiva === "dashboard" && (
           <div className="p-6 bg-gray-100 min-h-screen">
             <h1 className="text-2xl font-bold mb-6 text-gray-800">Dashboard</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-lg font-semibold mb-4">Ventas Mensuales</h3>
-                <Bar data={ventasPorMes} />
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-lg font-semibold mb-4">Clientes por Estado</h3>
-                <Pie data={clientesPorEstado} />
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-lg font-semibold mb-4">Estado de Vehículos</h3>
-                <Pie data={vehiculosData} />
-              </div>
-            </div>
+            
+            {loading ? (
+              <div className="text-center">Cargando estadísticas...</div>
+            ) : (
+              <>
+                {/* Tarjetas de resumen */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                  <div className="bg-white p-6 rounded-lg shadow-md">
+                    <div className="flex items-center">
+                      <FaUsers className="text-blue-500 text-3xl mr-4" />
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-700">Total Clientes</h3>
+                        <p className="text-2xl font-bold text-blue-600">{stats?.totalClientes || 0}</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-white p-6 rounded-lg shadow-md">
+                    <div className="flex items-center">
+                      <FaCar className="text-green-500 text-3xl mr-4" />
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-700">Total Vehículos</h3>
+                        <p className="text-2xl font-bold text-green-600">{stats?.totalVehiculos || 0}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white p-6 rounded-lg shadow-md">
+                    <div className="flex items-center">
+                      <FaChartPie className="text-purple-500 text-3xl mr-4" />
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-700">Ventas del Mes</h3>
+                        <p className="text-2xl font-bold text-purple-600">
+                          {stats?.ventasMensuales ? 
+                            stats.ventasMensuales[new Date().getMonth()] || 0 : 0}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Gráficos */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="bg-white p-6 rounded-lg shadow-md">
+                    <h3 className="text-lg font-semibold mb-4">Ventas Mensuales</h3>
+                    <Bar data={ventasPorMes} />
+                  </div>
+                  
+                  <div className="bg-white p-6 rounded-lg shadow-md">
+                    <h3 className="text-lg font-semibold mb-4">Clientes por Estado</h3>
+                    <Pie data={clientesPorEstado} />
+                  </div>
+                  
+                  <div className="bg-white p-6 rounded-lg shadow-md">
+                    <h3 className="text-lg font-semibold mb-4">Estado de Vehículos</h3>
+                    <Pie data={vehiculosData} />
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         )}
         {seccionActiva === "usuarios" && <GestionUsuarios />}
         {seccionActiva === "clientes" && <GestionClientes />}
         {seccionActiva === "vehiculos" && <GestionVehiculos />}
+  {seccionActiva === "ventas" && <VentasAdmin />}
         {seccionActiva === "reportes" && <Reportes />}
         {seccionActiva === "configuracion" && (
           <Configuracion

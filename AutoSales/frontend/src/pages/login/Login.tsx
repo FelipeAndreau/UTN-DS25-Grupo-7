@@ -2,32 +2,54 @@ import { MdAlternateEmail } from "react-icons/md";
 import { FaFingerprint, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { authService } from "../../services/api";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const togglePasswordView = () => setShowPassword(!showPassword);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
-    // Credenciales básicas
-    const adminEmail = "admin@example.com";
-    const adminPassword = "admin123";
-    const userEmail = "user@example.com";
-    const userPassword = "user123";
+    try {
+      // Usar el backend real
+      await authService.login({ email, password });
+      login(); // Actualizar el estado de autenticación
+      navigate("/dashboard");
+    } catch (error: any) {
+      console.error('Error de login:', error);
+      
+      // Fallback a credenciales locales si el backend no está disponible
+      const adminEmail = "admin@example.com";
+      const adminPassword = "admin123";
+      const userEmail = "user@example.com";
+      const userPassword = "user123";
 
-    if (email === adminEmail && password === adminPassword) {
-      navigate("/dashboard"); // Redirige al dashboard del administrador
-    } else if (email === userEmail && password === userPassword) {
-      navigate("/usuario"); // Redirige a la vista del usuario
-    } else {
-      setError("Invalid email or password");
+      if (email === adminEmail && password === adminPassword) {
+        // Simular token para el fallback
+        localStorage.setItem('token', 'fallback-admin-token');
+        login();
+        navigate("/dashboard");
+      } else if (email === userEmail && password === userPassword) {
+        localStorage.setItem('token', 'fallback-user-token');
+        login();
+        navigate("/usuario");
+      } else {
+        setError("Invalid email or password");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,7 +71,7 @@ const Login = () => {
             <MdAlternateEmail className="text-gray-500" />
             <input
               type="email"
-              placeholder="admin@example.com O user@example.com"
+              placeholder="admin@test.com"
               className="bg-transparent border-0 w-full outline-none text-sm md:text-base"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -61,7 +83,7 @@ const Login = () => {
             <FaFingerprint className="text-gray-500" />
             <input
               type={showPassword ? "text" : "password"}
-              placeholder="admin123 O user123"
+              placeholder="admin123"
               className="bg-transparent border-0 w-full outline-none text-sm md:text-base"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -84,9 +106,10 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm md:text-base"
+            disabled={loading}
+            className="w-full p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Login
+            {loading ? "Iniciando sesión..." : "Login"}
           </button>
         </form>
       </div>

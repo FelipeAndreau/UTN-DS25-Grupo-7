@@ -1,54 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { clientesService, Cliente } from "../../services/api";
 
 const GestionClientes = () => {
-  const [clientes, setClientes] = useState([
-    {
-      id: "CL-2345",
-      nombre: "Ana Martínez",
-      email: "ana.martinez@email.com",
-      telefono: "+52 555 123 4567",
-      tipo: "Particular",
-      estado: "Activo",
-      actividad: "15/10/2023 - Compra",
-    },
-    {
-      id: "CL-2346",
-      nombre: "Roberto López",
-      email: "roberto.lopez@email.com",
-      telefono: "+52 555 987 6543",
-      tipo: "Particular",
-      estado: "Activo",
-      actividad: "14/10/2023 - Compra",
-    },
-    {
-      id: "CL-2347",
-      nombre: "María González",
-      email: "maria.gonzalez@email.com",
-      telefono: "+52 555 456 7890",
-      tipo: "Particular",
-      estado: "En proceso",
-      actividad: "12/10/2023 - Prueba de manejo",
-    },
-    {
-      id: "CL-2348",
-      nombre: "Juan Rodríguez",
-      email: "juan.rodriguez@email.com",
-      telefono: "+52 555 234 5678",
-      tipo: "Empresa",
-      estado: "Financiamiento",
-      actividad: "10/10/2023 - Solicitud de crédito",
-    },
-    {
-      id: "CL-2349",
-      nombre: "Laura Vega",
-      email: "laura.vega@email.com",
-      telefono: "+52 555 876 5432",
-      tipo: "Particular",
-      estado: "Potencial",
-      actividad: "08/10/2023 - Consulta",
-    },
-  ]);
+  const [clientes, setClientes] = useState<Cliente[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [filtro, setFiltro] = useState({
     texto: "",
@@ -56,57 +13,75 @@ const GestionClientes = () => {
     tipo: "Todos",
   });
 
-  const [nuevoCliente, setNuevoCliente] = useState({
+  const [nuevoCliente, setNuevoCliente] = useState<Omit<Cliente, 'id' | 'creadoEn' | 'actualizadoEn'>>({
     nombre: "",
     email: "",
     telefono: "",
     tipo: "Particular",
     estado: "Activo",
-    actividad: "", // <-- Agregar campo actividad
+    actividad: "",
   });
 
-  const [clienteSeleccionado, setClienteSeleccionado] = useState<{
-    id: string;
-    nombre: string;
-    email: string;
-    telefono: string;
-    tipo: string;
-    estado: string;
-    actividad?: string;
-  } | null>(null);
+  const [clienteSeleccionado, setClienteSeleccionado] = useState<Cliente | null>(null);
   const [modalTipo, setModalTipo] = useState(""); // "ver" o "editar"
 
-  const agregarCliente = () => {
+  // Cargar clientes al montar el componente
+  useEffect(() => {
+    cargarClientes();
+  }, []);
+
+  const cargarClientes = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const clientesData = await clientesService.getAll();
+      setClientes(clientesData);
+    } catch (error) {
+      console.error('Error al cargar clientes:', error);
+      setError('Error al cargar los clientes');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const agregarCliente = async () => {
     if (
       nuevoCliente.nombre &&
       nuevoCliente.email &&
       nuevoCliente.telefono &&
-      nuevoCliente.actividad // <-- Validar actividad
+      nuevoCliente.actividad
     ) {
-      setClientes((prevClientes) => [
-        ...prevClientes,
-        {
-          id: `CL-${Math.floor(Math.random() * 10000)}`,
-          ...nuevoCliente,
-        },
-      ]);
-      setNuevoCliente({
-        nombre: "",
-        email: "",
-        telefono: "",
-        tipo: "Particular",
-        estado: "Activo",
-        actividad: "", // <-- Limpiar actividad
-      });
+      try {
+        await clientesService.create(nuevoCliente);
+        setNuevoCliente({
+          nombre: "",
+          email: "",
+          telefono: "",
+          tipo: "Particular",
+          estado: "Activo",
+          actividad: "",
+        });
+        await cargarClientes(); // Recargar la lista
+        alert("Cliente agregado exitosamente");
+      } catch (error) {
+        console.error('Error al agregar cliente:', error);
+        alert("Error al agregar el cliente");
+      }
     } else {
       alert("Por favor, completa todos los campos antes de agregar un cliente.");
     }
   };
 
-  const eliminarCliente = (id: string) => {
+  const eliminarCliente = async (id: string) => {
     if (confirm("¿Estás seguro de que deseas eliminar este cliente?")) {
-      setClientes(prev => prev.filter(c => c.id !== id));
-      alert("Cliente eliminado localmente");
+      try {
+        await clientesService.delete(id);
+        await cargarClientes(); // Recargar la lista
+        alert("Cliente eliminado exitosamente");
+      } catch (error) {
+        console.error('Error al eliminar cliente:', error);
+        alert("Error al eliminar el cliente");
+      }
     }
   };
 
@@ -125,7 +100,7 @@ const GestionClientes = () => {
     });
   };
 
-  const abrirModal = (cliente: { id: string; nombre: string; email: string; telefono: string; tipo: string; estado: string; actividad?: string }, tipo: string) => {
+  const abrirModal = (cliente: Cliente, tipo: string) => {
     setClienteSeleccionado(cliente);
     setModalTipo(tipo);
   };
@@ -135,21 +110,48 @@ const GestionClientes = () => {
     setModalTipo("");
   };
 
-  const guardarCambios = () => {
+  const guardarCambios = async () => {
     if (!clienteSeleccionado || !clienteSeleccionado.id) {
       console.error("No hay un cliente seleccionado o el cliente no tiene un ID válido.");
       return;
     }
 
-    setClientes((prevClientes) =>
-      prevClientes.map((cliente) =>
-        cliente.id === clienteSeleccionado.id
-          ? { ...clienteSeleccionado, actividad: clienteSeleccionado.actividad || "" }
-          : cliente
-      )
-    );
-    cerrarModal();
+    try {
+      await clientesService.update(clienteSeleccionado.id, clienteSeleccionado);
+      await cargarClientes(); // Recargar la lista
+      cerrarModal();
+      alert("Cliente actualizado exitosamente");
+    } catch (error) {
+      console.error('Error al actualizar cliente:', error);
+      alert("Error al actualizar el cliente");
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="w-full h-full p-5 bg-cover bg-center flex items-center justify-center" style={{ backgroundImage: "url('/GestionClienteBK.png')" }}>
+        <div className="bg-white p-8 rounded-lg shadow-lg">
+          <p className="text-lg">Cargando clientes...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full h-full p-5 bg-cover bg-center flex items-center justify-center" style={{ backgroundImage: "url('/GestionClienteBK.png')" }}>
+        <div className="bg-white p-8 rounded-lg shadow-lg">
+          <p className="text-lg text-red-600">{error}</p>
+          <button
+            onClick={cargarClientes}
+            className="mt-4 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          >
+            Reintentar
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -175,7 +177,7 @@ const GestionClientes = () => {
           >
             <option value="Todos">Estado</option>
             <option value="Activo">Activo</option>
-            <option value="En proceso">En proceso</option>
+            <option value="En_proceso">En proceso</option>
             <option value="Financiamiento">Financiamiento</option>
             <option value="Potencial">Potencial</option>
           </select>
@@ -239,7 +241,7 @@ const GestionClientes = () => {
             <select
               value={nuevoCliente.tipo}
               onChange={(e) =>
-                setNuevoCliente({ ...nuevoCliente, tipo: e.target.value })
+                setNuevoCliente({ ...nuevoCliente, tipo: e.target.value as 'Particular' | 'Empresa' })
               }
               className="p-2 border border-gray-300 rounded-md"
             >
@@ -249,12 +251,12 @@ const GestionClientes = () => {
             <select
               value={nuevoCliente.estado}
               onChange={(e) =>
-                setNuevoCliente({ ...nuevoCliente, estado: e.target.value })
+                setNuevoCliente({ ...nuevoCliente, estado: e.target.value as 'Activo' | 'En_proceso' | 'Financiamiento' | 'Potencial' })
               }
               className="p-2 border border-gray-300 rounded-md"
             >
               <option value="Activo">Activo</option>
-              <option value="En proceso">En proceso</option>
+              <option value="En_proceso">En proceso</option>
               <option value="Financiamiento">Financiamiento</option>
               <option value="Potencial">Potencial</option>
             </select>
@@ -303,7 +305,7 @@ const GestionClientes = () => {
                     className={`px-2 py-1 rounded-full text-white text-sm ${
                       cliente.estado === "Activo"
                         ? "bg-green-500"
-                        : cliente.estado === "En proceso"
+                        : cliente.estado === "En_proceso"
                         ? "bg-yellow-500"
                         : cliente.estado === "Financiamiento"
                         ? "bg-blue-500"
@@ -330,7 +332,7 @@ const GestionClientes = () => {
                     </button>
                     <button
                       className="p-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-                      onClick={() => eliminarCliente(cliente.id)}
+                      onClick={() => cliente.id && eliminarCliente(cliente.id)}
                     >
                       <FaTrash />
                     </button>
@@ -423,7 +425,7 @@ const GestionClientes = () => {
                 onChange={(e) =>
                   setClienteSeleccionado({
                     ...clienteSeleccionado,
-                    tipo: e.target.value,
+                    tipo: e.target.value as 'Particular' | 'Empresa',
                   })
                 }
                 className="p-2 border border-gray-300 rounded-md w-full"
@@ -440,14 +442,14 @@ const GestionClientes = () => {
                 onChange={(e) =>
                   setClienteSeleccionado({
                     ...clienteSeleccionado,
-                    estado: e.target.value,
+                    estado: e.target.value as 'Activo' | 'En_proceso' | 'Financiamiento' | 'Potencial',
                   })
                 }
                 className="p-2 border border-gray-300 rounded-md w-full"
                 disabled={modalTipo === "ver"}
               >
                 <option value="Activo">Activo</option>
-                <option value="En proceso">En proceso</option>
+                <option value="En_proceso">En proceso</option>
                 <option value="Financiamiento">Financiamiento</option>
                 <option value="Potencial">Potencial</option>
               </select>

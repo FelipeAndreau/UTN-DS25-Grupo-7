@@ -1,6 +1,6 @@
 // src/services/clientes.service.ts
 import prisma from "../config/prisma";
-import { Cliente } from "../generated/prisma";
+import { Cliente } from "@prisma/client";
 import { CreateClienteRequest, UpdateClienteRequest } from "../types/clientes.types";
 
 /**

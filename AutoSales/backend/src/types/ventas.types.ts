@@ -1,4 +1,4 @@
-import { Venta } from "../generated/prisma";
+import { Venta } from "@prisma/client";
 
 export type CreateVentaRequest = Omit<Venta, "id" | "creadoEn" | "actualizadoEn" | "fecha"> & { fecha?: Date };
 

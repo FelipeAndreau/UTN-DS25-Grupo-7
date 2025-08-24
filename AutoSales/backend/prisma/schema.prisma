@@ -1,100 +1,65 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-enum Rol {
-  admin
-  viewer
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Usuario {
-  id             String         @id @default(uuid())
-  nombre         String
-  email          String         @unique
-  password       String
-  rol            Rol
-  activo         Boolean        @default(true)
-  creadoEn       DateTime       @default(now())
-  actualizadoEn  DateTime       @updatedAt
-  configuracion  Configuracion?
-  cliente Cliente?
-}
-
-
-enum TipoCliente {
-  Particular
-  Empresa
-}
-
-enum EstadoCliente {
-  Activo
-  En_proceso
-  Financiamiento
-  Potencial
-}
-
-model Cliente {
   id            String         @id @default(uuid())
   nombre        String
   email         String         @unique
+  password      String
+  rol           Rol
+  activo        Boolean        @default(true)
+  creadoEn      DateTime       @default(now())
+  actualizadoEn DateTime       @updatedAt
+  cliente       Cliente?
+  configuracion Configuracion?
+}
+
+model Cliente {
+  id            String        @id @default(uuid())
+  nombre        String
+  email         String        @unique
   telefono      String
   tipo          TipoCliente
   estado        EstadoCliente
   actividad     String
-  usuarioId     String?        @unique
-  usuario       Usuario?       @relation(fields: [usuarioId], references: [id])
-  reservas Reserva[]
-  ventas Venta[]
-  creadoEn      DateTime       @default(now())
-  actualizadoEn DateTime       @updatedAt
-}
-
-enum EstadoVehiculo {
-  Disponible
-  Reservado
-  Vendido
+  usuarioId     String?       @unique
+  creadoEn      DateTime      @default(now())
+  actualizadoEn DateTime      @updatedAt
+  usuario       Usuario?      @relation(fields: [usuarioId], references: [id])
+  reservas      Reserva[]
+  ventas        Venta[]
 }
 
 model Vehiculo {
-  id          Int      @id @default(autoincrement())
-  marca       String
-  modelo      String
-  anio        Int
-  precio      Float
-  estado      EstadoVehiculo @default(Disponible)
-  imagen      String
-  descripcion String
+  id            Int            @id @default(autoincrement())
+  marca         String
+  modelo        String
+  anio          Int
+  precio        Float
+  estado        EstadoVehiculo @default(Disponible)
+  imagen        String
+  descripcion   String
   creadoEn      DateTime       @default(now())
   actualizadoEn DateTime       @updatedAt
-  reservas Reserva[]
-  ventas Venta[]
-}
-
-enum Tema {
-  claro
-  oscuro
+  reservas      Reserva[]
+  ventas        Venta[]
 }
 
 model Configuracion {
-  id        String   @id @default(uuid())
-  idioma    String   @default("es")
-  tema      Tema     @default(claro)
-  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
-  usuarioId String   @unique
-  creadoEn  DateTime @default(now())
+  id            String   @id @default(uuid())
+  idioma        String   @default("es")
+  tema          Tema     @default(claro)
+  usuarioId     String   @unique
+  creadoEn      DateTime @default(now())
   actualizadoEn DateTime @updatedAt
+  usuario       Usuario  @relation(fields: [usuarioId], references: [id])
 }
 
 model Reserva {
@@ -108,13 +73,41 @@ model Reserva {
 }
 
 model Venta {
-  id         Int       @id @default(autoincrement())
-  clienteId  String
-  vehiculoId Int
-  fecha      DateTime  @default(now())
-  monto      Float
-  cliente    Cliente   @relation(fields: [clienteId], references: [id])
-  vehiculo   Vehiculo  @relation(fields: [vehiculoId], references: [id])
+  id            Int      @id @default(autoincrement())
+  clienteId     String
+  vehiculoId    Int
+  fecha         DateTime @default(now())
+  monto         Float
   creadoEn      DateTime @default(now())
   actualizadoEn DateTime @updatedAt
+  cliente       Cliente  @relation(fields: [clienteId], references: [id])
+  vehiculo      Vehiculo @relation(fields: [vehiculoId], references: [id])
+}
+
+enum Rol {
+  admin
+  viewer
+}
+
+enum TipoCliente {
+  Particular
+  Empresa
+}
+
+enum EstadoCliente {
+  Activo
+  En_proceso
+  Financiamiento
+  Potencial
+}
+
+enum EstadoVehiculo {
+  Disponible
+  Reservado
+  Vendido
+}
+
+enum Tema {
+  claro
+  oscuro
 }

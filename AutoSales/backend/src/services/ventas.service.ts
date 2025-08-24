@@ -1,15 +1,39 @@
 import prisma from "../config/prisma";
-import { Venta } from "../generated/prisma";
+import { Venta } from "@prisma/client";
 import { CreateVentaRequest, UpdateVentaRequest } from "../types/ventas.types";
 
 /**
  * Listar todas las ventas ordenadas por fecha descendente.
  */
 export async function listarVentas(): Promise<Venta[]> {
-  return prisma.venta.findMany({
-    orderBy: { fecha: "desc" },
-    include: { cliente: true, vehiculo: true },
-  });
+  try {
+    console.log("🔍 Ejecutando listarVentas...");
+    const ventas = await prisma.venta.findMany({
+      orderBy: { fecha: "desc" },
+      include: { 
+        cliente: {
+          select: {
+            id: true,
+            nombre: true,
+            email: true
+          }
+        }, 
+        vehiculo: {
+          select: {
+            id: true,
+            marca: true,
+            modelo: true,
+            anio: true
+          }
+        } 
+      },
+    });
+    console.log(`✅ Encontradas ${ventas.length} ventas`);
+    return ventas;
+  } catch (error) {
+    console.error("❌ Error en listarVentas:", error);
+    throw error;
+  }
 }
 
 /**

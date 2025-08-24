@@ -1,35 +1,16 @@
 import { useState, useEffect } from "react";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
-import { carService } from "../../services/api";
-
-interface Vehiculo {
-  id: number;
-  marca: string;
-  modelo: string;
-  anio: number;
-  precio: number;
-  estado: string;
-  imagen: string;
-  descripcion: string;
-}
-
-interface NuevoVehiculo {
-  marca: string;
-  modelo: string;
-  anio: string;
-  precio: string;
-  estado: string;
-  imagen: string;
-  descripcion: string;
-}
+import { vehiculosService, Vehiculo } from "../../services/api";
 
 const GestionVehiculos = () => {
   const [vehiculos, setVehiculos] = useState<Vehiculo[]>([]);
-  const [nuevoVehiculo, setNuevoVehiculo] = useState<NuevoVehiculo>({
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [nuevoVehiculo, setNuevoVehiculo] = useState<Omit<Vehiculo, 'id' | 'creadoEn' | 'actualizadoEn'>>({
     marca: "",
     modelo: "",
-    anio: "",
-    precio: "",
+    anio: new Date().getFullYear(),
+    precio: 0,
     estado: "Disponible",
     imagen: "",
     descripcion: "",
@@ -38,21 +19,24 @@ const GestionVehiculos = () => {
   const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState<Vehiculo | null>(null);
   const [modalTipo, setModalTipo] = useState("");
 
+  // Cargar vehículos al montar el componente
   useEffect(() => {
-    carService.getAllCars().then((cars) => {
-      const vehiculos = cars.map(car => ({
-        id: car.id ?? 0,
-        marca: car.make,
-        modelo: car.model,
-        anio: car.year,
-        precio: car.price,
-        estado: car.isAvailable ? "Disponible" : "Vendido",
-        imagen: car.imageUrl ?? "",
-        descripcion: car.description ?? "",
-      }));
-      setVehiculos(vehiculos);
-    });
+    cargarVehiculos();
   }, []);
+
+  const cargarVehiculos = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const vehiculosData = await vehiculosService.getAll();
+      setVehiculos(vehiculosData);
+    } catch (error) {
+      console.error('Error al cargar vehículos:', error);
+      setError('Error al cargar los vehículos');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -68,7 +52,7 @@ const GestionVehiculos = () => {
     }
   };
 
-  const agregarVehiculo = () => {
+  const agregarVehiculo = async () => {
     if (
       nuevoVehiculo.marca &&
       nuevoVehiculo.modelo &&
@@ -77,29 +61,38 @@ const GestionVehiculos = () => {
       nuevoVehiculo.imagen &&
       nuevoVehiculo.descripcion
     ) {
-      const nuevo: Vehiculo = {
-        id: Math.floor(Math.random() * 100000),
-        marca: nuevoVehiculo.marca,
-        modelo: nuevoVehiculo.modelo,
-        anio: Number(nuevoVehiculo.anio),
-        precio: Number(nuevoVehiculo.precio),
-        estado: nuevoVehiculo.estado,
-        imagen: nuevoVehiculo.imagen,
-        descripcion: nuevoVehiculo.descripcion
-      };
-      setVehiculos(prev => [...prev, nuevo]);
-      setNuevoVehiculo({
-        marca: "",
-        modelo: "",
-        anio: "",
-        precio: "",
-        estado: "Disponible",
-        imagen: "",
-        descripcion: "",
-      });
-      alert("Vehículo agregado localmente");
+      try {
+        await vehiculosService.create(nuevoVehiculo);
+        setNuevoVehiculo({
+          marca: "",
+          modelo: "",
+          anio: new Date().getFullYear(),
+          precio: 0,
+          estado: "Disponible",
+          imagen: "",
+          descripcion: "",
+        });
+        await cargarVehiculos(); // Recargar la lista
+        alert("Vehículo agregado exitosamente");
+      } catch (error) {
+        console.error('Error al agregar vehículo:', error);
+        alert("Error al agregar el vehículo");
+      }
     } else {
       alert("Por favor, completa todos los campos antes de agregar un vehículo.");
+    }
+  };
+
+  const eliminarVehiculo = async (id: number) => {
+    if (confirm("¿Estás seguro de que deseas eliminar este vehículo?")) {
+      try {
+        await vehiculosService.delete(id);
+        await cargarVehiculos(); // Recargar la lista
+        alert("Vehículo eliminado exitosamente");
+      } catch (error) {
+        console.error('Error al eliminar vehículo:', error);
+        alert("Error al eliminar el vehículo");
+      }
     }
   };
 
@@ -113,23 +106,47 @@ const GestionVehiculos = () => {
     setModalTipo("");
   };
 
-  const guardarCambios = () => {
-    if (vehiculoSeleccionado) {
-      setVehiculos(prev =>
-        prev.map(v =>
-          v.id === vehiculoSeleccionado.id ? vehiculoSeleccionado : v
-        )
-      );
+  const guardarCambios = async () => {
+    if (!vehiculoSeleccionado || !vehiculoSeleccionado.id) {
+      console.error("No hay un vehículo seleccionado o el vehículo no tiene un ID válido.");
+      return;
+    }
+
+    try {
+      await vehiculosService.update(vehiculoSeleccionado.id, vehiculoSeleccionado);
+      await cargarVehiculos(); // Recargar la lista
       cerrarModal();
-      alert("Vehículo actualizado localmente");
+      alert("Vehículo actualizado exitosamente");
+    } catch (error) {
+      console.error('Error al actualizar vehículo:', error);
+      alert("Error al actualizar el vehículo");
     }
   };
 
-  const eliminarVehiculo = (id: number) => {
-    if (confirm("¿Estás seguro de que deseas eliminar este vehículo?")) {
-      setVehiculos(prev => prev.filter(v => v.id !== id));
-      alert("Vehículo eliminado localmente");
-    }
+  if (loading) {
+    return (
+      <div className="w-full h-full p-5 bg-cover bg-center flex items-center justify-center" style={{ backgroundImage: "url('/GestionVehiculoBK.png')" }}>
+        <div className="bg-white p-8 rounded-lg shadow-lg">
+          <p className="text-lg">Cargando vehículos...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full h-full p-5 bg-cover bg-center flex items-center justify-center" style={{ backgroundImage: "url('/GestionVehiculoBK.png')" }}>
+        <div className="bg-white p-8 rounded-lg shadow-lg">
+          <p className="text-lg text-red-600">{error}</p>
+          <button
+            onClick={cargarVehiculos}
+            className="mt-4 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          >
+            Reintentar
+          </button>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -167,7 +184,7 @@ const GestionVehiculos = () => {
               placeholder="Año"
               value={nuevoVehiculo.anio}
               onChange={(e) =>
-                setNuevoVehiculo({ ...nuevoVehiculo, anio: e.target.value })
+                setNuevoVehiculo({ ...nuevoVehiculo, anio: parseInt(e.target.value) || new Date().getFullYear() })
               }
               className="p-2 border border-gray-300 rounded-md flex-1"
             />
@@ -176,7 +193,7 @@ const GestionVehiculos = () => {
               placeholder="Precio"
               value={nuevoVehiculo.precio}
               onChange={(e) =>
-                setNuevoVehiculo({ ...nuevoVehiculo, precio: e.target.value })
+                setNuevoVehiculo({ ...nuevoVehiculo, precio: parseFloat(e.target.value) || 0 })
               }
               className="p-2 border border-gray-300 rounded-md flex-1"
             />
@@ -197,7 +214,7 @@ const GestionVehiculos = () => {
             <select
               value={nuevoVehiculo.estado}
               onChange={(e) =>
-                setNuevoVehiculo({ ...nuevoVehiculo, estado: e.target.value })
+                setNuevoVehiculo({ ...nuevoVehiculo, estado: e.target.value as 'Disponible' | 'Reservado' | 'Vendido' })
               }
               className="p-2 border border-gray-300 rounded-md"
             >
@@ -270,7 +287,7 @@ const GestionVehiculos = () => {
                     </button>
                     <button
                       className="p-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-                      onClick={() => eliminarVehiculo(vehiculo.id)}
+                      onClick={() => vehiculo.id && eliminarVehiculo(vehiculo.id)}
                     >
                       <FaTrash />
                     </button>
@@ -385,7 +402,7 @@ const GestionVehiculos = () => {
                 onChange={(e) =>
                   setVehiculoSeleccionado({
                     ...vehiculoSeleccionado,
-                    estado: e.target.value,
+                    estado: e.target.value as 'Disponible' | 'Reservado' | 'Vendido',
                   })
                 }
                 className="p-2 border border-gray-300 rounded-md w-full"

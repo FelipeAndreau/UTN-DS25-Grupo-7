@@ -13,16 +13,39 @@ export const getClientes = async (_: Request, res: Response) => {
 };
 
 export const postCliente = async (req: Request, res: Response) => {
-  await registrarCliente(req.body);
-  res.status(201).json({ message: "Cliente creado" });
+  try {
+    console.log("📥 Datos recibidos para crear cliente:", req.body);
+    await registrarCliente(req.body);
+    res.status(201).json({ message: "Cliente creado" });
+  } catch (error: any) {
+    console.error("❌ Error creando cliente:", error);
+    res.status(error.statusCode || 500).json({ 
+      message: error.message || "Error interno del servidor" 
+    });
+  }
 };
 
 export const putCliente = async (req: Request, res: Response) => {
-  await editarCliente(req.params.id, req.body);
-  res.json({ message: "Cliente actualizado" });
+  try {
+    console.log("📝 Datos recibidos para actualizar cliente:", req.body);
+    await editarCliente(req.params.id, req.body);
+    res.json({ message: "Cliente actualizado" });
+  } catch (error: any) {
+    console.error("❌ Error actualizando cliente:", error);
+    res.status(error.statusCode || 500).json({ 
+      message: error.message || "Error interno del servidor" 
+    });
+  }
 };
 
 export const deleteCliente = async (req: Request, res: Response) => {
-  await eliminarCliente(req.params.id);
-  res.json({ message: "Cliente eliminado" });
+  try {
+    await eliminarCliente(req.params.id);
+    res.json({ message: "Cliente eliminado" });
+  } catch (error: any) {
+    console.error("❌ Error eliminando cliente:", error);
+    res.status(error.statusCode || 500).json({ 
+      message: error.message || "Error interno del servidor" 
+    });
+  }
 };
