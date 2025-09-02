@@ -40,11 +40,17 @@ export const putCliente = async (req: Request, res: Response) => {
 
 export const deleteCliente = async (req: Request, res: Response) => {
   try {
-    await eliminarCliente(req.params.id);
-    res.json({ message: "Cliente eliminado" });
+    console.log("🗑️ Eliminando cliente:", req.params.id);
+    const clienteEliminado = await eliminarCliente(req.params.id);
+    res.json({ 
+      success: true,
+      message: "Cliente eliminado exitosamente",
+      data: clienteEliminado
+    });
   } catch (error: any) {
     console.error("❌ Error eliminando cliente:", error);
     res.status(error.statusCode || 500).json({ 
+      success: false,
       message: error.message || "Error interno del servidor" 
     });
   }

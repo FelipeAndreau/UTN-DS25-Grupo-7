@@ -11,7 +11,7 @@ const router = Router();
 
 /**
  * @swagger
- * /clientes:
+ * /api/clientes:
  *   get:
  *     summary: Obtener todos los clientes
  *     tags: [Clientes]
@@ -33,7 +33,7 @@ router.get("/", getClientes);
 
 /**
  * @swagger
- * /clientes:
+ * /api/clientes:
  *   post:
  *     summary: Crear un nuevo cliente
  *     tags: [Clientes]
@@ -57,7 +57,7 @@ router.post("/", postCliente);
 
 /**
  * @swagger
- * /clientes/{id}:
+ * /api/clientes/{id}:
  *   put:
  *     summary: Actualizar un cliente
  *     tags: [Clientes]
@@ -87,7 +87,7 @@ router.put("/:id", putCliente);
 
 /**
  * @swagger
- * /clientes/{id}:
+ * /api/clientes/{id}:
  *   delete:
  *     summary: Eliminar un cliente
  *     tags: [Clientes]

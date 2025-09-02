@@ -63,13 +63,14 @@ model Configuracion {
 }
 
 model Reserva {
-  id         Int      @id @default(autoincrement())
-  clienteId  String
-  vehiculoId Int
-  fecha      DateTime @default(now())
-  estado     String   @default("Activa")
-  cliente    Cliente  @relation(fields: [clienteId], references: [id])
-  vehiculo   Vehiculo @relation(fields: [vehiculoId], references: [id])
+  id          Int       @id @default(autoincrement())
+  clienteId   String
+  vehiculoId  Int
+  fecha       DateTime  @default(now())
+  fechaVisita DateTime? // Fecha de visita al concesionario
+  estado      String    @default("Activa")
+  cliente     Cliente   @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  vehiculo    Vehiculo  @relation(fields: [vehiculoId], references: [id], onDelete: Cascade)
 }
 
 model Venta {
@@ -80,13 +81,14 @@ model Venta {
   monto         Float
   creadoEn      DateTime @default(now())
   actualizadoEn DateTime @updatedAt
-  cliente       Cliente  @relation(fields: [clienteId], references: [id])
-  vehiculo      Vehiculo @relation(fields: [vehiculoId], references: [id])
+  cliente       Cliente  @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  vehiculo      Vehiculo @relation(fields: [vehiculoId], references: [id], onDelete: Cascade)
 }
 
 enum Rol {
   admin
   viewer
+  cliente
 }
 
 enum TipoCliente {

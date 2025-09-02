@@ -43,8 +43,61 @@ export const editarUsuario = async (id: string, data: Partial<UsuarioRequest>) =
 };
 
 export const eliminarUsuario = async (id: string) => {
-  await prisma.usuario.update({
-    where: { id },
-    data: { activo: false },
-  });
+  try {
+    // Verificar que el usuario existe
+    const usuarioExistente = await prisma.usuario.findUnique({
+      where: { id },
+    });
+    
+    if (!usuarioExistente) {
+      const error = new Error("Usuario no encontrado");
+      (error as any).statusCode = 404;
+      throw error;
+    }
+
+    // Usar transacción para eliminar todo en orden
+    await prisma.$transaction(async (tx) => {
+      // 1. Eliminar configuración del usuario si existe
+      await tx.configuracion.deleteMany({
+        where: { usuarioId: id },
+      });
+      
+      // 2. Si el usuario tiene un cliente asociado, manejarlo
+      const cliente = await tx.cliente.findUnique({
+        where: { usuarioId: id },
+      });
+      
+      if (cliente) {
+        // Eliminar reservas del cliente
+        await tx.reserva.deleteMany({
+          where: { clienteId: cliente.id },
+        });
+        
+        // Eliminar ventas del cliente
+        await tx.venta.deleteMany({
+          where: { clienteId: cliente.id },
+        });
+        
+        // Eliminar el cliente
+        await tx.cliente.delete({
+          where: { id: cliente.id },
+        });
+      }
+      
+      // 3. Finalmente eliminar el usuario
+      await tx.usuario.delete({
+        where: { id },
+      });
+    });
+
+    return usuarioExistente;
+  } catch (error: any) {
+    console.error("❌ Error eliminando usuario:", error);
+    if (error.statusCode) {
+      throw error;
+    }
+    const newError = new Error("Error interno al eliminar usuario");
+    (newError as any).statusCode = 500;
+    throw newError;
+  }
 };

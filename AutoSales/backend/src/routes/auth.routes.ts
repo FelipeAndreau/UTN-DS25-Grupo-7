@@ -6,7 +6,7 @@ const router = Router();
 
 /**
  * @swagger
- * /auth/login:
+ * /api/auth/login:
  *   post:
  *     tags: [Autenticación]
  *     summary: Iniciar sesión

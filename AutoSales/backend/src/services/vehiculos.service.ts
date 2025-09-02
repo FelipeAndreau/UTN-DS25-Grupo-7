@@ -7,9 +7,12 @@ import { CreateVehiculoRequest, UpdateVehiculoRequest } from "../types/vehiculos
  * Listar todos los vehículos ordenados por fecha de creación descendente.
  */
 export async function listarVehiculos(): Promise<Vehiculo[]> {
-  return prisma.vehiculo.findMany({
+  console.log("🚗 Obteniendo lista de vehículos...");
+  const vehiculos = await prisma.vehiculo.findMany({
     orderBy: { creadoEn: "desc" },
   });
+  console.log(`✅ Encontrados ${vehiculos.length} vehículos en BD`);
+  return vehiculos;
 };
 
 /**
@@ -90,18 +93,47 @@ export async function editarVehiculo(
 /**
  * Eliminar un vehículo por ID.
  * Lanza error 404 si no existe.
+ * Elimina primero todas las relaciones (reservas y ventas) antes de eliminar el vehículo.
  */
 export async function eliminarVehiculo(id: number): Promise<Vehiculo> {
   try {
-    return await prisma.vehiculo.delete({
+    // Verificar que el vehículo existe
+    const vehiculoExistente = await prisma.vehiculo.findUnique({
       where: { id },
     });
-  } catch (e: any) {
-    if (e.code === "P2025") {
+    
+    if (!vehiculoExistente) {
       const error = new Error("Vehículo no encontrado");
       (error as any).statusCode = 404;
       throw error;
     }
-    throw e;
+
+    // Eliminar en orden: primero las dependencias, luego el vehículo
+    await prisma.$transaction(async (tx) => {
+      // Eliminar todas las reservas del vehículo
+      await tx.reserva.deleteMany({
+        where: { vehiculoId: id },
+      });
+      
+      // Eliminar todas las ventas del vehículo
+      await tx.venta.deleteMany({
+        where: { vehiculoId: id },
+      });
+      
+      // Finalmente eliminar el vehículo
+      await tx.vehiculo.delete({
+        where: { id },
+      });
+    });
+
+    return vehiculoExistente;
+  } catch (e: any) {
+    console.error("❌ Error eliminando vehículo:", e);
+    if (e.statusCode) {
+      throw e;
+    }
+    const error = new Error("Error interno al eliminar vehículo");
+    (error as any).statusCode = 500;
+    throw error;
   }
 };
