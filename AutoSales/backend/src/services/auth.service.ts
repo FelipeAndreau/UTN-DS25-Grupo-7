@@ -10,13 +10,27 @@ export const loginUser = async (email: string, password: string): Promise<LoginR
   // MODO DE PRUEBA TEMPORAL - Permitir login directo con credenciales hardcodeadas
   if (email === "admin@test.com" && password === "admin123") {
     console.log("✅ Login temporal exitoso - modo prueba");
-    const token = generateToken({ id: "temp-user-id", rol: "admin" });
+    const token = generateToken({ id: "temp-user-id", rol: "admin", email: "admin@test.com" });
     return {
       token,
       user: {
         id: "temp-user-id",
         rol: "admin",
         nombre: "Administrador Temporal",
+      },
+    };
+  }
+  
+  // CREDENCIALES VIEWER HARDCODEADAS
+  if (email === "viewer@test.com" && password === "viewer123") {
+    console.log("✅ Login viewer temporal exitoso - modo prueba");
+    const token = generateToken({ id: "temp-viewer-id", rol: "viewer", email: "viewer@test.com" });
+    return {
+      token,
+      user: {
+        id: "temp-viewer-id",
+        rol: "viewer",
+        nombre: "Usuario Viewer",
       },
     };
   }
@@ -41,7 +55,7 @@ export const loginUser = async (email: string, password: string): Promise<LoginR
     throw new Error("Credenciales inválidas");
   }
 
-  const token = generateToken({ id: user.id, rol: user.rol });
+  const token = generateToken({ id: user.id, email: user.email, rol: user.rol });
   console.log("✅ Login exitoso para:", email);
 
   return {

@@ -5,7 +5,7 @@ import {
   getClientes,
   getVehiculos,
 } from "../controllers/reportes.controller";
-import { authMiddleware } from "../middlewares/authMiddleware";
+import { authMiddleware } from "../middlewares/auth.middleware";
 
 const router = Router();
 

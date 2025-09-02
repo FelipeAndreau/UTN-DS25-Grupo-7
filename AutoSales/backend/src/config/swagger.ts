@@ -73,6 +73,16 @@ const options = {
             monto: { type: 'number' },
           },
         },
+        Reserva: {
+          type: 'object',
+          properties: {
+            id: { type: 'integer' },
+            clienteId: { type: 'string', format: 'uuid' },
+            vehiculoId: { type: 'integer' },
+            fecha: { type: 'string', format: 'date-time' },
+            estado: { type: 'string', default: 'Activa' },
+          },
+        },
         LoginRequest: {
           type: 'object',
           required: ['email', 'password'],

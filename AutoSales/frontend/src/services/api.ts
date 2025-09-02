@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000';
+const API_URL = 'http://localhost:3000/api';
 
 // Auth
 export interface LoginRequest {
@@ -118,26 +118,65 @@ const fetchWithAuth = async (input: RequestInfo, init?: RequestInit) => {
         ...(init?.headers || {})
     };
     
-    const response = await fetch(input, { ...init, headers });
-    
-    if (response.status === 401) {
-        authService.logout();
-        throw new Error('Sesión expirada');
+    try {
+        const response = await fetch(input, { ...init, headers });
+        
+        if (response.status === 401) {
+            authService.logout();
+            throw new Error('Sesión expirada');
+        }
+        
+        if (!response.ok) {
+            let errorMessage = 'Error en la petición';
+            
+            try {
+                // Intentar leer como JSON primero
+                const errorData = await response.json();
+                errorMessage = errorData.message || errorData.error || errorMessage;
+            } catch {
+                // Si no es JSON, leer como texto
+                try {
+                    const errorText = await response.text();
+                    errorMessage = errorText || errorMessage;
+                } catch {
+                    // Si tampoco se puede leer como texto, usar mensaje por defecto
+                    errorMessage = `Error ${response.status}: ${response.statusText}`;
+                }
+            }
+            
+            console.error(`API Error [${response.status}]:`, errorMessage);
+            throw new Error(errorMessage);
+        }
+        
+        return response;
+    } catch (error) {
+        console.error('Network/Fetch Error:', error);
+        throw error;
     }
-    
-    if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || 'Error en la petición');
-    }
-    
-    return response;
 };
 
 // Servicios de Ventas
 export const ventasService = {
+    // Endpoint público (sin autenticación) para catálogo
+    getAllPublic: async (): Promise<Venta[]> => {
+        try {
+            const response = await fetch(`${API_URL}/public/ventas`);
+            if (!response.ok) {
+                throw new Error('Error al obtener ventas');
+            }
+            const data = await response.json();
+            return data.data || data; // Maneja tanto el formato nuevo como el antiguo
+        } catch (error) {
+            console.error('Error fetching ventas:', error);
+            throw error;
+        }
+    },
+
+    // Endpoint privado (con autenticación) para administradores
     getAll: async (): Promise<Venta[]> => {
         const response = await fetchWithAuth(`${API_URL}/ventas`);
-        return response.json();
+        const data = await response.json();
+        return data.data || data; // Maneja tanto el formato nuevo como el antiguo
     },
 
     create: async (venta: Omit<Venta, 'id' | 'creadoEn' | 'actualizadoEn'>): Promise<void> => {
@@ -192,9 +231,51 @@ export const clientesService = {
 
 // Servicios de Vehículos
 export const vehiculosService = {
+    // Endpoint público (sin autenticación) para catálogo de clientes
+    getAllPublic: async (): Promise<Vehiculo[]> => {
+        try {
+            const response = await fetch(`${API_URL}/public/vehiculos`);
+            if (!response.ok) {
+                throw new Error('Error al obtener vehículos');
+            }
+            const data = await response.json();
+            return data.data || data; // Maneja tanto el formato nuevo como el antiguo
+        } catch (error) {
+            console.error('Error fetching vehiculos:', error);
+            throw error;
+        }
+    },
+
+    // Usar endpoint público que SÍ FUNCIONA
     getAll: async (): Promise<Vehiculo[]> => {
-        const response = await fetchWithAuth(`${API_URL}/vehiculos`);
-        return response.json();
+        const user = authService.getUser();
+        console.log('🔍 Usuario obtenido:', user);
+        
+        // Usar siempre el endpoint público que sabemos que funciona
+        const endpoint = `${API_URL}/public/vehiculos`;
+        
+        console.log('🚀 Llamando endpoint público:', endpoint);
+        
+        try {
+            // Usar fetch normal sin autenticación porque es endpoint público
+            const response = await fetch(endpoint, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('✅ Respuesta del servidor:', data);
+            return data.data || data; // Maneja tanto el formato nuevo como el antiguo
+        } catch (error) {
+            console.error('❌ Error en vehiculosService.getAll:', error);
+            throw error;
+        }
     },
 
     create: async (vehiculo: Omit<Vehiculo, 'id' | 'creadoEn' | 'actualizadoEn'>): Promise<void> => {
@@ -327,5 +408,195 @@ export const carService = {
             car.model.toLowerCase().includes(query.toLowerCase()) ||
             car.description.toLowerCase().includes(query.toLowerCase())
         );
+    }
+};
+
+// Servicios de Reservas
+// Reserva devuelta por backend: el campo real es "fecha" (DateTime) y no "fechaReserva".
+// Mantenemos propiedades opcionales para retrocompatibilidad y normalizamos en el código de consumo.
+export interface Reserva {
+    id: number; // backend usa Int autoincrement
+    clienteId: string;
+    vehiculoId: number;
+    fecha?: string; // campo real del backend (Date ISO)
+    fechaReserva?: string; // alias legacy usado antes en el front
+    fechaVisita?: string; // fecha de visita al concesionario
+    fechaVencimiento?: string; // no implementado aún en backend, opcional
+    estado: 'Activa' | 'Cancelada' | 'Vencida' | 'Completada' | string; // backend devuelve string genérico
+    notas?: string;
+    cliente?: {
+        id: string;
+        nombre: string;
+        apellido?: string; // backend actual no provee apellido, por eso opcional
+        email: string;
+        telefono: string;
+    };
+    vehiculo?: {
+        id: number;
+        marca: string;
+        modelo: string;
+        anio: number;
+        precio: number;
+        estado: string;
+        imagen?: string;
+    };
+}
+
+export interface CreateReservaRequest {
+    clienteId?: string;
+    vehiculoId: number;
+    fechaVisita?: string; // Fecha de visita al concesionario
+    fechaVencimiento?: string;
+    notas?: string;
+}
+
+export const reservasService = {
+    // Obtener todas las reservas (solo admin)
+    getAll: async (): Promise<Reserva[]> => {
+        const response = await fetchWithAuth(`${API_URL}/reservas`);
+        return response.json();
+    },
+
+    // Obtener reservas de un cliente específico
+    getByCliente: async (clienteId: string): Promise<Reserva[]> => {
+        const response = await fetchWithAuth(`${API_URL}/reservas/cliente/${clienteId}`);
+        const result = await response.json();
+        
+        // Manejar respuesta del backend que puede ser un objeto con data o un array directo
+        if (result && result.data && Array.isArray(result.data)) {
+            return result.data;
+        } else if (Array.isArray(result)) {
+            return result;
+        } else {
+            console.warn('Respuesta inesperada de getByCliente:', result);
+            return [];
+        }
+    },
+
+    // Obtener reservas del usuario autenticado
+    getMisReservas: async (): Promise<Reserva[]> => {
+        console.log('🔍 Obteniendo mis reservas...');
+        console.log('🔑 Token disponible:', !!localStorage.getItem('token'));
+        console.log('👤 Usuario:', authService.getUser());
+        
+        try {
+            const response = await fetchWithAuth(`${API_URL}/reservas/mis-reservas`);
+            const result = await response.json();
+            console.log('✅ Respuesta de mis reservas:', result);
+            
+            // Manejar respuesta del backend que puede ser un objeto con data o un array directo
+            if (result && result.data && Array.isArray(result.data)) {
+                return result.data;
+            } else if (Array.isArray(result)) {
+                return result;
+            } else {
+                console.warn('Respuesta inesperada de getMisReservas:', result);
+                return [];
+            }
+        } catch (error) {
+            console.error('❌ Error en reservasService.getMisReservas:', error);
+            throw error;
+        }
+    },
+
+    // Crear nueva reserva (SIN autenticación - ruta pública)
+    createPublic: async (vehiculoId: number, clienteInfo?: { 
+        id?: string; 
+        nombre?: string; 
+        email?: string; 
+        telefono?: string; 
+        fechaVisita?: string; 
+    }): Promise<Reserva> => {
+        const body: any = { vehiculoId };
+        
+        // Si se proporciona información del cliente, incluirla
+        if (clienteInfo) {
+            if (clienteInfo.id) body.clienteId = clienteInfo.id;
+            if (clienteInfo.nombre) body.nombre = clienteInfo.nombre;
+            if (clienteInfo.email) body.email = clienteInfo.email;
+            if (clienteInfo.telefono) body.telefono = clienteInfo.telefono;
+            if (clienteInfo.fechaVisita) body.fechaVisita = clienteInfo.fechaVisita;
+        }
+
+        const response = await fetch(`${API_URL}/public/reservas`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body)
+        });
+        
+        if (!response.ok) {
+            throw new Error('Error al crear la reserva');
+        }
+        
+        const result = await response.json();
+        return result.data || result;
+    },
+
+    // Crear nueva reserva (con autenticación)
+    create: async (reserva: CreateReservaRequest): Promise<Reserva> => {
+        const response = await fetchWithAuth(`${API_URL}/reservas/crear`, {
+            method: 'POST',
+            body: JSON.stringify(reserva)
+        });
+        return response.json();
+    },
+
+    // Cancelar reserva
+    cancel: async (id: number | string): Promise<void> => {
+        await fetchWithAuth(`${API_URL}/reservas/${id}/cancelar`, {
+            method: 'PATCH'
+        });
+    },
+
+    // Eliminar reserva (solo admin)
+    delete: async (id: string): Promise<void> => {
+        await fetchWithAuth(`${API_URL}/reservas/${id}`, {
+            method: 'DELETE'
+        });
+    }
+};
+
+// Interfaces para Logs
+export interface LogEvento {
+    id: string;
+    tipo: "CREAR_RESERVA" | "ACTUALIZAR_RESERVA" | "CANCELAR_RESERVA" | "PAGO_APLICADO" | "ERROR_VALIDACION" | "CORRECCION";
+    timestampISO: string;
+    actor: {
+        tipo: "CLIENTE" | "SISTEMA" | "ADMIN";
+        id: string;
+        nombre?: string;
+    };
+    contexto: {
+        clienteId: string;
+        reservaId?: string;
+        servicioId?: string;
+        fecha?: string;
+        hora?: string;
+        estado?: "pendiente" | "confirmada" | "cancelada";
+        ventas?: {
+            monto?: number;
+            moneda?: string;
+            medio?: string;
+            referencia?: string;
+        };
+    };
+    mensaje: string;
+}
+
+// Servicios de Logs
+export const logsService = {
+    // Obtener todos los logs (solo admin)
+    getAll: async (): Promise<LogEvento[]> => {
+        const response = await fetchWithAuth(`${API_URL}/logs`);
+        const data = await response.json();
+        return data.logs || data.data || [];
+    },
+
+    // Obtener estadísticas de logs (solo admin)
+    getStats: async (): Promise<any> => {
+        const response = await fetchWithAuth(`${API_URL}/logs/stats`);
+        return response.json();
     }
 };

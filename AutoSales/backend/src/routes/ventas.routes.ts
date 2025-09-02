@@ -10,7 +10,7 @@ const router = Router();
 
 /**
  * @swagger
- * /ventas:
+ * /api/ventas:
  *   get:
  *     tags: [Ventas]
  *     summary: Obtener todas las ventas
@@ -33,7 +33,7 @@ router.get("/", getVentas);
 
 /**
  * @swagger
- * /ventas:
+ * /api/ventas:
  *   post:
  *     tags: [Ventas]
  *     summary: Crear una nueva venta
@@ -74,7 +74,7 @@ router.post("/", postVenta);
 
 /**
  * @swagger
- * /ventas/{id}:
+ * /api/ventas/{id}:
  *   put:
  *     tags: [Ventas]
  *     summary: Actualizar una venta

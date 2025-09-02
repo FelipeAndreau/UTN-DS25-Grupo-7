@@ -2,6 +2,9 @@ import React from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
+type ValuePiece = Date | null;
+type Value = ValuePiece | [ValuePiece, ValuePiece];
+
 interface CalendarModalProps {
   onSelect: (date: string) => void;
   onClose: () => void;
@@ -9,15 +12,15 @@ interface CalendarModalProps {
 }
 
 const CalendarModal: React.FC<CalendarModalProps> = ({ onSelect, onClose, selected }) => {
-  const [value, setValue] = React.useState(selected ? new Date(selected) : new Date());
+  const [value, setValue] = React.useState<Value>(selected ? new Date(selected) : new Date());
 
-  const handleChange = (value: any) => {
+  const handleChange = (value: Value) => {
+    setValue(value);
+    
     // Manejamos los diferentes tipos que puede devolver react-calendar
     if (value instanceof Date) {
-      setValue(value);
       onSelect(value.toISOString().split('T')[0]);
     } else if (Array.isArray(value) && value[0] instanceof Date) {
-      setValue(value[0]);
       onSelect(value[0].toISOString().split('T')[0]);
     }
   };

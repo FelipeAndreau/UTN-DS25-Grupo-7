@@ -89,18 +89,47 @@ export async function editarCliente(
 /**
  * Eliminar un cliente por ID.
  * Lanza error 404 si no existe.
+ * Elimina primero todas las relaciones (reservas y ventas) antes de eliminar el cliente.
  */
 export async function eliminarCliente(id: string): Promise<Cliente> {
   try {
-    return await prisma.cliente.delete({
+    // Verificar que el cliente existe
+    const clienteExistente = await prisma.cliente.findUnique({
       where: { id },
     });
-  } catch (e: any) {
-    if (e.code === "P2025") {
+    
+    if (!clienteExistente) {
       const error = new Error("Cliente no encontrado");
       (error as any).statusCode = 404;
       throw error;
     }
-    throw e;
+
+    // Eliminar en orden: primero las dependencias, luego el cliente
+    await prisma.$transaction(async (tx) => {
+      // Eliminar todas las reservas del cliente
+      await tx.reserva.deleteMany({
+        where: { clienteId: id },
+      });
+      
+      // Eliminar todas las ventas del cliente
+      await tx.venta.deleteMany({
+        where: { clienteId: id },
+      });
+      
+      // Finalmente eliminar el cliente
+      await tx.cliente.delete({
+        where: { id },
+      });
+    });
+
+    return clienteExistente;
+  } catch (e: any) {
+    console.error("❌ Error eliminando cliente:", e);
+    if (e.statusCode) {
+      throw e;
+    }
+    const error = new Error("Error interno al eliminar cliente");
+    (error as any).statusCode = 500;
+    throw error;
   }
 }

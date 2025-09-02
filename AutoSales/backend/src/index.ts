@@ -10,7 +10,9 @@ import vehiculoRoutes from "./routes/vehiculos.routes";
 import usuarioRoutes from "./routes/usuarios.routes";
 import reporteRoutes from "./routes/reportes.routes";
 import configRoutes from "./routes/config.routes";
-import { authMiddleware } from "./middlewares/authMiddleware";
+import reservasRoutes from "./routes/reservas.routes";
+import logsRoutes from "./routes/logs.routes";
+import { authMiddleware } from "./middlewares/auth.middleware";
 import { errorHandler } from "./middlewares/errorHandlerMiddleware";
 import ventasRoutes from "./routes/ventas.routes";
 
@@ -30,80 +32,53 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, {
   customSiteTitle: "AutoSales API Documentation",
 }));
 
-// Rutas públicas
-app.use("/auth", authRoutes);
+// ====== RUTAS PÚBLICAS ======
+app.use("/api/auth", authRoutes);
 
-// Ruta de prueba
-app.get("/test", (req, res) => {
-  res.json({ message: "Servidor funcionando correctamente", timestamp: new Date() });
+// Catálogo público de vehículos (sin autenticación)
+app.use("/api/public/vehiculos", vehiculoRoutes);
+
+// Crear reservas públicas (sin autenticación) 
+app.use("/api/public/reservas", reservasRoutes);
+
+// Health check
+app.get("/health", (req, res) => {
+  res.json({ 
+    status: "OK", 
+    message: "AutoSales API funcionando correctamente", 
+    timestamp: new Date(),
+    version: "1.0.0"
+  });
 });
 
-// Ruta para ver usuarios existentes
-app.get("/users", async (req, res) => {
-  try {
-    const users = await prisma.usuario.findMany({
-      select: {
-        id: true,
-        email: true,
-        nombre: true,
-        rol: true,
-        activo: true,
-        creadoEn: true
-      }
-    });
-    res.json({ users, count: users.length });
-  } catch (error) {
-    res.status(500).json({ error: error instanceof Error ? error.message : "Error desconocido" });
-  }
-});
+// ====== RUTAS PROTEGIDAS ======
+app.use("/api/dashboard", authMiddleware, dashboardRoutes);
+app.use("/api/clientes", authMiddleware, clienteRoutes);
+app.use("/api/vehiculos", authMiddleware, vehiculoRoutes);
+app.use("/api/usuarios", authMiddleware, usuarioRoutes);
+app.use("/api/reportes", authMiddleware, reporteRoutes);
+app.use("/api/config", authMiddleware, configRoutes);
+app.use("/api/reservas", authMiddleware, reservasRoutes);
+app.use("/api/ventas", authMiddleware, ventasRoutes);
+app.use("/api/logs", logsRoutes); // Logs ya tienen auth y role check internos
 
-// Ruta temporal para crear usuario admin
-app.post("/create-admin", async (req, res) => {
-  try {
-    const bcrypt = require("bcrypt");
-    const hashedPassword = await bcrypt.hash("123456", 10);
-    
-    const user = await prisma.usuario.upsert({
-      where: { email: "admin@test.com" },
-      update: {
-        password: hashedPassword,
-        nombre: "Administrador",
-        rol: "admin",
-        activo: true
-      },
-      create: {
-        nombre: "Administrador",
-        email: "admin@test.com",
-        password: hashedPassword,
-        rol: "admin",
-        activo: true
-      }
-    });
-    
-    res.json({ message: "Usuario admin creado/actualizado", user: { id: user.id, email: user.email, nombre: user.nombre } });
-  } catch (error) {
-    res.status(500).json({ error: error instanceof Error ? error.message : "Error desconocido" });
-  }
-});
-
-// Rutas protegidas
-app.use("/dashboard", authMiddleware, dashboardRoutes);
-app.use("/clientes", authMiddleware, clienteRoutes);
-app.use("/vehiculos", authMiddleware, vehiculoRoutes);
-app.use("/usuarios", authMiddleware, usuarioRoutes);
-app.use("/reportes", authMiddleware, reporteRoutes);
-app.use("/config", authMiddleware, configRoutes);
-app.use("/ventas", authMiddleware, ventasRoutes);
-
+// ====== MANEJO DE ERRORES ======
 // Manejo de rutas no encontradas
 app.use((req, res) => {
-  res.status(404).json({ message: "Ruta no encontrada" });
+  res.status(404).json({ 
+    success: false,
+    message: "Endpoint no encontrado",
+    path: req.path,
+    method: req.method
+  });
 });
 
 // Manejo de errores generales
 app.use(errorHandler);
 
-// 🚀 Iniciar servidor
+// ====== INICIAR SERVIDOR ======
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`🚀 Servidor AutoSales iniciado en http://localhost:${PORT}`);
+  console.log(`📚 Documentación Swagger: http://localhost:${PORT}/api-docs`);
+  console.log(`💚 Health Check: http://localhost:${PORT}/health`);
 });

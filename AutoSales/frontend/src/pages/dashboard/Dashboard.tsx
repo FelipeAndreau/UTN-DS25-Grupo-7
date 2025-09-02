@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Bar, Pie, Line } from "react-chartjs-2";
+import { Bar, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,8 +10,8 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
-import { FaUsers, FaCar, FaChartPie, FaCog, FaHome, FaCalendarAlt, FaSignOutAlt } from "react-icons/fa";
-import { dashboardService, DashboardStats } from "../../services/api";
+import { FaUsers, FaCar, FaChartPie, FaCog, FaHome, FaCalendarAlt, FaSignOutAlt, FaList } from "react-icons/fa";
+import { dashboardService, DashboardStats, logsService, LogEvento } from "../../services/api";
 import { useAuth } from "../../context/AuthContext";
 
 const sidebarItems = [
@@ -45,11 +45,14 @@ const Dashboard = () => {
   const [seccionActiva, setSeccionActiva] = useState<string>("dashboard");
   const [tema, setTema] = useState<string>("claro");
   const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [logs, setLogs] = useState<LogEvento[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [logsLoading, setLogsLoading] = useState<boolean>(false);
   const { logout } = useAuth();
 
   useEffect(() => {
     fetchStats();
+    fetchLogs();
   }, []);
 
   const fetchStats = async () => {
@@ -60,6 +63,18 @@ const Dashboard = () => {
       console.error('Error al cargar estadísticas:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchLogs = async () => {
+    try {
+      setLogsLoading(true);
+      const data = await logsService.getAll();
+      setLogs(data);
+    } catch (error) {
+      console.error('Error al cargar logs:', error);
+    } finally {
+      setLogsLoading(false);
     }
   };
 
@@ -201,6 +216,84 @@ const Dashboard = () => {
                   <div className="bg-white p-6 rounded-lg shadow-md">
                     <h3 className="text-lg font-semibold mb-4">Estado de Vehículos</h3>
                     <Pie data={vehiculosData} />
+                  </div>
+                </div>
+
+                {/* Sección de Logs del Sistema */}
+                <div className="mt-6">
+                  <div className="bg-white p-6 rounded-lg shadow-md">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                        <FaList className="text-blue-500" />
+                        Logs del Sistema
+                      </h3>
+                      <button
+                        onClick={fetchLogs}
+                        className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
+                        disabled={logsLoading}
+                      >
+                        {logsLoading ? 'Cargando...' : 'Actualizar'}
+                      </button>
+                    </div>
+                    
+                    <div className="max-h-96 overflow-y-auto">
+                      {logsLoading ? (
+                        <div className="text-center py-4">
+                          <div className="text-gray-500">Cargando logs...</div>
+                        </div>
+                      ) : logs.length === 0 ? (
+                        <div className="text-center py-4">
+                          <div className="text-gray-500">No hay logs disponibles</div>
+                        </div>
+                      ) : (
+                        <div className="space-y-2">
+                          {logs.slice(0, 10).map((log) => (
+                            <div
+                              key={log.id}
+                              className="border border-gray-200 rounded-lg p-3 hover:bg-gray-50"
+                            >
+                              <div className="flex items-start justify-between">
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <span className={`px-2 py-1 rounded text-xs font-medium ${
+                                      log.tipo === 'CREAR_RESERVA' ? 'bg-green-100 text-green-800' :
+                                      log.tipo === 'ACTUALIZAR_RESERVA' ? 'bg-blue-100 text-blue-800' :
+                                      log.tipo === 'CANCELAR_RESERVA' ? 'bg-red-100 text-red-800' :
+                                      log.tipo === 'ERROR_VALIDACION' ? 'bg-red-100 text-red-800' :
+                                      'bg-gray-100 text-gray-800'
+                                    }`}>
+                                      {log.tipo}
+                                    </span>
+                                    <span className={`px-2 py-1 rounded text-xs ${
+                                      log.actor.tipo === 'ADMIN' ? 'bg-purple-100 text-purple-800' :
+                                      log.actor.tipo === 'CLIENTE' ? 'bg-green-100 text-green-800' :
+                                      'bg-gray-100 text-gray-800'
+                                    }`}>
+                                      {log.actor.tipo}
+                                    </span>
+                                  </div>
+                                  <p className="text-sm text-gray-700 mb-1">
+                                    {log.mensaje}
+                                  </p>
+                                  <div className="text-xs text-gray-500">
+                                    {log.actor.nombre && `Por: ${log.actor.nombre}`} • 
+                                    {new Date(log.timestampISO).toLocaleString('es-ES')}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    
+                    {logs.length > 10 && (
+                      <div className="mt-3 text-center">
+                        <span className="text-sm text-gray-500">
+                          Mostrando los últimos 10 de {logs.length} logs
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </>
