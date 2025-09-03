@@ -2,6 +2,8 @@
 import { Router } from "express"
 import * as reservaController from "../controllers/reservas.controller"
 import { authMiddleware } from "../middlewares/auth.middleware"
+import { createReservaSchema } from "../validations/reserva.validation"
+import { validate } from "../middlewares/validation.middleware"
 
 const router = Router()
 
@@ -58,7 +60,7 @@ router.get("/", (req, res) => {
  *       500:
  *         description: Error interno del servidor
  */
-router.post("/", reservaController.crearReserva)
+router.post("/", validate(createReservaSchema), reservaController.crearReserva)
 
 /**
  * @swagger
