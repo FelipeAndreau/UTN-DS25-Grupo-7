@@ -6,6 +6,8 @@ import {
   deleteVenta,
 } from "../controllers/ventas.controller";
 
+import { createVentaSchema, updateVentaSchema } from "../validations/venta.validation";
+import { validate } from "../middlewares/validation.middleware";
 const router = Router();
 
 /**
@@ -70,7 +72,7 @@ router.get("/", getVentas);
  *       401:
  *         description: No autorizado
  */
-router.post("/", postVenta);
+router.post("/", validate(createVentaSchema), postVenta);
 
 /**
  * @swagger
@@ -118,7 +120,7 @@ router.post("/", postVenta);
  *       404:
  *         description: Venta no encontrada
  */
-router.put("/:id", putVenta);
+router.put("/:id", validate(updateVentaSchema), putVenta);
 router.delete("/:id", deleteVenta);
 
 export default router;
