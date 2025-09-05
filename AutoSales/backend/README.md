@@ -59,3 +59,40 @@ Implementan las reglas del negocio y se encargan de interactuar con la base de d
 - `usuarios.service.ts`
 - `vehiculos.service.ts`
 - `ventas.service.ts`
+
+## ✅Validations/
+Las validaciones aseguran que los datos que ingresan al sistema sean correctos y confiables antes de ejecutar la lógica de negocio o interactuar con la base de datos. 
+
+- `cliente.validation.ts`
+- `reserva.validation.ts`
+- `vehiculo.validation.ts`
+- `usuario.validation.ts`
+- `venta.validation.ts`
+
+
+## 🧰Utils/
+Funciones o módulos de ayuda que encapsulan lógica reutilizable y genérica.
+
+- `jwt.ts`
+- `jwt.utils.ts`
+- `network.ts`
+
+
+# Lógica del Programa🧠
+Ejemplo de una lógica en particular para dar a entender el funcionamiento del sistema.
+
+[Cliente (HTTP request)]
+        ⬇️
+ROUTE (/api/clientes)
+        ⬇️
+MIDDLEWARE (PRE-CONTROLLER)
+        ⬇️
+VALIDATION (createClienteSchema)  
+        ⬇️
+CONTROLLER (postCliente)
+        ⬇️
+SERVICE (registrarCliente)
+        ⬇️
+PRISMA / BASE DE DATOS
+        ⬇️
+MIDDLEWARE (POST-CONTROLLER)
