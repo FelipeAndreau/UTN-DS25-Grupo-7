@@ -56,4 +56,4 @@ Sistema de Venta de Automóviles. El proyecto consiste en desarrollar un sistema
 ### 🔗 Fase 5: Endpoints
 | Documento | Descripción |
 |-----------|-------------|
-| [Documento Endpoints](./Documentación/05%20-%20Endpoints/Endpoints.md) | Endpoints |
+| [Documento Endpoints](./05%20-%20Endpoints/Endpoints.md) | Endpoints |
