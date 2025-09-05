@@ -52,3 +52,8 @@ Sistema de Venta de Automóviles. El proyecto consiste en desarrollar un sistema
 | [4.1 Revisión Cruzada](./04%20-%20Validación%20y%20Trazabilidad/4.1-Revisión-Cruzada.md) | Revisión Cruzada |
 | [4.2 Matriz de Trazabilidad](./04%20-%20Validación%20y%20Trazabilidad/4.2-Matriz-De-Trazabilidad.pdf) | Matriz de Trazabilidad |
 | [4.3 Feedback y Validación del Cliente](./04%20-%20Validación%20y%20Trazabilidad/4.3_Feedback_y_Validación_del_cliente.pdf) | Validacion Cliente |
+
+### 🔗 Fase 5: Endpoints
+| Documento | Descripción |
+|-----------|-------------|
+| [Documento Endpoints](./Documentación/05%20-%20Endpoints/Endpoints.md) | Endpoints |
