@@ -81,18 +81,20 @@ Funciones o módulos de ayuda que encapsulan lógica reutilizable y genérica.
 # Lógica del Programa🧠
 Ejemplo de una lógica en particular para dar a entender el funcionamiento del sistema.
 
+```text
 [Cliente (HTTP request)]
-        ⬇️
+    ⬇️
 ROUTE (/api/clientes)
-        ⬇️
+    ⬇️
 MIDDLEWARE (PRE-CONTROLLER)
-        ⬇️
-VALIDATION (createClienteSchema)  
-        ⬇️
+    ⬇️
+VALIDATION (createClienteSchema)
+    ⬇️
 CONTROLLER (postCliente)
-        ⬇️
+    ⬇️
 SERVICE (registrarCliente)
-        ⬇️
+    ⬇️
 PRISMA / BASE DE DATOS
-        ⬇️
+    ⬇️
 MIDDLEWARE (POST-CONTROLLER)
+```
