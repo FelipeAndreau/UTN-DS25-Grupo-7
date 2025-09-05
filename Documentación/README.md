@@ -57,3 +57,8 @@ Sistema de Venta de Automóviles. El proyecto consiste en desarrollar un sistema
 | Documento | Descripción |
 |-----------|-------------|
 | [Documento Endpoints](./05%20-%20Endpoints/Endpoints.md) | Endpoints |
+
+### 📝 Fase 6: UX-UI
+| Documento | Descripción |
+|-----------|-------------|
+| [Wireframes de UX/UI](./06%20-%20UX-UI/1-WireFrames.md) | WireFrames |
