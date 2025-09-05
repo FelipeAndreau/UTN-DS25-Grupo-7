@@ -23,7 +23,7 @@ Los controladores se encargan de recibir las solicitudes HTTP, de interpretarlas
 - `vehiculos.controller.ts`
 - `ventas.controller.ts`
 
-##🔐Middlewares/
+## 🔐Middlewares/
 Funciones que se ejecutan pre-controller (validar datos, autenticar usuario, ect) y post-controller (manejar errores, etc).
 
 - `auth.middleware.ts`
@@ -31,7 +31,7 @@ Funciones que se ejecutan pre-controller (validar datos, autenticar usuario, ect
 - `requireRoleMiddleware.ts`
 - `validation.middleware.ts`
 	
-##🛣️Routes/
+## 🛣️Routes/
 Definición de endpoints que recibe la API y que direccionan la petición hacia los Controllers.
 
 - `auth.routes.ts`
@@ -46,7 +46,7 @@ Definición de endpoints que recibe la API y que direccionan la petición hacia 
 - `ventas.routes.ts`
 
 
-##🛠️Services/
+## 🛠️Services/
 Implementan las reglas del negocio y se encargan de interactuar con la base de datos.
 
 - `auth.service.ts`
