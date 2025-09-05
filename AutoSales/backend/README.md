@@ -99,7 +99,16 @@ PRISMA / BASE DE DATOS
 MIDDLEWARE (POST-CONTROLLER)
 ```
 # Grupo 7 - UTN DS25🫂
-Felipe Andreu, Ulises Bucchino, Katrina Fernandez, Pilar Wagner, Melissa Braunstein, Bernardita La Gioiosa.
+
+| Nombre Completo | Legajo | Slack | GitHub |
+|----------------|---------|-------|--------|
+| Katrina Ariadna Fernandez | 33182 | Fernandez Katrina | [kattrinita](https://github.com/kattrinita) |
+| Felipe Andreau | 33294 | Felipe Andreau | [FelipeAndreau](https://github.com/FelipeAndreau) |
+| Melissa Braunstein | 33535 | Melissa Braunstein | [mmmelissa099](https://github.com/mmmelissa099) |
+| Pilar Wagner | 33514 | Wagner Pilar | [pilarwagnerr](https://github.com/pilarwagnerr) |
+| Bernardita La Gioiosa | 33289 | Bernardita La Gioiosa | [berni-lagio](https://github.com/berni-lagio) |
+| Ulises Mateo Bucchino | 33326 | Ulises Bucchino | [ulisesutnfrlp7](https://github.com/ulisesutnfrlp7) |
+
 
 ## ✏️Comentario: 
 A modo de aclaración, en nuestro grupo hemos estado trabajando principalmente por Discord, donde uno de nosotros compartía pantalla y, entre todos, íbamos resolviendo, corrigiendo y ayudándonos mutuamente, debido a los tiempos y situaciones particulares. Últimamente, nos hemos organizado mejor y hemos dividido los commits para que el repositorio refleje la participación de todos. Además, en este último tiempo intentaremos utilizar más la herramienta Taiga.
