@@ -98,3 +98,77 @@ type VehiculoResponse = Vehiculo[];
 ```
 
 ---
+
+## 5. **GestionUsuarios.tsx**
+
+| Endpoint          | Método | URL              | Regla de Negocio               | Auth |
+|-------------------|--------|------------------|--------------------------------|------|
+| Listar usuarios   | GET    | `/usuarios`      | Admins solamente               | ✅   |
+| Crear usuario     | POST   | `/usuarios`      | Validar email único            | ✅   |
+| Editar usuario    | PUT    | `/usuarios/:id`  | Cambiar rol o datos            | ✅   |
+| Eliminar usuario  | DELETE | `/usuarios/:id`  | Soft-delete                    | ✅   |
+
+**Interfaces:**
+```typescript
+interface Usuario {
+  id: string;
+  nombre: string;
+  email: string;
+  rol: "admin" | "vendedor" | "viewer";
+}
+
+type UsuarioRequest = Omit<Usuario, "id">;
+type UsuarioResponse = Usuario[];
+```
+
+---
+
+## 6. **Reportes.tsx**
+
+| Endpoint              | Método | URL                                   | Regla de Negocio        | Auth |
+|-----------------------|--------|---------------------------------------|-------------------------|------|
+| Reporte de ventas     | GET    | `/reportes/ventas?mes=7`              | KPIs mensuales          | ✅   |
+| Reporte de clientes   | GET    | `/reportes/clientes?mes=7`            | Nuevos clientes por mes | ✅   |
+| Reporte de vehículos  | GET    | `/reportes/vehiculos?mes=7`           | Vehículos vendidos por mes | ✅ |
+
+**Interfaz:**
+```typescript
+interface ReporteResponse {
+  mes: string;
+  tipo: "ventas" | "clientes" | "vehiculos";
+  total: number;
+  grafico: number[];
+}
+```
+
+---
+
+## 7. **Configuracion.tsx**
+
+| Endpoint         | Método | URL         | Regla de Negocio                | Auth |
+|------------------|--------|-------------|---------------------------------|------|
+| Obtener config   | GET    | `/config`   | Preferencias UI, temas, etc.    | ✅   |
+| Actualizar config| PUT    | `/config`   | Guarda preferencias por usuario | ✅   |
+
+**Interfaz:**
+```typescript
+interface Config {
+  idioma: string;
+  tema: "claro" | "oscuro";
+  notificaciones: boolean;
+}
+```
+
+---
+
+## 🔐 Autenticación
+
+Todos los endpoints excepto `/auth/login` deben protegerse con JWT en los headers:
+
+```
+Authorization: Bearer <token>
+```
+
+Se recomienda el uso de un middleware tipo `authMiddleware` en Express para validar el acceso.
+
+---
