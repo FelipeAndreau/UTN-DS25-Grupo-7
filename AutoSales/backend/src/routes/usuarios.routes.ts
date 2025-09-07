@@ -8,6 +8,8 @@ import {
 } from "../controllers/usuarios.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
 import { requireRole } from "../middlewares/requireRoleMiddleware";
+import { validate } from "../middlewares/validation.middleware";
+import { usuarioSchema, usuarioUpdateSchema } from "../validations/usuario.validation";
 
 const router = Router();
 
@@ -75,7 +77,7 @@ router.get("/", authMiddleware, getUsuarios);
  *       403:
  *         description: Permisos insuficientes
  */
-router.post("/", authMiddleware, requireRole(["admin"]), postUsuario);
+router.post("/", authMiddleware, requireRole(["admin"]), validate(usuarioSchema), postUsuario);
 
 /**
  * @swagger
@@ -118,7 +120,7 @@ router.post("/", authMiddleware, requireRole(["admin"]), postUsuario);
  *       403:
  *         description: Permisos insuficientes
  */
-router.put("/:id", authMiddleware, requireRole(["admin"]), putUsuario);
+router.put("/:id", authMiddleware, requireRole(["admin"]), validate(usuarioUpdateSchema), putUsuario);
 
 /**
  * @swagger
