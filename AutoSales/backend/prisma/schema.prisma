@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Usuario {
+  id            String         @id @default(uuid())
+  nombre        String
+  email         String         @unique
+  password      String
+  rol           Rol
+  activo        Boolean        @default(true)
+  creadoEn      DateTime       @default(now())
+  actualizadoEn DateTime       @updatedAt
+  cliente       Cliente?
+  configuracion Configuracion?
+}
+
+model Cliente {
+  id            String        @id @default(uuid())
+  nombre        String
+  email         String        @unique
+  telefono      String
+  tipo          TipoCliente
+  estado        EstadoCliente
+  actividad     String
+  usuarioId     String?       @unique
+  creadoEn      DateTime      @default(now())
+  actualizadoEn DateTime      @updatedAt
+  usuario       Usuario?      @relation(fields: [usuarioId], references: [id])
+  reservas      Reserva[]
+  ventas        Venta[]
+}
+
+model Vehiculo {
+  id            Int            @id @default(autoincrement())
+  marca         String
+  modelo        String
+  anio          Int
+  precio        Float
+  estado        EstadoVehiculo @default(Disponible)
+  imagen        String
+  descripcion   String
+  creadoEn      DateTime       @default(now())
+  actualizadoEn DateTime       @updatedAt
+  reservas      Reserva[]
+  ventas        Venta[]
+}
+
+model Configuracion {
+  id            String   @id @default(uuid())
+  idioma        String   @default("es")
+  tema          Tema     @default(claro)
+  usuarioId     String   @unique
+  creadoEn      DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
+  usuario       Usuario  @relation(fields: [usuarioId], references: [id])
+}
+
+model Reserva {
+  id          Int       @id @default(autoincrement())
+  clienteId   String
+  vehiculoId  Int
+  fecha       DateTime  @default(now())
+  fechaVisita DateTime? // Fecha de visita al concesionario
+  estado      String    @default("Activa")
+  cliente     Cliente   @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  vehiculo    Vehiculo  @relation(fields: [vehiculoId], references: [id], onDelete: Cascade)
+}
+
+model Venta {
+  id            Int      @id @default(autoincrement())
+  clienteId     String
+  vehiculoId    Int
+  fecha         DateTime @default(now())
+  monto         Float
+  creadoEn      DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
+  cliente       Cliente  @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  vehiculo      Vehiculo @relation(fields: [vehiculoId], references: [id], onDelete: Cascade)
+}
+
+enum Rol {
+  admin
+  viewer
+  cliente
+}
+
+enum TipoCliente {
+  Particular
+  Empresa
+}
+
+enum EstadoCliente {
+  Activo
+  En_proceso
+  Financiamiento
+  Potencial
+}
+
+enum EstadoVehiculo {
+  Disponible
+  Reservado
+  Vendido
+}
+
+enum Tema {
+  claro
+  oscuro
+}
