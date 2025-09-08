@@ -1,15 +1,15 @@
-# Backend - AutoSales⚙️💻
+# Backend - AutoSales ⚙️💻
 
-## Estructura de carpetas🗂️
+## ESTRUCTURA DE CARPETAS 🗂️
 Resumen de la estructura del proyecto, destacando y definiendo las capas que consideramos que tienen mayor importancia.
 
-# 🗄️Prisma ORM/
-Contiene el esquema de la base de la base de datos:
+# 🗄️ Prisma ORM/
+Contiene el esquema de la base de datos:
 schema.prisma → archivo de configuración donde se definen datos, tablas  y relaciones.
 
-# 📂SRC/ 
+# 📂 SRC/
 
-## 🎛️Controllers/
+## 🎛️ Controllers/
 Los controladores se encargan de recibir las solicitudes HTTP, de interpretarlas y de derivar la ejecución de la lógica al servicio adecuado.
 
 - `auth.controller.ts`
@@ -23,15 +23,15 @@ Los controladores se encargan de recibir las solicitudes HTTP, de interpretarlas
 - `vehiculos.controller.ts`
 - `ventas.controller.ts`
 
-## 🔐Middlewares/
-Funciones que se ejecutan pre-controller (validar datos, autenticar usuario, ect) y post-controller (manejar errores, etc).
+## 🔐 Middlewares/
+Funciones que se ejecutan pre-controller (validar datos, autenticar usuario, etc) y post-controller (EJ. Para el manejo de errores).
 
 - `auth.middleware.ts`
 - `errorHandlerMiddleware.ts`
 - `requireRoleMiddleware.ts`
 - `validation.middleware.ts`
 	
-## 🛣️Routes/
+## 🛣️ Routes/
 Definición de endpoints que recibe la API y que direccionan la petición hacia los Controllers.
 
 - `auth.routes.ts`
@@ -46,7 +46,7 @@ Definición de endpoints que recibe la API y que direccionan la petición hacia 
 - `ventas.routes.ts`
 
 
-## 🛠️Services/
+## 🛠️ Services/
 Implementan las reglas del negocio y se encargan de interactuar con la base de datos.
 
 - `auth.service.ts`
@@ -60,8 +60,8 @@ Implementan las reglas del negocio y se encargan de interactuar con la base de d
 - `vehiculos.service.ts`
 - `ventas.service.ts`
 
-## ✅Validations/
-Las validaciones aseguran que los datos que ingresan al sistema sean correctos y confiables antes de ejecutar la lógica de negocio o interactuar con la base de datos. 
+## ✅ Validations/
+Las validaciones aseguran que los datos que ingresan al sistema sean correctos y confiables antes de ejecutar la lógica de negocio o interactuar con la base de datos.
 
 - `cliente.validation.ts`
 - `reserva.validation.ts`
@@ -70,16 +70,15 @@ Las validaciones aseguran que los datos que ingresan al sistema sean correctos y
 - `venta.validation.ts`
 
 
-## 🧰Utils/
+## 🧰 Utils/
 Funciones o módulos de ayuda que encapsulan lógica reutilizable y genérica.
 
 - `jwt.ts`
 - `jwt.utils.ts`
 - `network.ts`
 
-
-# Lógica del Programa🧠
-Ejemplo de una lógica en particular para dar a entender el funcionamiento del sistema.
+# LÓGICA DEL SISTEMA 🧠
+Ejemplo de una lógica en particular para dar a entender el funcionamiento del sistema:
 
 ```text
 [Cliente (HTTP request)]
@@ -98,7 +97,8 @@ PRISMA / BASE DE DATOS
     ⬇️
 MIDDLEWARE (POST-CONTROLLER)
 ```
-# Grupo 7 - UTN DS25🫂
+
+# GRUPO 7 - UTN DS25🫂
 
 | Nombre Completo | Legajo | Slack | GitHub |
 |----------------|---------|-------|--------|
@@ -110,5 +110,5 @@ MIDDLEWARE (POST-CONTROLLER)
 | Ulises Mateo Bucchino | 33326 | Ulises Bucchino | [ulisesutnfrlp7](https://github.com/ulisesutnfrlp7) |
 
 
-## ✏️Comentario: 
+## ✏️ COMENTARIO: 
 A modo de aclaración, en nuestro grupo hemos estado trabajando principalmente por Discord, donde uno de nosotros compartía pantalla y, entre todos, íbamos resolviendo, corrigiendo y ayudándonos mutuamente, debido a los tiempos y situaciones particulares. Últimamente, nos hemos organizado mejor y hemos dividido los commits para que el repositorio refleje la participación de todos. Además, en este último tiempo intentaremos utilizar más la herramienta Taiga.
