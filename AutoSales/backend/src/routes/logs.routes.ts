@@ -1,4 +1,5 @@
 // src/routes/logs.routes.ts
+
 import { Router } from "express";
 import { getLogs, getLogStats } from "../controllers/logs.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";

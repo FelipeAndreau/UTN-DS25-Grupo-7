@@ -1,3 +1,5 @@
+// src/routes/ventas.routes.ts
+
 import { Router } from "express";
 import {
   getVentas,
@@ -72,7 +74,7 @@ router.get("/", getVentas);
  *       401:
  *         description: No autorizado
  */
-router.post("/", validate(createVentaSchema), postVenta);
+router.post("/", validate(createVentaSchema), postVenta);
 
 /**
  * @swagger
@@ -120,7 +122,7 @@ router.post("/", validate(createVentaSchema), postVenta);
  *       404:
  *         description: Venta no encontrada
  */
-router.put("/:id", validate(updateVentaSchema), putVenta);
+router.put("/:id", validate(updateVentaSchema), putVenta);
 router.delete("/:id", deleteVenta);
 
 export default router;

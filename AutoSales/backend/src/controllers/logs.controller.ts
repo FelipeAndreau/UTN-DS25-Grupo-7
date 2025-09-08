@@ -1,4 +1,5 @@
 // src/controllers/logs.controller.ts
+
 import { Request, Response } from "express";
 import { LogsService } from "../services/logs.service";
 

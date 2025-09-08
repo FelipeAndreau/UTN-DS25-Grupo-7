@@ -1,6 +1,6 @@
 // src/services/usuarios.service.ts
+
 import prisma from "../config/prisma";
-import { Usuario } from "@prisma/client"
 import { UsuarioRequest, UsuarioAdminDTO } from "../types/usuarios.types";
 import bcrypt from "bcrypt";
 

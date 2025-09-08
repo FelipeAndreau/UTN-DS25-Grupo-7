@@ -1,4 +1,5 @@
 // src/types/usuarios.types.ts
+
 import { Rol } from "@prisma/client"
 
 export interface UsuarioAdminDTO {

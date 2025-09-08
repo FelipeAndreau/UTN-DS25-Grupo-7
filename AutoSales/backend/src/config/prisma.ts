@@ -1,4 +1,5 @@
 // src/config/prisma.ts
+
 import { PrismaClient } from "@prisma/client";
 
 // Crear instancia global de Prisma con configuración específica para evitar prepared statements duplicados

@@ -1,4 +1,5 @@
 // src/services/config.service.ts
+
 import prisma from "../config/prisma";
 import { ConfigResponse, UpdateConfigRequest } from "../types/config.types";
 

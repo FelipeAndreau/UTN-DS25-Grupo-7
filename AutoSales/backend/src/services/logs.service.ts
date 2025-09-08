@@ -1,4 +1,5 @@
 // src/services/logs.service.ts
+
 import { LogEvento } from "../types/logs.types";
 
 // Función simple para generar IDs únicos

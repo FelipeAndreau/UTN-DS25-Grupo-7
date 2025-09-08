@@ -1,4 +1,5 @@
 // src/services/reportes.service.ts
+
 import { getReporteVentas, getReporteClientes, getReporteVehiculos, } from "../models/reportes.model";
 
 export const reporteVentas = async (mes: string) => await getReporteVentas(mes);

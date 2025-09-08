@@ -1,4 +1,5 @@
 // src/controllers/auth.controller.ts
+
 import { Request, Response } from "express";
 import { loginUser } from "../services/auth.service";
 import { LoginResponse } from "../types/auth.types";

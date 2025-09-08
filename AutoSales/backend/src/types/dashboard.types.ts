@@ -1,4 +1,5 @@
 // src/types/dashboard.ts
+
 export interface DashboardResponse {
     totalClientes: number;
     totalVehiculos: number;

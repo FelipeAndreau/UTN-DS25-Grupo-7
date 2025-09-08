@@ -1,4 +1,5 @@
 // src/types/reservas.types.ts
+
 export interface CrearReservaDTO {
     clienteId?: string
     vehiculoId: number

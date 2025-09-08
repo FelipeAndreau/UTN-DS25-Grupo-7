@@ -1,4 +1,5 @@
 // src/routes/vehiculos.routes.ts
+
 import { Router } from "express";
 import {
   getVehiculos,
@@ -141,7 +142,7 @@ router.get("/viewer", authMiddleware, requireRole(["viewer", "admin"]), getVehic
  *       403:
  *         description: Permisos insuficientes
  */
-router.post("/", authMiddleware, requireRole(["admin"]), validate(createVehiculoSchema), postVehiculo);
+router.post("/", authMiddleware, requireRole(["admin"]), validate(createVehiculoSchema), postVehiculo);
 
 /**
  * @swagger
@@ -173,7 +174,7 @@ router.post("/", authMiddleware, requireRole(["admin"]), validate(createVehiculo
  *       403:
  *         description: Permisos insuficientes
  */
-router.put("/:id", authMiddleware, requireRole(["admin"]), validate(updateVehiculoSchema), putVehiculo);
+router.put("/:id", authMiddleware, requireRole(["admin"]), validate(updateVehiculoSchema), putVehiculo);
 
 /**
  * @swagger

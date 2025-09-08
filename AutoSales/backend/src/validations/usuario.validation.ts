@@ -1,30 +1,22 @@
-import { z } from "zod";
+// src/validations/usuario.validation.ts
 
-export const usuarioSchema = z.object({
-    nombre: z
-    .string({
-        required_error: "El nombre es obligatorio",
-        invalid_type_error: "Debe ser un texto",
-    })
-    .min(2, "Debe tener al menos 2 caracteres"),
+import { z } from 'zod';
+import { Rol } from '@prisma/client';
 
-    email: z
-    .string({
-        required_error: "El email es obligatorio",
-        invalid_type_error: "Debe ser un texto",
-    })
-    .email("Debe ser un email válido"),
-
-    password: z
-    .string({
-        required_error: "La contraseña es obligatoria",
-        invalid_type_error: "Debe ser un texto",
-    })
-    .min(8, "Debe tener al menos 8 caracteres"),
-
-    rol: z.enum(["admin", "viewer", "cliente"], {
-        errorMap: () => ({ message: "Rol inválido" }),
+export const createUsuarioSchema = z.object({
+  nombre: z.string().min(1, 'El nombre es requerido').max(100).trim(),
+  email: z.string()
+    .trim()
+    .min(1, { message: 'El email es requerido' })
+    .refine(val => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val), {
+      message: 'Email inválido'
     }),
+  password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
+  rol: z.enum(Rol)
+    .refine(val => Object.values(Rol).includes(val), {
+      message: 'Rol inválido'
+    }),
+  activo: z.boolean().optional()
 });
 
-export const usuarioUpdateSchema = usuarioSchema.partial();
+export const updateUsuarioSchema = createUsuarioSchema.partial();

@@ -1,4 +1,5 @@
 // src/config/prisma-simple.ts
+
 import { PrismaClient } from "@prisma/client";
 
 // Configuración simple sin detección automática (para evitar top-level await)

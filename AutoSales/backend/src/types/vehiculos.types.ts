@@ -1,4 +1,5 @@
 // src/types/vehiculos.types.ts
+
 import { Vehiculo } from "@prisma/client";
 
 export type CreateVehiculoRequest = Omit<Vehiculo, "id" | "creadoEn" | "actualizadoEn">;
