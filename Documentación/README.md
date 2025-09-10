@@ -62,3 +62,8 @@ Sistema de Venta de Automóviles. El proyecto consiste en desarrollar un sistema
 | Documento | Descripción |
 |-----------|-------------|
 | [Wireframes de UX/UI](./06%20-%20UX-UI/1-WireFrames.md) | WireFrames |
+
+### 🔐 Fase 7: Matriz de Permisos
+| Documento | Descripción |
+|-----------|-------------|
+| [Matriz de Permisos](./Documentación/07%20-%20Matriz%20de%20Permisos/MatrizdePermisos.pdf) | Matriz de Permisos |
