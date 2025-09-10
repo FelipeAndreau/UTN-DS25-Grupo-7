@@ -66,4 +66,4 @@ Sistema de Venta de Automóviles. El proyecto consiste en desarrollar un sistema
 ### 🔐 Fase 7: Matriz de Permisos
 | Documento | Descripción |
 |-----------|-------------|
-| [Matriz de Permisos](./Documentación/07%20-%20Matriz%20de%20Permisos/MatrizdePermisos.pdf) | Matriz de Permisos |
+| [Matriz de Permisos](./07%20-%20Matriz%20de%20Permisos/MatrizdePermisos.pdf) | Matriz de Permisos |
