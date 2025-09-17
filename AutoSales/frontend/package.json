@@ -7,9 +7,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "vercel-build": "npm run build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "react-scripts start"
+    "start": "npm run dev"
   },
   "dependencies": {
     "@types/react-router-dom": "^5.3.3",

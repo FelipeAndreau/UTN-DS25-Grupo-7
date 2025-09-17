@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
-import { clientesService, Cliente } from "../../services/api";
+import { FaEye, FaEdit, FaTrash, FaCalendarAlt } from "react-icons/fa";
+import { clientesService, Cliente, reservasService, Reserva } from "../../services/api";
 
 const GestionClientes = () => {
   const [clientes, setClientes] = useState<Cliente[]>([]);
@@ -23,7 +23,11 @@ const GestionClientes = () => {
   });
 
   const [clienteSeleccionado, setClienteSeleccionado] = useState<Cliente | null>(null);
-  const [modalTipo, setModalTipo] = useState(""); // "ver" o "editar"
+  const [modalTipo, setModalTipo] = useState(""); // "ver", "editar", o "reservas"
+
+  // Estados para las reservas
+  const [reservasCliente, setReservasCliente] = useState<Reserva[]>([]);
+  const [loadingReservas, setLoadingReservas] = useState(false);
 
   // Cargar clientes al montar el componente
   useEffect(() => {
@@ -105,9 +109,32 @@ const GestionClientes = () => {
     setModalTipo(tipo);
   };
 
+  const cargarReservasCliente = async (clienteId: string) => {
+    try {
+      setLoadingReservas(true);
+      const reservas = await reservasService.getByCliente(clienteId);
+      setReservasCliente(reservas);
+    } catch (error) {
+      console.error('Error al cargar reservas del cliente:', error);
+      setReservasCliente([]);
+    } finally {
+      setLoadingReservas(false);
+    }
+  };
+
+  const abrirModalReservas = async (cliente: Cliente) => {
+    setClienteSeleccionado(cliente);
+    setModalTipo("reservas");
+    if (cliente.id) {
+      await cargarReservasCliente(cliente.id);
+    }
+  };
+
   const cerrarModal = () => {
     setClienteSeleccionado(null);
     setModalTipo("");
+    setReservasCliente([]);
+    setLoadingReservas(false);
   };
 
   const guardarCambios = async () => {
@@ -321,18 +348,28 @@ const GestionClientes = () => {
                     <button
                       className="p-2 bg-gray-200 rounded-md hover:bg-gray-300"
                       onClick={() => abrirModal(cliente, "ver")}
+                      title="Ver detalles"
                     >
                       <FaEye />
                     </button>
                     <button
+                      className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                      onClick={() => abrirModalReservas(cliente)}
+                      title="Ver reservas"
+                    >
+                      <FaCalendarAlt />
+                    </button>
+                    <button
                       className="p-2 bg-gray-200 rounded-md hover:bg-gray-300"
                       onClick={() => abrirModal(cliente, "editar")}
+                      title="Editar cliente"
                     >
                       <FaEdit />
                     </button>
                     <button
                       className="p-2 bg-red-500 text-white rounded-md hover:bg-red-600"
                       onClick={() => cliente.id && eliminarCliente(cliente.id)}
+                      title="Eliminar cliente"
                     >
                       <FaTrash />
                     </button>
@@ -353,123 +390,199 @@ const GestionClientes = () => {
 
       {/* Modal */}
       {clienteSeleccionado && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-5 rounded-lg shadow-lg w-[90%] max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className={`bg-white p-5 rounded-lg shadow-lg ${modalTipo === "reservas" ? "w-[90%] max-w-4xl" : "w-[90%] max-w-md"} max-h-[90vh] overflow-y-auto`}>
             <h3 className="text-lg font-bold mb-3">
-              {modalTipo === "ver" ? "Detalles del Cliente" : "Editar Cliente"}
+              {modalTipo === "ver" ? "Detalles del Cliente" : 
+               modalTipo === "editar" ? "Editar Cliente" : 
+               modalTipo === "reservas" ? `Reservas de ${clienteSeleccionado.nombre}` : "Cliente"}
             </h3>
-            <div className="mb-5">
-              <label className="block text-sm font-semibold mb-1">Nombre</label>
-              <input
-                type="text"
-                value={clienteSeleccionado.nombre}
-                onChange={(e) =>
-                  setClienteSeleccionado({
-                    ...clienteSeleccionado,
-                    nombre: e.target.value,
-                  })
-                }
-                className="p-2 border border-gray-300 rounded-md w-full"
-                disabled={modalTipo === "ver"}
-              />
-            </div>
-            <div className="mb-5">
-              <label className="block text-sm font-semibold mb-1">Email</label>
-              <input
-                type="email"
-                value={clienteSeleccionado.email}
-                onChange={(e) =>
-                  setClienteSeleccionado({
-                    ...clienteSeleccionado,
-                    email: e.target.value,
-                  })
-                }
-                className="p-2 border border-gray-300 rounded-md w-full"
-                disabled={modalTipo === "ver"}
-              />
-            </div>
-            <div className="mb-5">
-              <label className="block text-sm font-semibold mb-1">Teléfono</label>
-              <input
-                type="text"
-                value={clienteSeleccionado.telefono}
-                onChange={(e) =>
-                  setClienteSeleccionado({
-                    ...clienteSeleccionado,
-                    telefono: e.target.value,
-                  })
-                }
-                className="p-2 border border-gray-300 rounded-md w-full"
-                disabled={modalTipo === "ver"}
-              />
-            </div>
-            <div className="mb-5">
-              <label className="block text-sm font-semibold mb-1">Observación / Actividad</label>
-              <input
-                type="text"
-                value={clienteSeleccionado.actividad}
-                onChange={(e) =>
-                  setClienteSeleccionado({
-                    ...clienteSeleccionado,
-                    actividad: e.target.value,
-                  })
-                }
-                className="p-2 border border-gray-300 rounded-md w-full"
-                disabled={modalTipo === "ver"}
-              />
-            </div>
-            <div className="mb-5">
-              <label className="block text-sm font-semibold mb-1">Tipo</label>
-              <select
-                value={clienteSeleccionado.tipo}
-                onChange={(e) =>
-                  setClienteSeleccionado({
-                    ...clienteSeleccionado,
-                    tipo: e.target.value as 'Particular' | 'Empresa',
-                  })
-                }
-                className="p-2 border border-gray-300 rounded-md w-full"
-                disabled={modalTipo === "ver"}
-              >
-                <option value="Particular">Particular</option>
-                <option value="Empresa">Empresa</option>
-              </select>
-            </div>
-            <div className="mb-5">
-              <label className="block text-sm font-semibold mb-1">Estado</label>
-              <select
-                value={clienteSeleccionado.estado}
-                onChange={(e) =>
-                  setClienteSeleccionado({
-                    ...clienteSeleccionado,
-                    estado: e.target.value as 'Activo' | 'En_proceso' | 'Financiamiento' | 'Potencial',
-                  })
-                }
-                className="p-2 border border-gray-300 rounded-md w-full"
-                disabled={modalTipo === "ver"}
-              >
-                <option value="Activo">Activo</option>
-                <option value="En_proceso">En proceso</option>
-                <option value="Financiamiento">Financiamiento</option>
-                <option value="Potencial">Potencial</option>
-              </select>
-            </div>
-            <div className="flex justify-end gap-2">
-              <button
-                onClick={cerrarModal}
-                className="p-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-              >
-                Cerrar
-              </button>
-              {modalTipo === "editar" && (
-                <button
-                  onClick={guardarCambios}
-                  className="p-2 bg-green-500 text-white rounded-md hover:bg-green-600"
-                >
-                  Guardar Cambios
-                </button>
-              )}
-            </div>
+            
+            {modalTipo === "reservas" ? (
+              // Contenido para mostrar reservas
+              <div>
+                {loadingReservas ? (
+                  <div className="flex items-center justify-center py-8">
+                    <p>Cargando reservas...</p>
+                  </div>
+                ) : reservasCliente.length > 0 ? (
+                  <div className="space-y-4">
+                    <p className="text-sm text-gray-600 mb-4">
+                      Total de reservas: {reservasCliente.length}
+                    </p>
+                    {reservasCliente.map((reserva) => (
+                      <div key={reserva.id} className="border border-gray-300 rounded-lg p-4 bg-gray-50">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <h4 className="font-semibold text-lg mb-2">Reserva #{reserva.id}</h4>
+                            <p><strong>Estado:</strong> 
+                              <span className={`ml-2 px-2 py-1 rounded text-white text-xs ${
+                                reserva.estado === 'Confirmada' || reserva.estado === 'Activa' ? 'bg-green-500' :
+                                reserva.estado === 'Pendiente' ? 'bg-yellow-500' :
+                                reserva.estado === 'Cancelada' ? 'bg-red-500' :
+                                'bg-gray-500'
+                              }`}>
+                                {reserva.estado}
+                              </span>
+                            </p>
+                            {reserva.fecha && (
+                              <p><strong>Fecha de reserva:</strong> {new Date(reserva.fecha).toLocaleDateString()}</p>
+                            )}
+                            {reserva.fechaVisita && (
+                              <p><strong>Fecha de visita:</strong> {new Date(reserva.fechaVisita).toLocaleDateString()}</p>
+                            )}
+                          </div>
+                          <div>
+                            {reserva.vehiculo && (
+                              <div>
+                                <h5 className="font-semibold mb-1">Vehículo</h5>
+                                <p><strong>Marca:</strong> {reserva.vehiculo.marca}</p>
+                                <p><strong>Modelo:</strong> {reserva.vehiculo.modelo}</p>
+                                <p><strong>Año:</strong> {reserva.vehiculo.anio}</p>
+                                <p><strong>Precio:</strong> ${reserva.vehiculo.precio?.toLocaleString()}</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        {reserva.notas && (
+                          <div className="mt-3 pt-3 border-t border-gray-200">
+                            <p><strong>Notas:</strong> {reserva.notas}</p>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-gray-500">Este cliente no tiene reservas registradas.</p>
+                  </div>
+                )}
+                <div className="flex justify-end mt-6">
+                  <button
+                    onClick={cerrarModal}
+                    className="p-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+                  >
+                    Cerrar
+                  </button>
+                </div>
+              </div>
+            ) : (
+              // Contenido original para ver/editar cliente
+              <>
+                <div className="mb-5">
+                  <label className="block text-sm font-semibold mb-1">Nombre</label>
+                  <input
+                    type="text"
+                    value={clienteSeleccionado.nombre}
+                    onChange={(e) =>
+                      setClienteSeleccionado({
+                        ...clienteSeleccionado,
+                        nombre: e.target.value,
+                      })
+                    }
+                    className="p-2 border border-gray-300 rounded-md w-full"
+                    disabled={modalTipo === "ver"}
+                  />
+                </div>
+                <div className="mb-5">
+                  <label className="block text-sm font-semibold mb-1">Email</label>
+                  <input
+                    type="email"
+                    value={clienteSeleccionado.email}
+                    onChange={(e) =>
+                      setClienteSeleccionado({
+                        ...clienteSeleccionado,
+                        email: e.target.value,
+                      })
+                    }
+                    className="p-2 border border-gray-300 rounded-md w-full"
+                    disabled={modalTipo === "ver"}
+                  />
+                </div>
+                <div className="mb-5">
+                  <label className="block text-sm font-semibold mb-1">Teléfono</label>
+                  <input
+                    type="text"
+                    value={clienteSeleccionado.telefono}
+                    onChange={(e) =>
+                      setClienteSeleccionado({
+                        ...clienteSeleccionado,
+                        telefono: e.target.value,
+                      })
+                    }
+                    className="p-2 border border-gray-300 rounded-md w-full"
+                    disabled={modalTipo === "ver"}
+                  />
+                </div>
+                <div className="mb-5">
+                  <label className="block text-sm font-semibold mb-1">Observación / Actividad</label>
+                  <input
+                    type="text"
+                    value={clienteSeleccionado.actividad}
+                    onChange={(e) =>
+                      setClienteSeleccionado({
+                        ...clienteSeleccionado,
+                        actividad: e.target.value,
+                      })
+                    }
+                    className="p-2 border border-gray-300 rounded-md w-full"
+                    disabled={modalTipo === "ver"}
+                  />
+                </div>
+                <div className="mb-5">
+                  <label className="block text-sm font-semibold mb-1">Tipo</label>
+                  <select
+                    value={clienteSeleccionado.tipo}
+                    onChange={(e) =>
+                      setClienteSeleccionado({
+                        ...clienteSeleccionado,
+                        tipo: e.target.value as 'Particular' | 'Empresa',
+                      })
+                    }
+                    className="p-2 border border-gray-300 rounded-md w-full"
+                    disabled={modalTipo === "ver"}
+                  >
+                    <option value="Particular">Particular</option>
+                    <option value="Empresa">Empresa</option>
+                  </select>
+                </div>
+                <div className="mb-5">
+                  <label className="block text-sm font-semibold mb-1">Estado</label>
+                  <select
+                    value={clienteSeleccionado.estado}
+                    onChange={(e) =>
+                      setClienteSeleccionado({
+                        ...clienteSeleccionado,
+                        estado: e.target.value as 'Activo' | 'En_proceso' | 'Financiamiento' | 'Potencial',
+                      })
+                    }
+                    className="p-2 border border-gray-300 rounded-md w-full"
+                    disabled={modalTipo === "ver"}
+                  >
+                    <option value="Activo">Activo</option>
+                    <option value="En_proceso">En proceso</option>
+                    <option value="Financiamiento">Financiamiento</option>
+                    <option value="Potencial">Potencial</option>
+                  </select>
+                </div>
+                <div className="flex justify-end gap-2">
+                  <button
+                    onClick={cerrarModal}
+                    className="p-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+                  >
+                    Cerrar
+                  </button>
+                  {modalTipo === "editar" && (
+                    <button
+                      onClick={guardarCambios}
+                      className="p-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+                    >
+                      Guardar Cambios
+                    </button>
+                  )}
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

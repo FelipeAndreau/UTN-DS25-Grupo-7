@@ -1,0 +1,112 @@
+# ================================
+# ARCHIVOS DE ENTORNO (NUNCA SUBIR)
+# ================================
+# Archivos con credenciales reales
+.env
+*.env
+
+# Mantener archivos de ejemplo
+!.env.example
+
+# ================================
+# NODE.JS / NPM
+# ================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+lerna-debug.log*
+
+# ================================
+# ARCHIVOS DE BUILD
+# ================================
+dist/
+build/
+.vite/
+.turbo/
+
+# ================================
+# LOGS
+# ================================
+logs/
+*.log
+loglevel=silent
+
+# ================================
+# ARCHIVOS DE SISTEMA
+# ================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ================================
+# EDITORES E IDEs
+# ================================
+.vscode/settings.json
+.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*~
+
+# ================================
+# TESTING
+# ================================
+coverage/
+.coverage
+.nyc_output
+jest_cache/
+
+# ================================
+# ARCHIVOS TEMPORALES
+# ================================
+.tmp/
+temp/
+.cache/
+
+# ================================
+# DOCKER
+# ================================
+# Mantener Dockerfiles y docker-compose
+# Excluir datos y logs de contenedores
+docker-compose.override.yml
+.docker/
+
+# ================================
+# BASE DE DATOS
+# ================================
+# Archivos de base de datos locales
+*.db
+*.sqlite
+*.sqlite3
+
+# ================================
+# CERTIFICADOS Y CLAVES
+# ================================
+*.pem
+*.key
+*.crt
+*.csr
+
+# ================================
+# ARCHIVOS DE CONFIGURACIÓN LOCAL
+# ================================
+config/local.json
+config/production.json
+
+# ================================
+# DEPENDENCIAS ESPECÍFICAS
+# ================================
+# Prisma
+.env.db
+
+# React / Vite
+.eslintcache
+
+# TypeScript
+*.tsbuildinfo

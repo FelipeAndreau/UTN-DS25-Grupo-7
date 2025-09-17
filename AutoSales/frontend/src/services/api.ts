@@ -1,4 +1,15 @@
-const API_URL = 'http://localhost:3000/api';
+// Configuración dinámica de la API URL
+const getApiUrl = (): string => {
+  // En desarrollo
+  if (import.meta.env.DEV) {
+    return import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+  }
+  
+  // En producción
+  return import.meta.env.VITE_API_PROD_URL || import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+};
+
+const API_URL = getApiUrl();
 
 // Auth
 export interface LoginRequest {
@@ -99,6 +110,35 @@ export interface Venta {
     actualizadoEn?: string;
     cliente?: Cliente;
     vehiculo?: Vehiculo;
+}
+
+export interface Reserva {
+    id: number;
+    clienteId: string;
+    vehiculoId: number;
+    fecha: string;
+    fechaVisita?: string | null;
+    fechaVencimiento?: string;
+    estado: string;
+    notas?: string;
+    creadoEn?: string;
+    actualizadoEn?: string;
+    cliente?: {
+        id: string;
+        nombre: string;
+        apellido?: string;
+        email: string;
+        telefono: string;
+    };
+    vehiculo?: {
+        id: number;
+        marca: string;
+        modelo: string;
+        anio: number;
+        precio: number;
+        estado: string;
+        imagen?: string;
+    };
 }
 
 export interface DashboardStats {
@@ -412,35 +452,6 @@ export const carService = {
 };
 
 // Servicios de Reservas
-// Reserva devuelta por backend: el campo real es "fecha" (DateTime) y no "fechaReserva".
-// Mantenemos propiedades opcionales para retrocompatibilidad y normalizamos en el código de consumo.
-export interface Reserva {
-    id: number; // backend usa Int autoincrement
-    clienteId: string;
-    vehiculoId: number;
-    fecha?: string; // campo real del backend (Date ISO)
-    fechaReserva?: string; // alias legacy usado antes en el front
-    fechaVisita?: string; // fecha de visita al concesionario
-    fechaVencimiento?: string; // no implementado aún en backend, opcional
-    estado: 'Activa' | 'Cancelada' | 'Vencida' | 'Completada' | string; // backend devuelve string genérico
-    notas?: string;
-    cliente?: {
-        id: string;
-        nombre: string;
-        apellido?: string; // backend actual no provee apellido, por eso opcional
-        email: string;
-        telefono: string;
-    };
-    vehiculo?: {
-        id: number;
-        marca: string;
-        modelo: string;
-        anio: number;
-        precio: number;
-        estado: string;
-        imagen?: string;
-    };
-}
 
 export interface CreateReservaRequest {
     clienteId?: string;

@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "name": "autosales-frontend",
+  "buildCommand": "cd AutoSales/frontend && npm ci && npm run build",
+  "outputDirectory": "AutoSales/frontend/dist",
+  "installCommand": "cd AutoSales/frontend && npm ci",
+  "framework": "vite",
+  "routes": [
+    {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/images/(.*)",
+      "dest": "/images/$1"
+    },
+    {
+      "src": "/(.*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|json))",
+      "dest": "/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}

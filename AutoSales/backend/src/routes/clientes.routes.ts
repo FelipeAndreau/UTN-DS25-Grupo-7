@@ -6,6 +6,9 @@ import {
   putCliente,
   deleteCliente,
 } from "../controllers/clientes.controller";
+import { validateBody, validateParams } from "../middlewares/validation.middleware";
+import { createClienteSchema, updateClienteSchema } from "../validations/cliente.validation";
+import { uuidSchema } from "../validations/common.validation";
 
 const router = Router();
 
@@ -53,7 +56,7 @@ router.get("/", getClientes);
  *       500:
  *         description: Error interno del servidor
  */
-router.post("/", postCliente);
+router.post("/", validateBody(createClienteSchema), postCliente);
 
 /**
  * @swagger
@@ -83,7 +86,7 @@ router.post("/", postCliente);
  *       500:
  *         description: Error interno del servidor
  */
-router.put("/:id", putCliente);
+router.put("/:id", validateParams(uuidSchema), validateBody(updateClienteSchema), putCliente);
 
 /**
  * @swagger
@@ -107,6 +110,6 @@ router.put("/:id", putCliente);
  *       500:
  *         description: Error interno del servidor
  */
-router.delete("/:id", deleteCliente);
+router.delete("/:id", validateParams(uuidSchema), deleteCliente);
 
 export default router;

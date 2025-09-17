@@ -2,6 +2,9 @@
 import { Router } from "express"
 import * as reservaController from "../controllers/reservas.controller"
 import { authMiddleware } from "../middlewares/auth.middleware"
+import { validateBody, validateParams } from "../middlewares/validation.middleware";
+import { createReservaSchema } from "../validations/reserva.validation";
+import { numericIdSchema, uuidSchema } from "../validations/common.validation";
 
 const router = Router()
 
@@ -58,7 +61,7 @@ router.get("/", (req, res) => {
  *       500:
  *         description: Error interno del servidor
  */
-router.post("/", reservaController.crearReserva)
+router.post("/", validateBody(createReservaSchema), reservaController.crearReserva)
 
 /**
  * @swagger
@@ -85,7 +88,7 @@ router.post("/", reservaController.crearReserva)
  *       401:
  *         description: No autorizado
  */
-router.post("/crear", authMiddleware, reservaController.crearReserva)
+router.post("/crear", authMiddleware, validateBody(createReservaSchema), reservaController.crearReserva)
 
 /**
  * @swagger

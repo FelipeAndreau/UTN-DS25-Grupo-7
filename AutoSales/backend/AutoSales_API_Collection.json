@@ -1,22 +1,32 @@
 {
   "info": {
-    "name": "AutoSales API",
-    "description": "API para el sistema de gestión de ventas de vehículos",
+    "name": "AutoSales API - v2024",
+    "description": "API completa para el sistema de gestión de ventas de vehículos AutoSales",
+    "version": "2.0.0",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {
-    "type": "bearer"
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
   },
   "variable": [
     {
       "key": "base_url",
       "value": "http://localhost:3000",
-      "type": "string"
+      "type": "string",
+      "description": "URL base del servidor AutoSales"
     },
     {
       "key": "auth_token",
       "value": "",
-      "type": "string"
+      "type": "string",
+      "description": "Token JWT para autenticación (se obtiene después del login)"
     }
   ],
   "item": [

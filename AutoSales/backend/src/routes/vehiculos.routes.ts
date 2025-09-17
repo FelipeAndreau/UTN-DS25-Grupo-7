@@ -8,6 +8,9 @@ import {
 } from "../controllers/vehiculos.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
 import { requireRole } from "../middlewares/requireRoleMiddleware";
+import { validateBody, validateParams } from "../middlewares/validation.middleware";
+import { createVehiculoSchema, updateVehiculoSchema } from "../validations/vehiculo.validation";
+import { numericIdSchema } from "../validations/common.validation";
 
 const router = Router();
 
@@ -140,7 +143,7 @@ router.get("/viewer", authMiddleware, requireRole(["viewer", "admin"]), getVehic
  *       403:
  *         description: Permisos insuficientes
  */
-router.post("/", authMiddleware, requireRole(["admin"]), postVehiculo);
+router.post("/", authMiddleware, requireRole(["admin"]), validateBody(createVehiculoSchema), postVehiculo);
 
 /**
  * @swagger
@@ -172,7 +175,7 @@ router.post("/", authMiddleware, requireRole(["admin"]), postVehiculo);
  *       403:
  *         description: Permisos insuficientes
  */
-router.put("/:id", authMiddleware, requireRole(["admin"]), putVehiculo);
+router.put("/:id", authMiddleware, requireRole(["admin"]), validateParams(numericIdSchema), validateBody(updateVehiculoSchema), putVehiculo);
 
 /**
  * @swagger
@@ -198,6 +201,6 @@ router.put("/:id", authMiddleware, requireRole(["admin"]), putVehiculo);
  *       403:
  *         description: Permisos insuficientes
  */
-router.delete("/:id", authMiddleware, requireRole(["admin"]), deleteVehiculo);
+router.delete("/:id", authMiddleware, requireRole(["admin"]), validateParams(numericIdSchema), deleteVehiculo);
 
 export default router;

@@ -609,7 +609,7 @@ const Catalogo = () => {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                       {reservas.map((reserva, idx) => {
-                        const fechaISO = reserva.fecha || reserva.fechaReserva;
+                        const fechaISO = reserva.fecha;
                         const veh = reserva.vehiculo;
                         let fechaLegible = '—';
                         if (fechaISO) {
