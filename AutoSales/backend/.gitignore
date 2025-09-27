@@ -1,0 +1,23 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Prisma artifacts
+prisma/dev.db
+prisma/dev.db-journal
+prisma/migrations/
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+
+# OS and IDE
+.DS_Store
+.vscode/
+/src/generated/prisma

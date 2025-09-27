@@ -1,11 +1,11 @@
 # UTN-DS25-Grupo-7
-Grupo Numero 7 de la materia Desarrollo de Software
+Grupo número 7 de la materia Desarrollo de Software.
 
 ## Descripción
-Sistema de Venta de Automóviles. El proyecto consiste en desarrollar un sistema de venta de automóviles 
-que permita gestionar el inventario de vehículos, registrar ventas, 
-clientes y vendedores, además de poder generar un reporte de 
-transacciones.
+Sistema de Venta de Automóviles. El proyecto consiste en desarrollar un sistema de venta de automóviles que permita gestionar el inventario de vehículos, registrar ventas, clientes y vendedores, además de poder generar un reporte de transacciones.
+
+## Documento de Visión y Alcance del proyecto
+[DDS GRUPO 7 VISIÓN Y ALCANCE DEL PRODUCTO.pdf](https://github.com/user-attachments/files/19805795/DDS.GRUPO.7.VISION.Y.ALCANCE.DEL.PRODUCTO.pdf)
 
 ## Documento de Visión y Alncance del proyecto
 [DDS GRUPO 7 VISIÓN Y ALCANCE DEL PRODUCTO.pdf](https://github.com/user-attachments/files/19805795/DDS.GRUPO.7.VISION.Y.ALCANCE.DEL.PRODUCTO.pdf)
@@ -27,7 +27,7 @@ transacciones.
 - Alias de Slack: Melissa Braunstein
 - GitHub: https://github.com/mmmelissa099
 
-  -----------------------------------------------
+-------------------------------------------------
 
 - Nombre completo: Pilar Wagner
 - Legajo: 33514

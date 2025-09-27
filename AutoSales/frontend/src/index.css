@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-no-repeat bg-cover bg-center min-h-screen text-gray-800;
+  background-image: url("/wallpaper.png");
+}
+
+button {
+  @apply p-2 rounded-lg transition-transform duration-300 ease-in-out;
+}
+button:hover {
+  @apply scale-105 bg-blue-600 text-white;
+}
