@@ -1,9 +1,5 @@
 # Backend Dockerfile - AutoSales API
-# Multi-stage build para optimizar el tamaño de la imagen
 
-# ================================
-# STAGE 1: Build Dependencies
-# ================================
 FROM node:18-alpine AS dependencies
 
 # Crear directorio de trabajo
@@ -16,7 +12,7 @@ COPY package*.json ./
 RUN npm ci --only=production && npm cache clean --force
 
 # ================================
-# STAGE 2: Build Application
+# Contruir Applicacion
 # ================================
 FROM node:18-alpine AS builder
 
@@ -41,7 +37,7 @@ RUN npx prisma generate
 RUN npm run build
 
 # ================================
-# STAGE 3: Production Runtime
+#Produccion Runtime
 # ================================
 FROM node:18-alpine AS production
 
