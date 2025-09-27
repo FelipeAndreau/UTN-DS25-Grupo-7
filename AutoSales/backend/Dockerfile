@@ -12,7 +12,7 @@ COPY package*.json ./
 RUN npm ci --only=production && npm cache clean --force
 
 # ================================
-# Contruir Applicacion
+# Contruir Aplicacion
 # ================================
 FROM node:18-alpine AS builder
 
