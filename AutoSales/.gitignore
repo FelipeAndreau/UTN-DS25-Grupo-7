@@ -50,7 +50,6 @@ backend/supabase/docker/
 *.db
 docker-compose.override.yml
 Dockerfile.local
-.dockerignore
 
 # 📸 Image previews or uploads
 frontend/public/images/tmp/
