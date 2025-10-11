@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: autosales-backend
+    rootDir: AutoSales/backend
+    env: docker
+    dockerfilePath: Dockerfile
+    region: ohio
+    plan: free
+    branch: main
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false # This will be set manually in Render dashboard
+      - key: PORT
+        value: 3000
