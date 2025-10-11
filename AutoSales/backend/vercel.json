@@ -2,6 +2,21 @@
   "version": 2,
   "builds": [
     {
+      "src": "api/**/*.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}  "builds": [
+    {
       "src": "src/index.ts",
       "use": "@vercel/node"
     }

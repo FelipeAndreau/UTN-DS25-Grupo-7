@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "start": "node dist/index.js",
-    "build": "tsc && npx prisma generate",
-    "vercel-build": "npx prisma generate && npm run build",
+    "build": "tsc",
+    "vercel-build": "npm install && npx prisma generate && npm run build",
     "create-users": "ts-node src/scripts/seed-users.ts",
     "test": "jest",
     "test:watch": "jest --watch",
