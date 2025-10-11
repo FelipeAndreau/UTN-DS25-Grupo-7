@@ -13,21 +13,6 @@
     }
   ],
   "env": {
-    "NODE_ENV": "production"
-  }
-}  "builds": [
-    {
-      "src": "src/index.ts",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "src/index.ts"
-    }
-  ],
-  "env": {
     "NODE_ENV": "production",
     "PORT": "3000"
   },
