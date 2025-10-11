@@ -42,7 +42,7 @@ app.use("/api/public/vehiculos", vehiculoRoutes);
 app.use("/api/public/reservas", reservasRoutes);
 
 // Health check
-app.get("/health", (req, res) => {
+app.get("/api/health", (req, res) => {
   res.json({ 
     status: "OK", 
     message: "AutoSales API funcionando correctamente", 
