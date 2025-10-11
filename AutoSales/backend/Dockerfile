@@ -7,9 +7,10 @@ WORKDIR /app
 
 # Copiar archivos de dependencias
 COPY package*.json ./
+COPY prisma ./prisma/
 
-# Instalar solo dependencias de producción
-RUN npm ci --only=production && npm cache clean --force
+# Instalar todas las dependencias y generar Prisma Client
+RUN npm install && npx prisma generate
 
 # ================================
 # Contruir Aplicacion
@@ -66,9 +67,13 @@ COPY --from=dependencies --chown=autosales:nodejs /app/node_modules ./node_modul
 # Copiar aplicación compilada desde stage 2
 COPY --from=builder --chown=autosales:nodejs /app/dist ./dist
 COPY --from=builder --chown=autosales:nodejs /app/prisma ./prisma
+COPY --from=builder --chown=autosales:nodejs /app/node_modules/.prisma ./node_modules/.prisma
 
 # Copiar archivos necesarios
 COPY --chown=autosales:nodejs package*.json ./
+
+# Generar Prisma Client en la etapa de producción
+RUN npx prisma generate
 
 # Exponer puerto
 EXPOSE 3000
