@@ -1,9 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "cd AutoSales/frontend && npm ci && npm run build && cd ../backend && npm ci && npm run build && npx prisma generate",
-  "installCommand": "cd AutoSales/frontend && npm ci && cd ../backend && npm ci",
-  "outputDirectory": "AutoSales/frontend/dist",
-  "framework": "vite",
   "builds": [
     {
       "src": "AutoSales/backend/api/**/*.ts",
@@ -13,6 +9,7 @@
       "src": "AutoSales/frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
+        "buildCommand": "npm run build",
         "distDir": "dist"
       }
     }
@@ -27,24 +24,8 @@
       "dest": "/AutoSales/backend/api/index.ts"
     },
     {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
-    },
-    {
-      "src": "/images/(.*)",
-      "dest": "/images/$1"
-    },
-    {
-      "src": "/(.*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|json|txt))",
-      "dest": "/$1"
-    },
-    {
-      "src": "/",
-      "dest": "/index.html"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/AutoSales/frontend/dist/$1"
     }
   ],
   "env": {
