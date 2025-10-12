@@ -14,8 +14,12 @@
         "paths": {
             "@/*": ["*"]
         },
-        "outDir": "dist"
+        "outDir": "dist",
+        "typeRoots": ["node_modules/@types"],
+        "types": ["node"],
+        "resolveJsonModule": true,
+        "declaration": false
     },
-    "include": ["src"],
-    "exclude": ["node_modules", "dist"]
+    "include": ["src/**/*", "api/**/*", "src/global.d.ts"],
+    "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
 }

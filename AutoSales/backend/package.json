@@ -20,6 +20,7 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.14.0",
+    "@types/node": "^24.7.2",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
@@ -28,6 +29,7 @@
     "pg": "^8.16.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
+    "typescript": "^5.9.2",
     "zod": "^4.1.5"
   },
   "devDependencies": {
@@ -36,7 +38,6 @@
     "@types/express": "^5.0.3",
     "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^24.7.2",
     "@types/supertest": "^6.0.3",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
@@ -44,7 +45,6 @@
     "prisma": "^6.14.0",
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.1",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.9.2"
+    "ts-node-dev": "^2.0.0"
   }
 }
