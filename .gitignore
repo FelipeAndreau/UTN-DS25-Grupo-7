@@ -110,3 +110,4 @@ config/production.json
 
 # TypeScript
 *.tsbuildinfo
+.vercel

@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "name": "autosales",
   "buildCommand": "cd AutoSales/frontend && npm ci && npm run build && cd ../backend && npm ci && npm run build && npx prisma generate",
   "installCommand": "cd AutoSales/frontend && npm ci && cd ../backend && npm ci",
   "outputDirectory": "AutoSales/frontend/dist",
@@ -46,9 +45,12 @@
   ],
   "env": {
     "NODE_ENV": "production",
-    "DATABASE_URL": "@database_url",
-    "JWT_SECRET": "@jwt_secret",
+    "DATABASE_URL": "postgresql://postgres.fbhsysehqmgvlykzqaug:uHQZcPEOBpTb9j9t@aws-1-sa-east-1.pooler.supabase.com:6543/postgres",
+    "DIRECT_URL": "postgresql://postgres:uHQZcPEOBpTb9j9t@db.fbhsysehqmgvlykzqaug.supabase.co:5432/postgres",
+    "JWT_SECRET": "tu-jwt-secret-super-seguro-aqui-cambiar-en-produccion",
     "JWT_EXPIRES_IN": "7d",
-    "NETWORK_MODE": "production"
+    "NETWORK_MODE": "ipv6",
+    "CORS_ORIGIN": "https://autosales-ckevpbf3b-felipeandreaus-projects.vercel.app",
+    "PRISMA_DISABLE_PREPARED_STATEMENTS": "true"
   }
 }
