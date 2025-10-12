@@ -24,8 +24,12 @@
       "dest": "/AutoSales/backend/api/index.ts"
     },
     {
+      "src": "/(.*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|json))",
+      "dest": "/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/AutoSales/frontend/dist/$1"
+      "dest": "/index.html"
     }
   ],
   "env": {
@@ -35,7 +39,7 @@
     "JWT_SECRET": "tu-jwt-secret-super-seguro-aqui-cambiar-en-produccion",
     "JWT_EXPIRES_IN": "7d",
     "NETWORK_MODE": "ipv6",
-    "CORS_ORIGIN": "https://autosales-be47vcpo0-felipeandreaus-projects.vercel.app",
+    "CORS_ORIGIN": "https://autosales-dppkg3vwd-felipeandreaus-projects.vercel.app",
     "PRISMA_DISABLE_PREPARED_STATEMENTS": "true"
   }
 }

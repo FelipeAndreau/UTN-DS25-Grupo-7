@@ -1,7 +1,11 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import prisma from "./config/prisma";
+// Configuración de Prisma
+import prisma from "./config/prisma-vercel-simple";
+
+// Hacer disponible globalmente para otros módulos
+(global as any).prisma = prisma;
 import { swaggerUi, specs } from "./config/swagger";
 import authRoutes from "./routes/auth.routes";
 import dashboardRoutes from "./routes/dashboard.routes";
