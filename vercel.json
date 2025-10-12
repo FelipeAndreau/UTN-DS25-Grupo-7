@@ -20,6 +20,10 @@
       "dest": "/AutoSales/backend/api/health.ts"
     },
     {
+      "src": "/api/debug",
+      "dest": "/AutoSales/backend/api/debug.ts"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/AutoSales/backend/api/index.ts"
     },
@@ -39,7 +43,7 @@
     "JWT_SECRET": "tu-jwt-secret-super-seguro-aqui-cambiar-en-produccion",
     "JWT_EXPIRES_IN": "7d",
     "NETWORK_MODE": "ipv6",
-    "CORS_ORIGIN": "https://autosales-q0u8mc2ge-felipeandreaus-projects.vercel.app",
+    "CORS_ORIGIN": "https://autosales-977h4vivi-felipeandreaus-projects.vercel.app",
     "PRISMA_DISABLE_PREPARED_STATEMENTS": "true"
   }
 }
