@@ -1,5 +1,10 @@
 {
   "dependencies": {
     "react-calendar": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.2",
+    "@vercel/node": "^5.3.26",
+    "typescript": "^5.9.3"
   }
 }

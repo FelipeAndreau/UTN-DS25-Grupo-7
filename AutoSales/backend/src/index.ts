@@ -77,8 +77,14 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 // ====== INICIAR SERVIDOR ======
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor AutoSales iniciado en http://localhost:${PORT}`);
-  console.log(`📚 Documentación Swagger: http://localhost:${PORT}/api-docs`);
-  console.log(`💚 Health Check: http://localhost:${PORT}/health`);
-});
+// Solo inicia el servidor si no está en ambiente serverless (Vercel)
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🚀 Servidor AutoSales iniciado en http://localhost:${PORT}`);
+    console.log(`📚 Documentación Swagger: http://localhost:${PORT}/api-docs`);
+    console.log(`💚 Health Check: http://localhost:${PORT}/api/health`);
+  });
+}
+
+// Exportar app para Vercel
+export { app };

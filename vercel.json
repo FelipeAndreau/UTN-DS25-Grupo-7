@@ -1,11 +1,32 @@
 {
   "version": 2,
-  "name": "autosales-frontend",
-  "buildCommand": "cd AutoSales/frontend && npm ci && npm run build",
+  "name": "autosales",
+  "buildCommand": "cd AutoSales/frontend && npm ci && npm run build && cd ../backend && npm ci && npm run build && npx prisma generate",
+  "installCommand": "cd AutoSales/frontend && npm ci && cd ../backend && npm ci",
   "outputDirectory": "AutoSales/frontend/dist",
-  "installCommand": "cd AutoSales/frontend && npm ci",
   "framework": "vite",
+  "builds": [
+    {
+      "src": "AutoSales/backend/api/**/*.ts",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "AutoSales/frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
   "routes": [
+    {
+      "src": "/api/health",
+      "dest": "/AutoSales/backend/api/health.ts"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/AutoSales/backend/api/index.ts"
+    },
     {
       "src": "/assets/(.*)",
       "dest": "/assets/$1"
@@ -24,6 +45,10 @@
     }
   ],
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "DATABASE_URL": "@database_url",
+    "JWT_SECRET": "@jwt_secret",
+    "JWT_EXPIRES_IN": "7d",
+    "NETWORK_MODE": "production"
   }
 }
