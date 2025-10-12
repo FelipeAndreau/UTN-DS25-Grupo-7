@@ -54,7 +54,7 @@
     "JWT_SECRET": "tu-jwt-secret-super-seguro-aqui-cambiar-en-produccion",
     "JWT_EXPIRES_IN": "7d",
     "NETWORK_MODE": "ipv6",
-    "CORS_ORIGIN": "https://autosales-1y44v6yor-felipeandreaus-projects.vercel.app",
+    "CORS_ORIGIN": "https://autosales-be47vcpo0-felipeandreaus-projects.vercel.app",
     "PRISMA_DISABLE_PREPARED_STATEMENTS": "true"
   }
 }
