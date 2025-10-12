@@ -35,8 +35,12 @@
       "dest": "/images/$1"
     },
     {
-      "src": "/(.*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|json))",
+      "src": "/(.*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|json|txt))",
       "dest": "/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
     },
     {
       "src": "/(.*)",
@@ -50,7 +54,7 @@
     "JWT_SECRET": "tu-jwt-secret-super-seguro-aqui-cambiar-en-produccion",
     "JWT_EXPIRES_IN": "7d",
     "NETWORK_MODE": "ipv6",
-    "CORS_ORIGIN": "https://autosales-ckevpbf3b-felipeandreaus-projects.vercel.app",
+    "CORS_ORIGIN": "https://autosales-1y44v6yor-felipeandreaus-projects.vercel.app",
     "PRISMA_DISABLE_PREPARED_STATEMENTS": "true"
   }
 }
