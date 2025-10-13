@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "start": "node dist/index.js",
-    "build": "npx prisma generate && tsc",
-    "postinstall": "npx prisma generate",
+    "build": "tsc",
     "create-users": "ts-node src/scripts/seed-users.ts",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -49,8 +48,5 @@
   },
   "engines": {
     "node": ">=18.0.0"
-  },
-  "prisma": {
-    "platforms": ["native", "debian-openssl-3.0.x"]
   }
 }
