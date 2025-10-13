@@ -1,5 +1,17 @@
 // src/types/vehiculos.types.ts
-import { Vehiculo } from "@prisma/client";
+
+export interface Vehiculo {
+    id: number;
+    marca: string;
+    modelo: string;
+    anio: number;
+    precio: number;
+    estado: string;
+    imagen: string;
+    descripcion: string;
+    creadoEn: Date;
+    actualizadoEn: Date;
+}
 
 export type CreateVehiculoRequest = Omit<Vehiculo, "id" | "creadoEn" | "actualizadoEn">;
 

@@ -1,7 +1,6 @@
 // src/services/vehiculos.service.ts
 import prisma from "../config/prisma";
-import { Vehiculo } from "@prisma/client";
-import { CreateVehiculoRequest, UpdateVehiculoRequest } from "../types/vehiculos.types";
+import { Vehiculo, CreateVehiculoRequest, UpdateVehiculoRequest } from "../types/vehiculos.types";
 
 /**
  * Listar todos los vehículos ordenados por fecha de creación descendente.

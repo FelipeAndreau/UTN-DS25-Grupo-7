@@ -1,6 +1,5 @@
 import prisma from "../config/prisma";
-import { Venta } from "@prisma/client";
-import { CreateVentaRequest, UpdateVentaRequest } from "../types/ventas.types";
+import { Venta, CreateVentaRequest, UpdateVentaRequest } from "../types/ventas.types";
 
 /**
  * Listar todas las ventas ordenadas por fecha descendente.

@@ -1,7 +1,12 @@
 // src/validations/vehiculo.validation.ts
 
 import { z } from 'zod';
-import { EstadoVehiculo } from '@prisma/client';
+
+enum EstadoVehiculo {
+  disponible = "disponible",
+  vendido = "vendido", 
+  reservado = "reservado"
+}
 
 export const createVehiculoSchema = z.object({
   marca: z.string().min(1, 'La marca es requerida').max(100).trim(),

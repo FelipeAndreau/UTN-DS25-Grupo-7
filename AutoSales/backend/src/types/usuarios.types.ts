@@ -1,5 +1,10 @@
 // src/types/usuarios.types.ts
-import { Rol } from "@prisma/client"
+
+export enum Rol {
+    admin = "admin",
+    editor = "editor", 
+    viewer = "viewer"
+}
 
 export interface UsuarioAdminDTO {
     id: string;

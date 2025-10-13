@@ -1,7 +1,18 @@
 // src/validations/cliente.validation.ts
 
 import { z } from 'zod';
-import { TipoCliente, EstadoCliente } from '@prisma/client';
+
+enum TipoCliente {
+  individual = "individual",
+  empresa = "empresa"
+}
+
+enum EstadoCliente {
+  activo = "activo", 
+  inactivo = "inactivo",
+  suspendido = "suspendido",
+  prospecto = "prospecto"
+}
 
 export const createClienteSchema = z.object({
   nombre: z.string().min(1, 'El nombre es requerido').max(100).trim(),
