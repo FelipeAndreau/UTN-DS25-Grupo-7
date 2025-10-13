@@ -1,5 +1,4 @@
 // src/global.d.ts
-import "node";
 
 declare global {
   namespace NodeJS {
