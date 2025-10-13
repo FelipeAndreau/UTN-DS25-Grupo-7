@@ -58,6 +58,7 @@ model Configuracion {
   id            String   @id @default(uuid())
   idioma        String   @default("es")
   tema          Tema     @default(claro)
+  notificaciones Boolean @default(true)
   usuarioId     String   @unique
   creadoEn      DateTime @default(now())
   actualizadoEn DateTime @updatedAt

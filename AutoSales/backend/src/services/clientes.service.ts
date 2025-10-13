@@ -44,8 +44,8 @@ export async function registrarCliente(data: CreateClienteRequest): Promise<Clie
         email: data.email,
         telefono: data.telefono,
         actividad: data.actividad,
-        tipo: data.tipo,
-        estado: data.estado
+        tipo: data.tipo as any,
+        estado: data.estado as any
       } 
     }
   );
@@ -69,8 +69,8 @@ export async function editarCliente(
         ...(updateData.nombre !== undefined ? { nombre: updateData.nombre } : {}),
         ...(updateData.email !== undefined ? { email: updateData.email } : {}),
         ...(updateData.telefono !== undefined ? { telefono: updateData.telefono } : {}),
-        ...(updateData.tipo !== undefined ? { tipo: updateData.tipo } : {}),
-        ...(updateData.estado !== undefined ? { estado: updateData.estado } : {}),
+        ...(updateData.tipo !== undefined ? { tipo: updateData.tipo as any } : {}),
+        ...(updateData.estado !== undefined ? { estado: updateData.estado as any } : {}),
         ...(updateData.actividad !== undefined ? { actividad: updateData.actividad } : {}),
       },
     });

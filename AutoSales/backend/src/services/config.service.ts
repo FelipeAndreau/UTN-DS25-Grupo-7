@@ -20,11 +20,11 @@ export async function obtenerConfiguracion(userId: string): Promise<ConfigRespon
 export async function actualizarConfiguracion(userId: string, data: UpdateConfigRequest) {
   return prisma.configuracion.upsert({
     where: { usuarioId: userId },
-    update: data,
+    update: data as any,
     create: {
       usuarioId: userId,
       idioma: data?.idioma ?? CONFIG_DEFAULT.idioma,
-      tema: data?.tema ?? CONFIG_DEFAULT.tema,
+      tema: data?.tema as any ?? CONFIG_DEFAULT.tema as any,
       notificaciones: data?.notificaciones ?? CONFIG_DEFAULT.notificaciones,
     },
   });

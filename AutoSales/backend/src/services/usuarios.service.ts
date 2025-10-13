@@ -12,7 +12,7 @@ export const listarUsuarios = async (): Promise<UsuarioAdminDTO[]> => {
       rol: true,
       activo: true,
     },
-  });
+  }) as UsuarioAdminDTO[];
 };
 
 export const registrarUsuario = async (data: UsuarioRequest) => {
@@ -21,7 +21,7 @@ export const registrarUsuario = async (data: UsuarioRequest) => {
       nombre: data.nombre,
       email: data.email,
       password: bcrypt.hashSync(data.password, 10),
-      rol: data.rol,
+      rol: data.rol as any,
     },
   });
 };
