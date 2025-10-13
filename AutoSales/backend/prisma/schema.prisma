@@ -6,8 +6,8 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  url       = env("DATABASE_URL")        // 👈 Usará el Pooler (Pooler URL)
+  directUrl = env("DIRECT_DATABASE_URL") // 👈 Usará la conexión directa (Direct URL)
 }
 
 model Usuario {

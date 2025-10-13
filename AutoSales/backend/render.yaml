@@ -6,8 +6,8 @@ services:
     region: ohio
     plan: free
     branch: Felipe-Andreau
-    buildCommand: PRISMA_CLIENT_ENGINE_TYPE=binary PRISMA_CLI_QUERY_ENGINE_TYPE=binary npm install && npm run build && npx prisma db push
-    startCommand: npm start
+    buildCommand: npm install && npm run build
+    startCommand: npx prisma migrate deploy && npm start
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
@@ -19,9 +19,9 @@ services:
       - key: PRISMA_ENGINE_TYPE
         value: binary
       - key: DATABASE_URL
-        value: postgresql://postgres.fbhsysehqmgvlykzqaug:4p4!Rm@4mDxV.YB@aws-1-sa-east-1.pooler.supabase.com:5432/postgres
-      - key: DIRECT_URL
-        value: postgresql://postgres:4p4!Rm@4mDxV.YB@db.fbhsysehqmgvlykzqaug.supabase.co:5432/postgres
+        value: postgresql://postgres.fbhsysehqmgvlykzqaug:4p4%21Rm%404mDxV.YB@aws-1-sa-east-1.pooler.supabase.com:5432/postgres?pgbouncer=true&sslmode=require&connection_limit=1
+      - key: DIRECT_DATABASE_URL
+        value: postgresql://postgres:4p4%21Rm%404mDxV.YB@db.fbhsysehqmgvlykzqaug.supabase.co:5432/postgres?sslmode=require
       - key: JWT_SECRET
         value: AutoSales2024_JWT_SECRET_SUPER_SEGURO_RENDER_DEPLOY
       - key: CORS_ORIGIN

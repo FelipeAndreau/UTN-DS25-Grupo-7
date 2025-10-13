@@ -38,8 +38,8 @@
   ],
   "env": {
     "NODE_ENV": "production",
-    "DATABASE_URL": "postgresql://postgres.fbhsysehqmgvlykzqaug:4p4!Rm@4mDxV.YB@aws-1-sa-east-1.pooler.supabase.com:5432/postgres",
-    "DIRECT_URL": "postgresql://postgres:4p4!Rm@4mDxV.YB@db.fbhsysehqmgvlykzqaug.supabase.co:5432/postgres",
+    "DATABASE_URL": "postgresql://postgres.fbhsysehqmgvlykzqaug:4p4%21Rm%404mDxV.YB@aws-1-sa-east-1.pooler.supabase.com:5432/postgres?pgbouncer=true&sslmode=require&connection_limit=1",
+    "DIRECT_DATABASE_URL": "postgresql://postgres:4p4%21Rm%404mDxV.YB@db.fbhsysehqmgvlykzqaug.supabase.co:5432/postgres?sslmode=require",
     "JWT_SECRET": "tu-jwt-secret-super-seguro-aqui-cambiar-en-produccion",
     "JWT_EXPIRES_IN": "7d",
     "NETWORK_MODE": "ipv6",
