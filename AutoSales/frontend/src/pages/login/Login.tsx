@@ -79,7 +79,7 @@ const Login = () => {
 
     try {
       // Crear usuario viewer y cliente
-      const response = await fetch("http://localhost:3000/create-custom-viewer", {
+      const response = await fetch(`${import.meta.env.VITE_API_PROD_URL || 'http://localhost:3000'}/create-custom-viewer`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
