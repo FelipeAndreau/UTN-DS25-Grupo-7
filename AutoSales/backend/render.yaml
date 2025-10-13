@@ -20,15 +20,5 @@ services:
         value: AutoSales2024_JWT_SECRET_SUPER_SEGURO_RENDER_DEPLOY
       - key: CORS_ORIGIN
         value: https://autosales-frontend-2z6au7krw-felipeandreaus-projects.vercel.app
-      - key: PRISMA_CLI_QUERY_ENGINE_TYPE
-        value: binary
-      - key: PRISMA_QUERY_ENGINE_LIBRARY
-        value: native
-      - key: PRISMA_QUERY_ENGINE_BINARY
-        value: native
-      - key: PRISMA_ENGINE_TYPE
-        value: binary
-      - key: PRISMA_SKIP_POSTINSTALL_GENERATE
-        value: true
       - key: PORT
         value: 10000
