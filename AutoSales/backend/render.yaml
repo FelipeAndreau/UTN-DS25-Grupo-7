@@ -6,7 +6,7 @@ services:
     region: ohio
     plan: free
     branch: Felipe-Andreau
-    buildCommand: npm ci --legacy-peer-deps && PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1 npx prisma generate --force-version && npm run build
+    buildCommand: npm install && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
@@ -18,13 +18,5 @@ services:
         sync: false # Set manually in Render dashboard  
       - key: JWT_SECRET
         sync: false # Set manually in Render dashboard
-      - key: PRISMA_CLI_QUERY_ENGINE_TYPE
-        value: binary
-      - key: PRISMA_QUERY_ENGINE_BINARY
-        value: ./node_modules/.prisma/client/query_engine-debian-openssl-3.0.x
-      - key: PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING
-        value: "1"
-      - key: PRISMA_CLI_BINARY_TARGETS
-        value: debian-openssl-3.0.x
       - key: PORT
         value: 10000
