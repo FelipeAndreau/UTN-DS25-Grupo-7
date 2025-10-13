@@ -21,6 +21,6 @@ services:
       - key: PRISMA_CLI_QUERY_ENGINE_TYPE
         value: binary
       - key: PRISMA_QUERY_ENGINE_BINARY
-        value: ./node_modules/.prisma/client/query_engine-debian-openssl-1.1.x
+        value: ./node_modules/.prisma/client/query_engine-debian-openssl-3.0.x
       - key: PORT
         value: 10000
