@@ -2,16 +2,21 @@ services:
   - type: web
     name: autosales-backend
     rootDir: AutoSales/backend
-    env: docker
-    dockerfilePath: Dockerfile
+    env: node
     region: ohio
     plan: free
-    branch: main
+    branch: Felipe-Andreau
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: npm start
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
-        sync: false # This will be set manually in Render dashboard
+        sync: false # Set manually in Render dashboard
+      - key: DIRECT_URL
+        sync: false # Set manually in Render dashboard  
+      - key: JWT_SECRET
+        sync: false # Set manually in Render dashboard
       - key: PORT
-        value: 3000
+        value: 10000
