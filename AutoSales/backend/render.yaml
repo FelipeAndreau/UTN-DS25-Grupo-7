@@ -20,7 +20,7 @@ services:
         value: binary
       - key: DATABASE_URL
         value: postgresql://postgres.fbhsysehqmgvlykzqaug:4p4%21Rm%404mDxV.YB@aws-1-sa-east-1.pooler.supabase.com:5432/postgres?pgbouncer=true&sslmode=require&connection_limit=1
-      - key: DIRECT_DATABASE_URL
+      - key: DIRECT_URL
         value: postgresql://postgres:4p4%21Rm%404mDxV.YB@db.fbhsysehqmgvlykzqaug.supabase.co:5432/postgres?sslmode=require
       - key: JWT_SECRET
         value: AutoSales2024_JWT_SECRET_SUPER_SEGURO_RENDER_DEPLOY
