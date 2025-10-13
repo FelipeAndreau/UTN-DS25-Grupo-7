@@ -6,7 +6,7 @@ services:
     region: ohio
     plan: free
     branch: Felipe-Andreau
-    buildCommand: npm install && npx prisma generate && npm run build
+    buildCommand: npm install --legacy-peer-deps && npx prisma generate && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:

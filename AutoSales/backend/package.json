@@ -21,7 +21,6 @@
   "dependencies": {
     "@prisma/client": "^6.14.0",
     "@types/node": "^24.7.2",
-    "@vercel/node": "^5.3.26",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
