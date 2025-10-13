@@ -19,9 +19,9 @@ services:
       - key: PRISMA_ENGINE_TYPE
         value: binary
       - key: DATABASE_URL
-        value: postgresql://postgres.fbhsysehqmgvlykzqaug:uHQZcPEOBpTb9j9t@aws-1-sa-east-1.pooler.supabase.com:5432/postgres
+        value: postgresql://postgres.fbhsysehqmgvlykzqaug:4p4!Rm@4mDxV.YB@aws-1-sa-east-1.pooler.supabase.com:5432/postgres
       - key: DIRECT_URL
-        value: postgresql://postgres:uHQZcPEOBpTb9j9t@db.fbhsysehqmgvlykzqaug.supabase.co:5432/postgres
+        value: postgresql://postgres:4p4!Rm@4mDxV.YB@db.fbhsysehqmgvlykzqaug.supabase.co:5432/postgres
       - key: JWT_SECRET
         value: AutoSales2024_JWT_SECRET_SUPER_SEGURO_RENDER_DEPLOY
       - key: CORS_ORIGIN
