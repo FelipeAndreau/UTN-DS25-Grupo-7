@@ -25,8 +25,9 @@ COPY . .
 # Generar cliente de Prisma
 RUN npx prisma generate
 
-# Compilar TypeScript
-RUN npm run build
+# Instalar TypeScript globalmente y compilar
+RUN npm install -g typescript
+RUN tsc
 
 # Exponer puerto
 EXPOSE 3000
