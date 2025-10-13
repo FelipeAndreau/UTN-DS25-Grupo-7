@@ -6,7 +6,7 @@ services:
     region: ohio
     plan: free
     branch: Felipe-Andreau
-    buildCommand: npm install --production=false && PRISMA_CLI_QUERY_ENGINE_TYPE=binary npx prisma generate && npx prisma migrate deploy && npm run build
+    buildCommand: npm install && npm run build && npx prisma migrate deploy
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
@@ -24,5 +24,11 @@ services:
         value: binary
       - key: PRISMA_QUERY_ENGINE_LIBRARY
         value: native
+      - key: PRISMA_QUERY_ENGINE_BINARY
+        value: native
+      - key: PRISMA_ENGINE_TYPE
+        value: binary
+      - key: PRISMA_SKIP_POSTINSTALL_GENERATE
+        value: true
       - key: PORT
         value: 10000
