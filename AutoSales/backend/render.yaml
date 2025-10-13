@@ -6,7 +6,7 @@ services:
     region: ohio
     plan: free
     branch: Felipe-Andreau
-    buildCommand: PRISMA_CLI_QUERY_ENGINE_TYPE=binary npm install && PRISMA_CLI_QUERY_ENGINE_TYPE=binary npx prisma generate && npm run build && npx prisma migrate deploy
+    buildCommand: npm install && npm run build && npx prisma migrate deploy
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
