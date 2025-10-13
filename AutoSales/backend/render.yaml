@@ -6,7 +6,7 @@ services:
     region: ohio
     plan: free
     branch: Felipe-Andreau
-    buildCommand: npm install --legacy-peer-deps && npx prisma generate && npm run build
+    buildCommand: npm ci --legacy-peer-deps && npx prisma generate --force-version && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
@@ -18,5 +18,9 @@ services:
         sync: false # Set manually in Render dashboard  
       - key: JWT_SECRET
         sync: false # Set manually in Render dashboard
+      - key: PRISMA_CLI_QUERY_ENGINE_TYPE
+        value: binary
+      - key: PRISMA_QUERY_ENGINE_BINARY
+        value: ./node_modules/.prisma/client/query_engine-debian-openssl-1.1.x
       - key: PORT
         value: 10000
