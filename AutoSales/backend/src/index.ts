@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-// Configuración de Prisma
-import prisma from "./config/prisma-vercel-simple";
+// Configuración de Prisma para producción
+import prisma from "./config/prisma";
 
 // Hacer disponible globalmente para otros módulos
 (global as any).prisma = prisma;
