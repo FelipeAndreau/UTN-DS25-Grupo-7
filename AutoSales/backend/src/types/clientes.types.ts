@@ -7,7 +7,8 @@ export interface Cliente {
     telefono: string;
     tipo: string;
     estado: string;
-    activo: boolean;
+    actividad: string;
+    usuarioId?: string;
     creadoEn: Date;
     actualizadoEn: Date;
 }

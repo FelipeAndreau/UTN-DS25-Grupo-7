@@ -1,7 +1,6 @@
 // src/services/clientes.service.ts
 import prisma from "../config/prisma";
-import { Cliente } from "@prisma/client";
-import { CreateClienteRequest, UpdateClienteRequest } from "../types/clientes.types";
+import { Cliente, CreateClienteRequest, UpdateClienteRequest } from "../types/clientes.types";
 
 /**
  * Listar todos los clientes ordenados por fecha de creación descendente.
