@@ -16,8 +16,8 @@ WORKDIR /app
 # Copiar package.json y package-lock.json
 COPY package*.json ./
 
-# Instalar dependencias sin cache y con force para resolver conflictos
-RUN npm install --force --no-cache
+# Instalar dependencias
+RUN npm install
 
 # Copiar el resto del código
 COPY . .
