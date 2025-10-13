@@ -81,14 +81,30 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 // ====== INICIAR SERVIDOR ======
-// Iniciar servidor (para desarrollo local y Render)
-if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
-  app.listen(PORT, () => {
-    console.log(`🚀 Servidor AutoSales iniciado en puerto ${PORT}`);
-    console.log(`📚 Documentación Swagger: http://localhost:${PORT}/api-docs`);
-    console.log(`💚 Health Check: http://localhost:${PORT}/api/health`);
-  });
-}
+// Iniciar servidor para Render (siempre en producción)
+const server = app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Servidor AutoSales iniciado en puerto ${PORT}`);
+  console.log(`📚 Documentación Swagger: http://localhost:${PORT}/api-docs`);
+  console.log(`💚 Health Check: http://localhost:${PORT}/api/health`);
+  console.log(`🌍 Modo: ${process.env.NODE_ENV || 'development'}`);
+});
 
-// Exportar app para Vercel
+// Manejo de señales para shutdown graceful
+process.on('SIGTERM', () => {
+  console.log('🛑 SIGTERM recibido, cerrando servidor...');
+  server.close(() => {
+    console.log('✅ Servidor cerrado correctamente');
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  console.log('🛑 SIGINT recibido, cerrando servidor...');
+  server.close(() => {
+    console.log('✅ Servidor cerrado correctamente');
+    process.exit(0);
+  });
+});
+
+// Exportar app para casos especiales
 export { app };
