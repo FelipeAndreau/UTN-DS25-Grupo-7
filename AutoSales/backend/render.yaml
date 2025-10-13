@@ -6,17 +6,23 @@ services:
     region: ohio
     plan: free
     branch: Felipe-Andreau
-    buildCommand: npm install && npm run build
+    buildCommand: npm install && npx prisma generate && npx prisma migrate deploy && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
-        sync: false # Set manually in Render dashboard
+        value: postgresql://postgres.fbhsysehqmgvlykzqaug:uHQZcPEOBpTb9j9t@aws-1-sa-east-1.pooler.supabase.com:5432/postgres
       - key: DIRECT_URL
-        sync: false # Set manually in Render dashboard  
+        value: postgresql://postgres:uHQZcPEOBpTb9j9t@db.fbhsysehqmgvlykzqaug.supabase.co:5432/postgres  
       - key: JWT_SECRET
-        sync: false # Set manually in Render dashboard
+        value: AutoSales2024_JWT_SECRET_SUPER_SEGURO_RENDER_DEPLOY
+      - key: CORS_ORIGIN
+        value: https://autosales-frontend-2z6au7krw-felipeandreaus-projects.vercel.app
+      - key: PRISMA_CLI_QUERY_ENGINE_TYPE
+        value: binary
+      - key: PRISMA_QUERY_ENGINE_LIBRARY
+        value: native
       - key: PORT
         value: 10000
