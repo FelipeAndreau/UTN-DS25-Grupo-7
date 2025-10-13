@@ -6,13 +6,17 @@ services:
     region: ohio
     plan: free
     branch: Felipe-Andreau
-    buildCommand: npm install && npm run build && npx prisma migrate deploy
+    buildCommand: PRISMA_CLIENT_ENGINE_TYPE=binary PRISMA_CLI_QUERY_ENGINE_TYPE=binary npm install && npm run build && npx prisma migrate deploy
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
       - key: PRISMA_CLI_QUERY_ENGINE_TYPE
+        value: binary
+      - key: PRISMA_CLIENT_ENGINE_TYPE
+        value: binary
+      - key: PRISMA_ENGINE_TYPE
         value: binary
       - key: DATABASE_URL
         value: postgresql://postgres.fbhsysehqmgvlykzqaug:uHQZcPEOBpTb9j9t@aws-1-sa-east-1.pooler.supabase.com:5432/postgres
