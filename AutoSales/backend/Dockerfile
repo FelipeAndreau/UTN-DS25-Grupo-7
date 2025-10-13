@@ -10,7 +10,7 @@ COPY package*.json ./
 COPY prisma ./prisma/
 
 # Instalar todas las dependencias y generar Prisma Client
-RUN npm install && npx prisma generate
+RUN npm install --legacy-peer-deps && npx prisma generate
 
 # ================================
 # Contruir Aplicacion
@@ -25,7 +25,7 @@ COPY package*.json ./
 COPY tsconfig.json ./
 
 # Instalar todas las dependencias (incluyendo devDependencies)
-RUN npm ci
+RUN npm install --legacy-peer-deps
 
 # Copiar código fuente
 COPY src/ ./src/
