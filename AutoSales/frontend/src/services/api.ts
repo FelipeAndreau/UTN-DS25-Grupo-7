@@ -6,7 +6,7 @@ const getApiUrl = (): string => {
   }
   
   // En producción
-  return import.meta.env.VITE_API_PROD_URL || 'https://utn-ds25-grupo-7-apej.onrender.com/api';
+  return import.meta.env.VITE_API_PROD_URL || import.meta.env.VITE_API_BASE_URL || 'https://utn-ds25-grupo-7-apej.onrender.com/api';
 };
 
 const API_URL = getApiUrl();
