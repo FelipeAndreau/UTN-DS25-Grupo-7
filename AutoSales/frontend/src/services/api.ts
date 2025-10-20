@@ -1,12 +1,13 @@
 // Configuración dinámica de la API URL
+// Configuración dinámica de la API URL
 const getApiUrl = (): string => {
   // En desarrollo
   if (import.meta.env.DEV) {
-    return import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+    return import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
   }
   
-  // En producción
-  return import.meta.env.VITE_API_PROD_URL || import.meta.env.VITE_API_BASE_URL || 'https://utn-ds25-grupo-7-apej.onrender.com/api';
+  // En producción - URL fija para evitar problemas con variables de entorno
+  return 'https://utn-ds25-grupo-7-apej.onrender.com';
 };
 
 const API_URL = getApiUrl();
