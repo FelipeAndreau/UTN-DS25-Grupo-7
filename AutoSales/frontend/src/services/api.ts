@@ -7,7 +7,7 @@ const getApiUrl = (): string => {
   }
   
   // En producción - URL fija para evitar problemas con variables de entorno
-  return 'https://utn-ds25-grupo-7-apej.onrender.com';
+  return 'https://utn-ds25-grupo-7-apej.onrender.com/api';
 };
 
 const API_URL = getApiUrl();
