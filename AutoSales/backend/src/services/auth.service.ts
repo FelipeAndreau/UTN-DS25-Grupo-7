@@ -1,4 +1,5 @@
 // src/services/auth.service.ts
+
 import bcrypt from "bcrypt";
 import prisma from "../config/prisma";
 import { generateToken } from "../utils/jwt";

@@ -1,4 +1,5 @@
 // src/controllers/dashboard.controller.ts
+
 import { Request, Response } from "express";
 import { obtenerDashboardStats } from "../services/dashboard.service";
 import { LogsService } from "../services/logs.service";

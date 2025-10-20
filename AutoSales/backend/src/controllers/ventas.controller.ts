@@ -1,3 +1,5 @@
+// src/controllers/ventas.controller.ts
+
 import { Request, Response } from "express";
 import {
   listarVentas,

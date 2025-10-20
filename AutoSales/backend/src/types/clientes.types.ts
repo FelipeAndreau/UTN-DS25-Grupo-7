@@ -1,4 +1,5 @@
 // src/types/clientes.types.ts
+
 import { Cliente } from "@prisma/client";
 
 export type CreateClienteRequest = Omit<Cliente, "id" | "creadoEn" | "actualizadoEn">;

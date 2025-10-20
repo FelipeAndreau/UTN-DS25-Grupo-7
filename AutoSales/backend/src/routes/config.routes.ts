@@ -1,4 +1,5 @@
 // src/routes/config.routes.ts
+
 import { Router } from "express";
 import { getConfig, putConfig } from "../controllers/config.controller";
 

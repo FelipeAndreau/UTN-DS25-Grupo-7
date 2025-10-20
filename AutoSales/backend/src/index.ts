@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import prisma from "./config/prisma";
 import { swaggerUi, specs } from "./config/swagger";
 import authRoutes from "./routes/auth.routes";
 import dashboardRoutes from "./routes/dashboard.routes";
@@ -63,6 +62,7 @@ app.use("/api/ventas", authMiddleware, ventasRoutes);
 app.use("/api/logs", logsRoutes); // Logs ya tienen auth y role check internos
 
 // ====== MANEJO DE ERRORES ======
+
 // Manejo de rutas no encontradas
 app.use((req, res) => {
   res.status(404).json({ 

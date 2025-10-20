@@ -1,4 +1,5 @@
 // src/services/vehiculos.service.ts
+
 import prisma from "../config/prisma";
 import { Vehiculo } from "@prisma/client";
 import { CreateVehiculoRequest, UpdateVehiculoRequest } from "../types/vehiculos.types";

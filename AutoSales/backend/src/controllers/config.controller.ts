@@ -1,4 +1,5 @@
 // src/controllers/config.controller.ts
+
 import { Request, Response } from "express";
 import { obtenerConfiguracion, actualizarConfiguracion } from "../services/config.service";
 

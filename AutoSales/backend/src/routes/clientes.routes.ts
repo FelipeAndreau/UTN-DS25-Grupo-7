@@ -1,4 +1,5 @@
 // src/routes/clientes.routes.ts
+
 import { Router } from "express";
 import {
   getClientes,
@@ -6,7 +7,8 @@ import {
   putCliente,
   deleteCliente,
 } from "../controllers/clientes.controller";
-
+import { createClienteSchema, updateClienteSchema } from "../validations/cliente.validation";
+import { validate } from "../middlewares/validation.middleware";
 const router = Router();
 
 /**
@@ -53,7 +55,7 @@ router.get("/", getClientes);
  *       500:
  *         description: Error interno del servidor
  */
-router.post("/", postCliente);
+router.post("/", validate(createClienteSchema), postCliente);
 
 /**
  * @swagger
@@ -83,7 +85,7 @@ router.post("/", postCliente);
  *       500:
  *         description: Error interno del servidor
  */
-router.put("/:id", putCliente);
+router.put("/:id", validate(updateClienteSchema), putCliente);
 
 /**
  * @swagger

@@ -1,3 +1,5 @@
+// src/services/ventas.service.ts
+
 import prisma from "../config/prisma";
 import { Venta } from "@prisma/client";
 import { CreateVentaRequest, UpdateVentaRequest } from "../types/ventas.types";

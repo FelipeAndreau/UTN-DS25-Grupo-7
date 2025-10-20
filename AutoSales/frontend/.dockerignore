@@ -1,0 +1,101 @@
+# ================================
+# NODE.JS / NPM
+# ================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ================================
+# ARCHIVOS DE ENTORNO
+# ================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ================================
+# ARCHIVOS DE BUILD
+# ================================
+dist/
+build/
+.vite/
+.turbo/
+
+# ================================
+# ARCHIVOS DE SISTEMA
+# ================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ================================
+# EDITORES E IDEs
+# ================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ================================
+# GIT
+# ================================
+.git/
+.gitignore
+.gitattributes
+
+# ================================
+# TESTING
+# ================================
+coverage/
+.coverage
+.nyc_output
+jest_cache/
+
+# ================================
+# DESARROLLO
+# ================================
+.editorconfig
+.eslintrc*
+.prettierrc*
+# Mantener archivos de configuración necesarios para build
+# vite.config.ts
+# tsconfig*.json
+# postcss.config.js
+# tailwind.config.js
+
+# ================================
+# DOCKER
+# ================================
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# ================================
+# DOCUMENTACIÓN
+# ================================
+README.md
+CHANGELOG.md
+LICENSE
+*.md
+
+# ================================
+# ARCHIVOS TEMPORALES
+# ================================
+.tmp/
+temp/
+.cache/
+
+# ================================
+# REACT / VITE ESPECÍFICO
+# ================================
+.eslintcache
+.vite-cache/
+vite.config.ts.timestamp-*

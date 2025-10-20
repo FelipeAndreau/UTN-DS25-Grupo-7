@@ -1,0 +1,135 @@
+# Docker Compose - AutoSales Full Stack Application
+# ================================================
+
+# ================================
+# SERVICIOS
+# ================================
+services:
+  # --------------------------------
+  # BASE DE DATOS PostgreSQL
+  # --------------------------------
+  postgres:
+    image: postgres:15-alpine
+    container_name: autosales-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: autosales_db
+      POSTGRES_USER: autosales_user
+      POSTGRES_PASSWORD: autosales_password
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./AutoSales/backend/prisma/migrations:/docker-entrypoint-initdb.d/migrations:ro
+    networks:
+      - autosales-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U autosales_user -d autosales_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --------------------------------
+  # BACKEND API (Node.js + TypeScript)
+  # --------------------------------
+  backend:
+    build:
+      context: ./AutoSales/backend
+      dockerfile: Dockerfile
+      target: production
+    container_name: autosales-backend
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://autosales_user:autosales_password@postgres:5432/autosales_db
+      - DIRECT_URL=postgresql://autosales_user:autosales_password@postgres:5432/autosales_db
+      - JWT_SECRET=tu-jwt-secret-super-seguro-para-produccion-cambiar
+      - PORT=3000
+      - HOST=0.0.0.0
+      - CORS_ORIGIN=http://localhost:3000,http://frontend
+      - NETWORK_MODE=docker
+      - PRISMA_DISABLE_PREPARED_STATEMENTS=true
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./AutoSales/backend/prisma:/app/prisma:ro
+    networks:
+      - autosales-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    command: >
+      sh -c "
+        echo '🔄 Esperando que PostgreSQL esté listo...' &&
+        npx prisma migrate deploy &&
+        echo '✅ Migraciones aplicadas' &&
+        npx prisma generate &&
+        echo '🔧 Cliente Prisma generado' &&
+        npm start
+      "
+
+  # --------------------------------
+  # FRONTEND (React + Vite + Nginx)
+  # --------------------------------
+  frontend:
+    build:
+      context: ./AutoSales/frontend
+      dockerfile: Dockerfile
+      target: production
+      args:
+        - VITE_API_BASE_URL=http://localhost:3000
+        - VITE_NODE_ENV=production
+    container_name: autosales-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - autosales-network
+    depends_on:
+      - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # --------------------------------
+  # ADMINER (Opcional - Gestión de BD)
+  # --------------------------------
+  adminer:
+    image: adminer:latest
+    container_name: autosales-adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - autosales-network
+    depends_on:
+      - postgres
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+      ADMINER_DESIGN: nette
+
+# ================================
+# VOLÚMENES PERSISTENTES
+# ================================
+volumes:
+  postgres_data:
+    driver: local
+    name: autosales_postgres_data
+
+# ================================
+# REDES
+# ================================
+networks:
+  autosales-network:
+    driver: bridge
+    name: autosales-network

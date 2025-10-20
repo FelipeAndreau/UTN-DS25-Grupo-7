@@ -1,0 +1,65 @@
+# 📦 Node modules
+**/node_modules/
+
+# 🏗️ Build outputs
+**/dist/
+**/build/
+**/.vite/
+
+# 🧪 Test coverage
+**/coverage/
+
+# 🧾 Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ⚙️ TypeScript
+*.tsbuildinfo
+
+# 🌎 Environment variables
+.env
+.env.local
+.env.*.local
+
+# 🧠 IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.sublime-workspace
+*.sublime-project
+
+# 🖼️ OS-specific files
+.DS_Store
+Thumbs.db
+
+# 🧬 Prisma
+backend/prisma/migrations/
+backend/prisma/dev.db
+backend/src/generated/prisma/
+
+# 🧰 Supabase CLI
+backend/supabase/.temp/
+backend/supabase/migrations/
+backend/supabase/config.toml
+backend/supabase/docker/
+
+# 🐳 Docker
+*.db
+docker-compose.override.yml
+Dockerfile.local
+
+# 📸 Image previews or uploads
+frontend/public/images/tmp/
+backend/uploads/
+
+# 🧼 Cache folders
+**/.cache/
+**/.tmp/
+
+# 🔧 Editor backups
+*~ 
+*.bak
+*.orig
