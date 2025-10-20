@@ -8,6 +8,7 @@ declare global {
 
 // Usar una instancia global para evitar múltiples conexiones CAMBIO
 // Configurar la URL de la base de datos con parámetros optimizados para Render
+// Configurar la URL de la base de datos con parámetros optimizados para Render
 const getDatabaseUrl = () => {
   const baseUrl = process.env.DATABASE_URL;
   if (!baseUrl) return baseUrl;
@@ -19,8 +20,9 @@ const getDatabaseUrl = () => {
   
   // Agregar parámetros optimizados para Render + Supabase
   const separator = baseUrl.includes('?') ? '&' : '?';
-  return `${baseUrl}${separator}connection_limit=5&pool_timeout=20&connect_timeout=60`;
+  return `${baseUrl}${separator}connection_limit=3&pool_timeout=20&connect_timeout=30&pgbouncer=true&sslmode=require`;
 };
+ 
 
 const prisma = globalThis.prisma ?? new PrismaClient({
   log: ['error', 'warn'],
