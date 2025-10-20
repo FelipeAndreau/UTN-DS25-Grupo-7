@@ -4,7 +4,7 @@
 
 body {
   @apply bg-no-repeat bg-cover bg-center min-h-screen text-gray-800;
-  background-image: url("/wallpaper.png");
+  background-image: url("/images/fondos/wallpaper.png");
 }
 
 button {
