@@ -27,7 +27,9 @@ const PORT = parseInt(process.env.PORT || '3000', 10);
 
 // Middlewares globales
 app.use(cors());
-app.use(express.json());
+// Aumentar límite para imágenes base64 (10MB por defecto, 50MB para imágenes grandes)
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // 📚 Swagger Documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, {
