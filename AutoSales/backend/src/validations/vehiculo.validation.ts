@@ -15,11 +15,16 @@ export const createVehiculoSchema = z.object({
   precio: z.number().positive('El precio debe ser positivo'),
   estado: z.nativeEnum(EstadoVehiculo),
   imagen: z.string()
-    .trim()
-    .min(1, { message: 'La URL de imagen es requerida' })
-    .refine(val => /^https?:\/\/.+\..+/.test(val), {
-      message: 'URL de imagen inválida'
-    }),
+  .trim()
+  .min(1, { message: 'La imagen es requerida' })
+  .refine(val => {
+    // Permitir URLs HTTP/HTTPS o datos base64
+    const isUrl = /^https?:\/\/.+\..+/.test(val);
+    const isBase64 = /^data:image\/(jpeg|jpg|png|gif|webp);base64,/.test(val);
+    return isUrl || isBase64;
+  }, {
+    message: 'Debe ser una URL válida o imagen en base64'
+  }),
   descripcion: z.string().min(1, 'La descripción es requerida').max(300).trim()
 });
 
