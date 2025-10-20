@@ -71,6 +71,7 @@ app.use("/api/public/vehiculos", vehiculoRoutes);
 app.use("/api/public/reservas", reservasRoutes);
 
 // Health check
+// Health check para Render (sin /api)
 app.get("/health", (req, res) => {
   res.json({ 
     status: "OK", 
@@ -80,6 +81,15 @@ app.get("/health", (req, res) => {
   });
 });
 
+// Health check con /api (legacy)
+app.get("/api/health", (req, res) => {
+  res.json({ 
+    status: "OK", 
+    message: "AutoSales API funcionando correctamente", 
+    timestamp: new Date(),
+    version: "1.0.0"
+  });
+});
 // ====== RUTAS PROTEGIDAS ======
 app.use("/api/dashboard", authMiddleware, dashboardRoutes);
 app.use("/api/clientes", authMiddleware, clienteRoutes);
