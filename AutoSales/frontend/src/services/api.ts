@@ -1,5 +1,15 @@
-const API_URL = 'http://localhost:3000/api';
+// Configuración dinámica de la API URL
+const getApiUrl = (): string => {
+  // En desarrollo
+  if (import.meta.env.DEV) {
+    return import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+  }
+  
+  // En producción - URL de tu backend en Render
+  return 'https://utn-ds25-grupo-7-apej.onrender.com/api';
+};
 
+const API_URL = getApiUrl();
 // Auth
 export interface LoginRequest {
     email: string;
