@@ -26,7 +26,19 @@ const app = express();
 const PORT = parseInt(process.env.PORT || '3000', 10);
 
 // Middlewares globales
-app.use(cors());
+// Middlewares globales - CORS configurado para producción
+app.use(cors({
+  origin: [
+    'http://localhost:5173', // Desarrollo local
+    'http://localhost:3000', // Desarrollo local alternativo
+    'https://autosales-frontend.vercel.app', // Producción Vercel
+    'https://utn-ds25-grupo-7-frontend.vercel.app' // Frontend alternativo si existe
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 // Aumentar límite para imágenes base64 (10MB por defecto, 50MB para imágenes grandes)
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
