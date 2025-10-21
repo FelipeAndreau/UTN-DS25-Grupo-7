@@ -17,8 +17,8 @@ const GestionClientes = () => {
     nombre: "",
     email: "",
     telefono: "",
-    tipo: "Particular",
-    estado: "Activo",
+    tipo: "particular",
+    estado: "activo",
     actividad: "",
   });
 
@@ -175,11 +175,11 @@ const GestionClientes = () => {
             value={filtro.estado}
             onChange={(e) => setFiltro({ ...filtro, estado: e.target.value })}
           >
-            <option value="Todos">Estado</option>
-            <option value="Activo">Activo</option>
-            <option value="En_proceso">En proceso</option>
-            <option value="Financiamiento">Financiamiento</option>
-            <option value="Potencial">Potencial</option>
+            <option value="todos">Estado</option>
+            <option value="activo">Activo</option>
+            <option value="en_proceso">En proceso</option>
+            <option value="financiamiento">Financiamiento</option>
+            <option value="potencial">Potencial</option>
           </select>
           <select
             className="p-2 border border-gray-300 rounded-md"
@@ -187,8 +187,8 @@ const GestionClientes = () => {
             onChange={(e) => setFiltro({ ...filtro, tipo: e.target.value })}
           >
             <option value="Todos">Tipo</option>
-            <option value="Particular">Particular</option>
-            <option value="Empresa">Empresa</option>
+            <option value="particular">Particular</option>
+            <option value="empresa">Empresa</option>
           </select>
           <button
             className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
@@ -241,24 +241,24 @@ const GestionClientes = () => {
             <select
               value={nuevoCliente.tipo}
               onChange={(e) =>
-                setNuevoCliente({ ...nuevoCliente, tipo: e.target.value as 'Particular' | 'Empresa' })
+                setNuevoCliente({ ...nuevoCliente, tipo: e.target.value as 'particular' | 'empresa' })
               }
               className="p-2 border border-gray-300 rounded-md"
             >
-              <option value="Particular">Particular</option>
-              <option value="Empresa">Empresa</option>
+              <option value="particular">Particular</option>
+              <option value="empresa">Empresa</option>
             </select>
             <select
               value={nuevoCliente.estado}
               onChange={(e) =>
-                setNuevoCliente({ ...nuevoCliente, estado: e.target.value as 'Activo' | 'En_proceso' | 'Financiamiento' | 'Potencial' })
+                setNuevoCliente({ ...nuevoCliente, estado: e.target.value as 'activo' | 'en_proceso' | 'financiamiento' | 'potencial' })
               }
               className="p-2 border border-gray-300 rounded-md"
             >
-              <option value="Activo">Activo</option>
-              <option value="En_proceso">En proceso</option>
-              <option value="Financiamiento">Financiamiento</option>
-              <option value="Potencial">Potencial</option>
+              <option value="activo">Activo</option>
+              <option value="en_proceso">En proceso</option>
+              <option value="financiamiento">Financiamiento</option>
+              <option value="potencial">Potencial</option>
             </select>
             <button
               onClick={agregarCliente}
