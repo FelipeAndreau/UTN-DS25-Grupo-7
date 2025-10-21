@@ -3,16 +3,21 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "author": "Muhaz Ahmed",
+  "author": "Felipe",
   "scripts": {
+    "typecheck": "node node_modules/typescript/bin/tsc --noEmit",
+    "build": "npm run typecheck && node node_modules/vite/bin/vite.js build",
+    "vercel-build": "npm run build",
     "dev": "vite",
-    "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "react-scripts start"
+    "start": "npm run dev"
+  },
+  "engines": {
+    "node": "20.x",
+    "npm": "10.x"
   },
   "dependencies": {
-    "@types/react-router-dom": "^5.3.3",
     "axios": "^1.9.0",
     "chart.js": "^4.5.0",
     "react": "^18.3.1",
