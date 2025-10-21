@@ -17,7 +17,7 @@ const GestionClientes = () => {
     nombre: "",
     email: "",
     telefono: "",
-    tipo: "invididual",
+    tipo: "particular",
     estado: "activo",
     actividad: "",
   });
@@ -57,7 +57,7 @@ const GestionClientes = () => {
           nombre: "",
           email: "",
           telefono: "",
-          tipo: "invididual",
+          tipo: "particular",
           estado: "Activo",
           actividad: "",
         });
@@ -187,7 +187,7 @@ const GestionClientes = () => {
             onChange={(e) => setFiltro({ ...filtro, tipo: e.target.value })}
           >
             <option value="Todos">Tipo</option>
-            <option value="invididual">invididual</option>
+            <option value="particular">particular</option>
             <option value="empresa">empresa</option>
           </select>
           <button
@@ -241,11 +241,11 @@ const GestionClientes = () => {
             <select
               value={nuevoCliente.tipo}
               onChange={(e) =>
-                setNuevoCliente({ ...nuevoCliente, tipo: e.target.value as 'invididual' | 'empresa' })
+                setNuevoCliente({ ...nuevoCliente, tipo: e.target.value as 'particular' | 'empresa' })
               }
               className="p-2 border border-gray-300 rounded-md"
             >
-              <option value="invididual">invididual</option>
+              <option value="particular">particular</option>
               <option value="empresa">empresa</option>
             </select>
             <select
@@ -425,13 +425,13 @@ const GestionClientes = () => {
                 onChange={(e) =>
                   setClienteSeleccionado({
                     ...clienteSeleccionado,
-                    tipo: e.target.value as 'invididual' | 'empresa',
+                    tipo: e.target.value as 'particular' | 'empresa',
                   })
                 }
                 className="p-2 border border-gray-300 rounded-md w-full"
                 disabled={modalTipo === "ver"}
               >
-                <option value="invididual">invididual</option>
+                <option value="particular">particular</option>
                 <option value="empresa">empresa</option>
               </select>
             </div>
