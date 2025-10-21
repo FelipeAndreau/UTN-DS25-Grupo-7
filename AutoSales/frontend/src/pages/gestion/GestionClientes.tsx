@@ -17,7 +17,7 @@ const GestionClientes = () => {
     nombre: "",
     email: "",
     telefono: "",
-    tipo: "particular",
+    tipo: "invididual",
     estado: "activo",
     actividad: "",
   });
@@ -57,7 +57,7 @@ const GestionClientes = () => {
           nombre: "",
           email: "",
           telefono: "",
-          tipo: "Particular",
+          tipo: "invididual",
           estado: "Activo",
           actividad: "",
         });
@@ -187,8 +187,8 @@ const GestionClientes = () => {
             onChange={(e) => setFiltro({ ...filtro, tipo: e.target.value })}
           >
             <option value="Todos">Tipo</option>
-            <option value="particular">Particular</option>
-            <option value="empresa">Empresa</option>
+            <option value="invididual">invididual</option>
+            <option value="empresa">empresa</option>
           </select>
           <button
             className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
@@ -241,12 +241,12 @@ const GestionClientes = () => {
             <select
               value={nuevoCliente.tipo}
               onChange={(e) =>
-                setNuevoCliente({ ...nuevoCliente, tipo: e.target.value as 'particular' | 'empresa' })
+                setNuevoCliente({ ...nuevoCliente, tipo: e.target.value as 'invididual' | 'empresa' })
               }
               className="p-2 border border-gray-300 rounded-md"
             >
-              <option value="particular">Particular</option>
-              <option value="empresa">Empresa</option>
+              <option value="invididual">invididual</option>
+              <option value="empresa">empresa</option>
             </select>
             <select
               value={nuevoCliente.estado}
@@ -425,14 +425,14 @@ const GestionClientes = () => {
                 onChange={(e) =>
                   setClienteSeleccionado({
                     ...clienteSeleccionado,
-                    tipo: e.target.value as 'Particular' | 'Empresa',
+                    tipo: e.target.value as 'invididual' | 'empresa',
                   })
                 }
                 className="p-2 border border-gray-300 rounded-md w-full"
                 disabled={modalTipo === "ver"}
               >
-                <option value="Particular">Particular</option>
-                <option value="Empresa">Empresa</option>
+                <option value="invididual">invididual</option>
+                <option value="empresa">empresa</option>
               </select>
             </div>
             <div className="mb-5">
