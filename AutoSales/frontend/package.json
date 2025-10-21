@@ -5,15 +5,13 @@
   "type": "module",
   "author": "Felipe",
   "scripts": {
-  "typecheck": "node node_modules/typescript/bin/tsc --noEmit",
-  "build": "npm run typecheck && node node_modules/vite/bin/vite.js build",
-  "vercel-build": "npm run build",
-  "dev": "vite",
-  "lint": "eslint .",
-  "preview": "vite preview",
-  "start": "npm run dev"
-}
-
+    "typecheck": "node node_modules/typescript/bin/tsc --noEmit",
+    "build": "npm run typecheck && node node_modules/vite/bin/vite.js build",
+    "vercel-build": "npm run build",
+    "dev": "vite",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "start": "npm run dev"
   },
   "engines": {
     "node": "20.x",
