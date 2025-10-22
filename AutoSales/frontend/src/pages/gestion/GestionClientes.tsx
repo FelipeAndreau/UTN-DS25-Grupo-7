@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
-import { clientesService, Cliente } from "../../services/api";
+import { FaEye, FaEdit, FaTrash, FaCalendarAlt } from "react-icons/fa";
+import { clientesService, Cliente, reservasService, Reserva } from "../../services/api";
 
 const GestionClientes = () => {
   const [clientes, setClientes] = useState<Cliente[]>([]);
@@ -24,6 +24,10 @@ const GestionClientes = () => {
 
   const [clienteSeleccionado, setClienteSeleccionado] = useState<Cliente | null>(null);
   const [modalTipo, setModalTipo] = useState(""); // "ver" o "editar"
+
+  const [reservasCliente, setReservasCliente] = useState<Reserva[]>([]);
+  const [modalReservas, setModalReservas] = useState(false);
+  const [cargandoReservas, setCargandoReservas] = useState(false);
 
   // Cargar clientes al montar el componente
   useEffect(() => {
@@ -114,6 +118,27 @@ const GestionClientes = () => {
   const cerrarModal = () => {
     setClienteSeleccionado(null);
     setModalTipo("");
+  };
+
+  const verReservasCliente = async (cliente: Cliente) => {
+    if (!cliente.id) return;
+    
+    setCargandoReservas(true);
+    setModalReservas(true);
+    try {
+      const reservas = await reservasService.getByCliente(cliente.id);
+      setReservasCliente(reservas);
+    } catch (error) {
+      console.error('Error al cargar reservas del cliente:', error);
+      alert('Error al cargar las reservas del cliente');
+    } finally {
+      setCargandoReservas(false);
+    }
+  };
+
+  const cerrarModalReservas = () => {
+    setModalReservas(false);
+    setReservasCliente([]);
   };
 
   const guardarCambios = async () => {
@@ -341,6 +366,13 @@ const GestionClientes = () => {
                       onClick={() => abrirModal(cliente, "editar")}
                     >
                       <FaEdit />
+                    </button>
+                    <button
+                      className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                      onClick={() => verReservasCliente(cliente)}
+                      title="Ver reservas"
+                    >
+                      <FaCalendarAlt />
                     </button>
                     <button
                       className="p-2 bg-red-500 text-white rounded-md hover:bg-red-600"
