@@ -44,24 +44,38 @@ export const crearReserva = async (req: Request, res: Response) => {
 
       if (!cliente) {
         console.log("👤 Creando cliente vinculado a usuario real");
-        // Obtener nombre real del usuario
-        const usuarioDb = await prisma.usuario.findUnique({ where: { id: req.user.id } });
+        // Para usuarios viewer, no vincular a usuario ya que no existe en DB
+        if (req.user.rol === 'viewer') {
+          cliente = await prisma.cliente.create({
+            data: {
+              nombre: "Usuario Viewer",
+              email: req.user.email,
+              telefono: "No especificado",
+              tipo: "Particular",
+              estado: "Activo",
+              actividad: "Compra de vehículo"
+            }
+          });
+        } else {
+          // Obtener nombre real del usuario
+          const usuarioDb = await prisma.usuario.findUnique({ where: { id: req.user.id } });
 
-        cliente = await prisma.cliente.create({
-          data: {
-            nombre: usuarioDb?.nombre || "Usuario",
-            email: req.user.email,
-            telefono: "No especificado",
-            tipo: "Particular",
-            estado: "Activo",
-            actividad: "Compra de vehículo",
-            usuarioId: req.user.id
-          }
-        });
+          cliente = await prisma.cliente.create({
+            data: {
+              nombre: usuarioDb?.nombre || "Usuario",
+              email: req.user.email,
+              telefono: "No especificado",
+              tipo: "Particular",
+              estado: "Activo",
+              actividad: "Compra de vehículo",
+              usuarioId: req.user.id
+            }
+          });
+        }
         console.log("✅ Cliente creado y vinculado (usuarioId):", cliente.id);
       } else {
-        // Si cliente existe pero no tiene usuarioId y corresponde al email, vincularlo
-        if (!cliente.usuarioId) {
+        // Si cliente existe pero no tiene usuarioId y corresponde al email, vincularlo (solo si no es viewer)
+        if (!cliente.usuarioId && req.user.rol !== 'viewer') {
           await prisma.cliente.update({
             where: { id: cliente.id },
             data: { usuarioId: req.user.id }
