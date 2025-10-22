@@ -12,14 +12,8 @@ export const createClienteSchema = z.object({
     message: 'Email inválido'
   }),
   telefono: z.string().min(6, 'Teléfono inválido').max(20),
-  tipo: z.enum(TipoCliente)
-    .refine(val => Object.values(TipoCliente).includes(val), {
-      message: 'Tipo de cliente inválido'
-    }),
-  estado: z.enum(EstadoCliente)
-    .refine(val => Object.values(EstadoCliente).includes(val), {
-      message: 'Estado de cliente inválido'
-    }),
+  tipo: z.nativeEnum(TipoCliente),
+  estado: z.nativeEnum(EstadoCliente),
   actividad: z.string().min(1, 'La actividad es requerida').max(200).trim(),
   usuarioId: z.string()
   .refine(val => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(val), {
