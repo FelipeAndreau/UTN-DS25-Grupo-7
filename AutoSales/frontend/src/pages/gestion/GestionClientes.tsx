@@ -17,8 +17,8 @@ const GestionClientes = () => {
     nombre: "",
     email: "",
     telefono: "",
-    tipo: "particular",
-    estado: "activo",
+    tipo: "Particular",
+    estado: "Activo",
     actividad: "",
   });
 
@@ -57,8 +57,8 @@ const GestionClientes = () => {
           nombre: "",
           email: "",
           telefono: "",
-          tipo: "particular",
-          estado: "activo",
+          tipo: "Particular",
+          estado: "Activo",
           actividad: "",
         });
         await cargarClientes(); // Recargar la lista
