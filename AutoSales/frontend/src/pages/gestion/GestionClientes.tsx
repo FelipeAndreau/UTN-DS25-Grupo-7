@@ -63,9 +63,15 @@ const GestionClientes = () => {
         });
         await cargarClientes(); // Recargar la lista
         alert("Cliente agregado exitosamente");
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error al agregar cliente:', error);
-        alert("Error al agregar el cliente");
+        let errorMessage = "Error al agregar el cliente";
+        if (error.message && error.message.includes("Unique constraint failed")) {
+          errorMessage = "El email ya está registrado. Usa un email diferente.";
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
+        alert(errorMessage);
       }
     } else {
       alert("Por favor, completa todos los campos antes de agregar un cliente.");
@@ -121,9 +127,15 @@ const GestionClientes = () => {
       await cargarClientes(); // Recargar la lista
       cerrarModal();
       alert("Cliente actualizado exitosamente");
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error al actualizar cliente:', error);
-      alert("Error al actualizar el cliente");
+      let errorMessage = "Error al actualizar el cliente";
+      if (error.message && error.message.includes("Unique constraint failed")) {
+        errorMessage = "El email ya está registrado. Usa un email diferente.";
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      alert(errorMessage);
     }
   };
 
@@ -176,10 +188,10 @@ const GestionClientes = () => {
             onChange={(e) => setFiltro({ ...filtro, estado: e.target.value })}
           >
             <option value="todos">Estado</option>
-            <option value="activo">Activo</option>
-            <option value="en_proceso">En proceso</option>
-            <option value="financiamiento">Financiamiento</option>
-            <option value="potencial">Potencial</option>
+            <option value="Activo">Activo</option>
+            <option value="En_proceso">En proceso</option>
+            <option value="Financiamiento">Financiamiento</option>
+            <option value="Potencial">Potencial</option>
           </select>
           <select
             className="p-2 border border-gray-300 rounded-md"
@@ -187,8 +199,8 @@ const GestionClientes = () => {
             onChange={(e) => setFiltro({ ...filtro, tipo: e.target.value })}
           >
             <option value="Todos">Tipo</option>
-            <option value="particular">particular</option>
-            <option value="empresa">empresa</option>
+            <option value="Particular">Particular</option>
+            <option value="Empresa">Empresa</option>
           </select>
           <button
             className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
@@ -241,24 +253,24 @@ const GestionClientes = () => {
             <select
               value={nuevoCliente.tipo}
               onChange={(e) =>
-                setNuevoCliente({ ...nuevoCliente, tipo: e.target.value as 'particular' | 'empresa' })
+                setNuevoCliente({ ...nuevoCliente, tipo: e.target.value as 'Particular' | 'Empresa' })
               }
               className="p-2 border border-gray-300 rounded-md"
             >
-              <option value="particular">particular</option>
-              <option value="empresa">empresa</option>
+              <option value="Particular">Particular</option>
+              <option value="Empresa">Empresa</option>
             </select>
             <select
               value={nuevoCliente.estado}
               onChange={(e) =>
-                setNuevoCliente({ ...nuevoCliente, estado: e.target.value as 'activo' | 'en_proceso' | 'financiamiento' | 'potencial' })
+                setNuevoCliente({ ...nuevoCliente, estado: e.target.value as 'Activo' | 'En_proceso' | 'Financiamiento' | 'Potencial' })
               }
               className="p-2 border border-gray-300 rounded-md"
             >
-              <option value="activo">Activo</option>
-              <option value="en_proceso">En proceso</option>
-              <option value="financiamiento">Financiamiento</option>
-              <option value="potencial">Potencial</option>
+              <option value="Activo">Activo</option>
+              <option value="En_proceso">En proceso</option>
+              <option value="Financiamiento">Financiamiento</option>
+              <option value="Potencial">Potencial</option>
             </select>
             <button
               onClick={agregarCliente}
@@ -425,14 +437,14 @@ const GestionClientes = () => {
                 onChange={(e) =>
                   setClienteSeleccionado({
                     ...clienteSeleccionado,
-                    tipo: e.target.value as 'particular' | 'empresa',
+                    tipo: e.target.value as 'Particular' | 'Empresa',
                   })
                 }
                 className="p-2 border border-gray-300 rounded-md w-full"
                 disabled={modalTipo === "ver"}
               >
-                <option value="particular">particular</option>
-                <option value="empresa">empresa</option>
+                <option value="Particular">Particular</option>
+                <option value="Empresa">Empresa</option>
               </select>
             </div>
             <div className="mb-5">
