@@ -58,7 +58,7 @@ const GestionClientes = () => {
           email: "",
           telefono: "",
           tipo: "particular",
-          estado: "Activo",
+          estado: "activo",
           actividad: "",
         });
         await cargarClientes(); // Recargar la lista
@@ -442,16 +442,16 @@ const GestionClientes = () => {
                 onChange={(e) =>
                   setClienteSeleccionado({
                     ...clienteSeleccionado,
-                    estado: e.target.value as 'Activo' | 'En_proceso' | 'Financiamiento' | 'Potencial',
+                    estado: e.target.value as 'activo' | 'en_proceso' | 'financiamiento' | 'potencial',
                   })
                 }
                 className="p-2 border border-gray-300 rounded-md w-full"
                 disabled={modalTipo === "ver"}
               >
-                <option value="Activo">Activo</option>
-                <option value="En_proceso">En proceso</option>
-                <option value="Financiamiento">Financiamiento</option>
-                <option value="Potencial">Potencial</option>
+                <option value="activo">Activo</option>
+                <option value="en_proceso">En proceso</option>
+                <option value="financiamiento">Financiamiento</option>
+                <option value="potencial">Potencial</option>
               </select>
             </div>
             <div className="flex justify-end gap-2">
