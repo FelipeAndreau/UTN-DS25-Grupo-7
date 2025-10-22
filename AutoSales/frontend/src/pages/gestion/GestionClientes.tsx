@@ -123,13 +123,17 @@ const GestionClientes = () => {
   const verReservasCliente = async (cliente: Cliente) => {
     if (!cliente.id) return;
     
+    console.log('🔍 Abriendo modal de reservas para cliente:', cliente.id, cliente.nombre);
     setCargandoReservas(true);
     setModalReservas(true);
     try {
+      console.log('📡 Llamando reservasService.getByCliente con ID:', cliente.id);
       const reservas = await reservasService.getByCliente(cliente.id);
+      console.log('✅ Respuesta del servicio getByCliente:', reservas);
+      console.log('📊 Número de reservas recibidas:', reservas.length);
       setReservasCliente(reservas);
     } catch (error) {
-      console.error('Error al cargar reservas del cliente:', error);
+      console.error('❌ Error al cargar reservas del cliente:', error);
       alert('Error al cargar las reservas del cliente');
     } finally {
       setCargandoReservas(false);
@@ -513,6 +517,54 @@ const GestionClientes = () => {
                   Guardar Cambios
                 </button>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Reservas */}
+      {modalReservas && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-5 rounded-lg shadow-lg w-[90%] max-w-4xl max-h-[80vh] overflow-y-auto">
+            <h3 className="text-lg font-bold mb-3">Reservas del Cliente</h3>
+            
+            {cargandoReservas ? (
+              <p className="text-center">Cargando reservas...</p>
+            ) : reservasCliente.length === 0 ? (
+              <p className="text-center text-gray-500">Este cliente no tiene reservas</p>
+            ) : (
+              <div className="space-y-4">
+                {reservasCliente.map((reserva) => (
+                  <div key={reserva.id} className="border border-gray-300 rounded-lg p-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="font-semibold">Vehículo</h4>
+                        <p>{reserva.vehiculo?.marca} {reserva.vehiculo?.modelo} {reserva.vehiculo?.anio}</p>
+                        <p className="text-sm text-gray-600">Precio: ${reserva.vehiculo?.precio?.toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold">Detalles de la Reserva</h4>
+                        <p>Fecha de visita: {reserva.fechaVisita ? new Date(reserva.fechaVisita).toLocaleDateString() : 'No especificada'}</p>
+                        <p>Estado: <span className={`px-2 py-1 rounded-full text-white text-xs ${
+                          reserva.estado === 'Activa' ? 'bg-green-500' : 
+                          reserva.estado === 'Cancelada' ? 'bg-red-500' : 
+                          'bg-gray-500'
+                        }`}>{reserva.estado}</span></p>
+                        {reserva.fecha && <p>Creada: {new Date(reserva.fecha).toLocaleDateString()}</p>}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={cerrarModalReservas}
+                className="p-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+              >
+                Cerrar
+              </button>
             </div>
           </div>
         </div>
