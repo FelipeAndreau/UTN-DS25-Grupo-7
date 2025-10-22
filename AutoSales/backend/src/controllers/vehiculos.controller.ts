@@ -20,6 +20,11 @@ export const getVehiculos = async (req: Request, res: Response) => {
     // Aplicar filtros si se proporcionan
     let vehiculosFiltrados = vehiculos;
     
+    // Para rutas públicas, solo mostrar vehículos disponibles
+    if (req.originalUrl.includes('/public/')) {
+      vehiculosFiltrados = vehiculosFiltrados.filter(v => v.estado === 'Disponible');
+    }
+    
     if (estado) {
       vehiculosFiltrados = vehiculosFiltrados.filter(v => v.estado === estado);
     }
