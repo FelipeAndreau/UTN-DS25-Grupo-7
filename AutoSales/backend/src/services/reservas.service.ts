@@ -144,7 +144,8 @@ export const listarReservasCliente = async (clienteId: string): Promise<ReservaR
   return prisma.reserva.findMany({
     where: { clienteId },
     include: {
-      vehiculo: true
+      vehiculo: true,
+      cliente: true
     }
   })
 };
