@@ -212,7 +212,7 @@ const Dashboard = () => {
                           cx="50%"
                           cy="50%"
                           labelLine={false}
-                          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                          label={({ name, percent }) => percent > 0.05 ? `${name}\n${(percent * 100).toFixed(0)}%` : ''}
                           outerRadius={80}
                           fill="#8884d8"
                           dataKey="value"
@@ -221,7 +221,7 @@ const Dashboard = () => {
                             <Cell key={`cell-${index}`} fill={["#4CAF50", "#FFC107", "#F44336", "#2196F3"][index % 4]} />
                           ))}
                         </Pie>
-                        <Tooltip />
+                        <Tooltip formatter={(value) => [`${value} clientes`, 'Cantidad']} />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
@@ -235,7 +235,7 @@ const Dashboard = () => {
                           cx="50%"
                           cy="50%"
                           labelLine={false}
-                          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                          label={({ name, percent }) => percent > 0.05 ? `${name}\n${(percent * 100).toFixed(0)}%` : ''}
                           outerRadius={80}
                           fill="#8884d8"
                           dataKey="value"
@@ -244,7 +244,7 @@ const Dashboard = () => {
                             <Cell key={`cell-${index}`} fill={["#4CAF50", "#FFC107", "#F44336"][index % 3]} />
                           ))}
                         </Pie>
-                        <Tooltip />
+                        <Tooltip formatter={(value) => [`${value} vehículos`, 'Cantidad']} />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
