@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
-import { Bar, Pie } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
   Tooltip,
   Legend,
-  ArcElement,
-} from "chart.js";
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell
+} from "recharts";
 import { FaUsers, FaCar, FaChartPie, FaCog, FaHome, FaCalendarAlt, FaSignOutAlt, FaList } from "react-icons/fa";
 import { dashboardService, DashboardStats, logsService, LogEvento } from "../../services/api";
 import { useAuth } from "../../context/AuthContext";
@@ -30,16 +32,6 @@ import GestionVehiculos from "../gestion/GestionVehiculos";
 import Reportes from "../reportes/Reportes";
 import Configuracion from "../../components/Configuracion";
 import VentasAdmin from '../gestion/VentasAdmin';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement
-);
 
 const Dashboard = () => {
   const [seccionActiva, setSeccionActiva] = useState<string>("dashboard");
@@ -84,42 +76,30 @@ const Dashboard = () => {
   };
 
   // Datos para los gráficos usando estadísticas reales
-  const ventasPorMes = {
-    labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-    datasets: [
-      {
-        label: "Ventas ($)",
-        data: stats?.ventasMensuales || Array(12).fill(0),
-        backgroundColor: "rgba(54, 162, 235, 0.6)",
-        borderColor: "rgba(54, 162, 235, 1)",
-        borderWidth: 1,
-      },
-    ],
-  };
+  const ventasPorMes = [
+    { name: "Enero", ventas: stats?.ventasMensuales?.[0] || 0 },
+    { name: "Febrero", ventas: stats?.ventasMensuales?.[1] || 0 },
+    { name: "Marzo", ventas: stats?.ventasMensuales?.[2] || 0 },
+    { name: "Abril", ventas: stats?.ventasMensuales?.[3] || 0 },
+    { name: "Mayo", ventas: stats?.ventasMensuales?.[4] || 0 },
+    { name: "Junio", ventas: stats?.ventasMensuales?.[5] || 0 },
+    { name: "Julio", ventas: stats?.ventasMensuales?.[6] || 0 },
+    { name: "Agosto", ventas: stats?.ventasMensuales?.[7] || 0 },
+    { name: "Septiembre", ventas: stats?.ventasMensuales?.[8] || 0 },
+    { name: "Octubre", ventas: stats?.ventasMensuales?.[9] || 0 },
+    { name: "Noviembre", ventas: stats?.ventasMensuales?.[10] || 0 },
+    { name: "Diciembre", ventas: stats?.ventasMensuales?.[11] || 0 }
+  ];
 
-  const clientesPorEstado = {
-    labels: Object.keys(stats?.clientesPorEstado || {}),
-    datasets: [
-      {
-        label: "Clientes",
-        data: Object.values(stats?.clientesPorEstado || {}),
-        backgroundColor: ["#4CAF50", "#FFC107", "#F44336", "#2196F3"],
-      },
-    ],
-  };
+  const clientesPorEstado = Object.entries(stats?.clientesPorEstado || {}).map(([estado, cantidad]) => ({
+    name: estado,
+    value: cantidad as number
+  }));
 
-  const vehiculosData = {
-    labels: Object.keys(stats?.vehiculosPorEstado || {}),
-    datasets: [
-      {
-        label: "Vehículos",
-        data: Object.values(stats?.vehiculosPorEstado || {}),
-        backgroundColor: ["#4CAF50", "#FFC107", "#F44336"],
-        borderColor: ["#4CAF50", "#FFC107", "#F44336"],
-        borderWidth: 1,
-      },
-    ],
-  };
+  const vehiculosData = Object.entries(stats?.vehiculosPorEstado || {}).map(([estado, cantidad]) => ({
+    name: estado,
+    value: cantidad as number
+  }));
 
   return (
     <div className={`flex h-screen ${tema === "oscuro" ? "bg-gray-800 text-white" : "bg-gray-100 text-black"}`}>
@@ -211,17 +191,62 @@ const Dashboard = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   <div className="bg-white p-6 rounded-lg shadow-md">
                     <h3 className="text-lg font-semibold mb-4">Ventas Mensuales</h3>
-                    <Bar data={ventasPorMes} />
+                    <ResponsiveContainer width="100%" height={300}>
+                      <BarChart data={ventasPorMes}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="ventas" fill="#8884d8" />
+                      </BarChart>
+                    </ResponsiveContainer>
                   </div>
                   
                   <div className="bg-white p-6 rounded-lg shadow-md">
                     <h3 className="text-lg font-semibold mb-4">Clientes por Estado</h3>
-                    <Pie data={clientesPorEstado} />
+                    <ResponsiveContainer width="100%" height={300}>
+                      <PieChart>
+                        <Pie
+                          data={clientesPorEstado}
+                          cx="50%"
+                          cy="50%"
+                          labelLine={false}
+                          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                          outerRadius={80}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {clientesPorEstado.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={["#4CAF50", "#FFC107", "#F44336", "#2196F3"][index % 4]} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                      </PieChart>
+                    </ResponsiveContainer>
                   </div>
                   
                   <div className="bg-white p-6 rounded-lg shadow-md">
                     <h3 className="text-lg font-semibold mb-4">Estado de Vehículos</h3>
-                    <Pie data={vehiculosData} />
+                    <ResponsiveContainer width="100%" height={300}>
+                      <PieChart>
+                        <Pie
+                          data={vehiculosData}
+                          cx="50%"
+                          cy="50%"
+                          labelLine={false}
+                          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                          outerRadius={80}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {vehiculosData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={["#4CAF50", "#FFC107", "#F44336"][index % 3]} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                      </PieChart>
+                    </ResponsiveContainer>
                   </div>
                 </div>
 
