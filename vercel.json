@@ -1,5 +1,0 @@
-{
-  "installCommand": "npm install --prefix AutoSales/frontend",
-  "buildCommand": "npm run build --prefix AutoSales/frontend",
-  "outputDirectory": "AutoSales/frontend/dist"
-}
