@@ -71,6 +71,27 @@ export const agruparClientesPorEstado = async (): Promise<Record<string, number>
   }
 };
 
+export const agruparVehiculosPorEstado = async (): Promise<Record<string, number>> => {
+  try {
+    const vehiculos = await prisma.vehiculo.groupBy({
+      by: ['estado'],
+      _count: {
+        estado: true
+      }
+    });
+
+    const resultado: Record<string, number> = {};
+    vehiculos.forEach((vehiculo: any) => {
+      resultado[vehiculo.estado] = vehiculo._count.estado;
+    });
+
+    return resultado;
+  } catch (error) {
+    console.error("Error agrupando vehículos por estado:", error);
+    return {};
+  }
+};
+
 export const contarVentas = async (): Promise<number> => {
   try {
     const count = await prisma.venta.count();
