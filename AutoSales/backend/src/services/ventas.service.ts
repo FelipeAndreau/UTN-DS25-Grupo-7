@@ -84,9 +84,9 @@ export async function registrarVenta(data: CreateVentaRequest): Promise<Venta> {
     throw error;
   }
 
-  // Validar que el vehículo esté reservado (no disponible ni vendido)
-  if (vehiculo.estado !== "Reservado") {
-    const error = new Error(`No se puede vender un vehículo en estado '${vehiculo.estado}'. El vehículo debe estar reservado primero.`);
+  // Validar que el vehículo esté disponible o reservado (no vendido)
+  if (vehiculo.estado === "Vendido") {
+    const error = new Error(`No se puede vender un vehículo que ya está vendido.`);
     (error as any).statusCode = 400;
     throw error;
   }
@@ -98,6 +98,13 @@ export async function registrarVenta(data: CreateVentaRequest): Promise<Venta> {
       monto: data.monto,
       fecha: data.fecha ?? new Date(),
     },
+  }).then(async (venta: Venta) => {
+    // Actualizar el estado del vehículo a "Vendido"
+    await prisma.vehiculo.update({
+      where: { id: data.vehiculoId },
+      data: { estado: "Vendido" },
+    });
+    return venta;
   });
 }
 
