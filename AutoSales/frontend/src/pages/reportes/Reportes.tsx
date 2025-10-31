@@ -16,12 +16,7 @@ import {
   Paper,
   Chip,
   CircularProgress,
-  Alert,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  SelectChangeEvent
+  Alert
 } from "@mui/material";
 import {
   LineChart,

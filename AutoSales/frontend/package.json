@@ -18,11 +18,10 @@
     "npm": "10.x"
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "^6.4.7",
-    "@mui/material": "^6.4.7",
-    "@mui/x-charts": "^7.27.2",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.0",
+    "@mui/icons-material": "^5.14.0",
     "axios": "^1.9.0",
     "chart.js": "^4.5.0",
     "react": "^18.3.1",
@@ -36,10 +35,10 @@
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.13.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/react-slick": "^0.23.13",
+    "@eslint/js": "^9.13.0",
     "@vitejs/plugin-react": "^5.0.2",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.13.0",
