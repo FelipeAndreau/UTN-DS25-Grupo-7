@@ -58,6 +58,27 @@ const GestionVehiculos = () => {
     }
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const fileArray = Array.from(files) as File[];
+      const readers = fileArray.map(file => {
+        return new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.readAsDataURL(file);
+        });
+      });
+
+      Promise.all(readers).then(base64Images => {
+        setNuevoVehiculo({
+          ...nuevoVehiculo,
+          imagen: JSON.stringify(base64Images)
+        });
+      });
+    }
+  };
+
   const agregarVehiculo = async () => {
     if (
       nuevoVehiculo.marca &&
