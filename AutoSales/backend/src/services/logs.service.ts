@@ -10,6 +10,19 @@ const generarId = (): string => {
 // Array en memoria para almacenar los logs (append-only)
 const logEventos: LogEvento[] = [];
 
+// Elimina entradas anteriores al inicio del día corriente para mantener solo la actividad diaria
+const limpiarLogsExpirados = (): void => {
+  const inicioDeHoy = new Date();
+  inicioDeHoy.setHours(0, 0, 0, 0);
+
+  for (let i = logEventos.length - 1; i >= 0; i -= 1) {
+    const fechaLog = new Date(logEventos[i].timestampISO);
+    if (isNaN(fechaLog.getTime()) || fechaLog < inicioDeHoy) {
+      logEventos.splice(i, 1);
+    }
+  }
+};
+
 export class LogsService {
   
   /**
@@ -21,6 +34,8 @@ export class LogsService {
     contexto: LogEvento["contexto"],
     mensaje: string
   ): LogEvento {
+    limpiarLogsExpirados();
+
     const logEvento: LogEvento = {
       id: generarId(),
       tipo,
@@ -42,6 +57,7 @@ export class LogsService {
    * Obtiene todos los logs (para Admin → Reportes)
    */
   static obtenerTodosLosLogs(): LogEvento[] {
+    limpiarLogsExpirados();
     return [...logEventos]; // Retorna copia para evitar mutaciones
   }
 
