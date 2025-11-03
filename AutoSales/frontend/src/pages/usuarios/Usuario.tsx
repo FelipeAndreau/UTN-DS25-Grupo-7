@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Slider from "react-slick";
 import { FaHome, FaCar, FaUser, FaCog, FaCalendarAlt, FaWhatsapp } from "react-icons/fa";
+import CalendarModal from "../../components/CalendarModal";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -10,6 +11,7 @@ const Usuario = () => {
   const [filtroModelo, setFiltroModelo] = useState("");
   const [fechaVisita, setFechaVisita] = useState("");
   const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState<string | null>(null);
+  const [modalAbierto, setModalAbierto] = useState(false);
   const [usuario, setUsuario] = useState({
     nombre: "Juan Pérez",
     email: "juan.perez@email.com",
@@ -76,6 +78,7 @@ const Usuario = () => {
 
   const handleReservar = (vehiculoId: string) => {
     setVehiculoSeleccionado(vehiculoId);
+    setModalAbierto(true);
   };
 
   const confirmarReserva = () => {
@@ -112,12 +115,19 @@ const Usuario = () => {
 
       alert("Reserva realizada con éxito. Se abrirá WhatsApp para confirmar tu visita.");
       
-      // Limpiar selección
+      // Limpiar estado
       setVehiculoSeleccionado(null);
       setFechaVisita("");
+      setModalAbierto(false);
     } else {
       alert("Este vehículo no está disponible para reservar.");
     }
+  };
+
+  const cerrarModal = () => {
+    setModalAbierto(false);
+    setVehiculoSeleccionado(null);
+    setFechaVisita("");
   };
 
   const handleCancelarReserva = (reservaId: string) => {
