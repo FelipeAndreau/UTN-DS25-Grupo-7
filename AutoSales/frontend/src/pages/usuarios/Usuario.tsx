@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Slider from "react-slick";
-import { FaHome, FaCar, FaUser, FaCog, FaCalendarAlt } from "react-icons/fa";
+import { FaHome, FaCar, FaUser, FaCog, FaCalendarAlt, FaWhatsapp } from "react-icons/fa";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -8,6 +8,8 @@ const Usuario = () => {
   const [seccionActiva, setSeccionActiva] = useState("inicio");
   const [filtroMarca, setFiltroMarca] = useState("");
   const [filtroModelo, setFiltroModelo] = useState("");
+  const [fechaVisita, setFechaVisita] = useState("");
+  const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState<string | null>(null);
   const [usuario, setUsuario] = useState({
     nombre: "Juan Pérez",
     email: "juan.perez@email.com",
@@ -73,25 +75,46 @@ const Usuario = () => {
   };
 
   const handleReservar = (vehiculoId: string) => {
-    const vehiculo = vehiculos.find((v) => v.id === vehiculoId);
+    setVehiculoSeleccionado(vehiculoId);
+  };
+
+  const confirmarReserva = () => {
+    if (!vehiculoSeleccionado || !fechaVisita) {
+      alert("Por favor selecciona una fecha para la visita.");
+      return;
+    }
+
+    const vehiculo = vehiculos.find((v) => v.id === vehiculoSeleccionado);
     if (vehiculo && vehiculo.estado === "Disponible") {
       setReservas((prevReservas) => [
         ...prevReservas,
         {
           id: `RS-${Math.floor(Math.random() * 10000)}`,
           vehiculo: `${vehiculo.marca} ${vehiculo.modelo}`,
-          fecha: new Date().toISOString().split("T")[0],
+          fecha: fechaVisita,
           estado: "Activa",
         },
       ]);
 
       setVehiculos((prevVehiculos) =>
         prevVehiculos.map((v) =>
-          v.id === vehiculoId ? { ...v, estado: "Reservado" } : v
+          v.id === vehiculoSeleccionado ? { ...v, estado: "Reservado" } : v
         )
       );
 
-      alert("Reserva realizada con éxito.");
+      // Crear mensaje para WhatsApp
+      const mensaje = `Hola! Me gustaría agendar una visita al concesionario para ver el vehículo ${vehiculo.marca} ${vehiculo.modelo} el día ${fechaVisita}. ¿Podrían confirmarme la disponibilidad?`;
+      const numeroWhatsApp = "5492216335590"; // Número del concesionario
+      const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+      
+      // Abrir WhatsApp
+      window.open(urlWhatsApp, '_blank');
+
+      alert("Reserva realizada con éxito. Se abrirá WhatsApp para confirmar tu visita.");
+      
+      // Limpiar selección
+      setVehiculoSeleccionado(null);
+      setFechaVisita("");
     } else {
       alert("Este vehículo no está disponible para reservar.");
     }
@@ -247,12 +270,44 @@ const Usuario = () => {
                     <p className="text-sm text-gray-500 mb-2">{vehiculo.descripcion}</p>
                     <p className="text-sm text-gray-500">Estado: {vehiculo.estado}</p>
                     {vehiculo.estado === "Disponible" && (
-                      <button
-                        onClick={() => handleReservar(vehiculo.id)}
-                        className="mt-3 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                      >
-                        Reservar
-                      </button>
+                      <div className="mt-3 w-full">
+                        {vehiculoSeleccionado === vehiculo.id ? (
+                          <div className="space-y-2">
+                            <input
+                              type="date"
+                              value={fechaVisita}
+                              onChange={(e) => setFechaVisita(e.target.value)}
+                              min={new Date().toISOString().split('T')[0]}
+                              className="w-full p-2 border border-gray-300 rounded-md"
+                              placeholder="Selecciona fecha de visita"
+                            />
+                            <div className="flex gap-2">
+                              <button
+                                onClick={confirmarReserva}
+                                className="flex-1 p-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center gap-1"
+                              >
+                                📱 Confirmar por WhatsApp
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setVehiculoSeleccionado(null);
+                                  setFechaVisita("");
+                                }}
+                                className="px-3 p-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+                              >
+                                Cancelar
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => handleReservar(vehiculo.id)}
+                            className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                          >
+                            Reservar
+                          </button>
+                        )}
+                      </div>
                     )}
                   </div>
                 ))}
