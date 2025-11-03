@@ -146,6 +146,94 @@ const VentasAdmin = () => {
     return vehiculo ? `${vehiculo.marca} ${vehiculo.modelo}` : 'Vehículo no encontrado';
   };
 
+  const handlePrintInvoice = (venta: Venta) => {
+    const cliente = venta.cliente || clientes.find((c: Cliente) => c.id === venta.clienteId);
+    const vehiculo = venta.vehiculo || vehiculos.find((v: Vehiculo) => v.id === venta.vehiculoId);
+
+    const fechaVenta = new Date(venta.fecha);
+    const fechaLegible = isNaN(fechaVenta.getTime()) ? venta.fecha : fechaVenta.toLocaleDateString();
+    const totalVenta = Number.isFinite(venta.monto) ? venta.monto : 0;
+    const estadoVenta = (venta as Venta & { estado?: string }).estado ?? 'Sin estado';
+
+    const formatCurrency = (valor: number) =>
+      valor.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' });
+
+    const invoiceHtml = `<!DOCTYPE html>
+    <html lang="es">
+      <head>
+        <meta charset="utf-8" />
+        <title>Factura de Venta</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin: 40px; color: #1f2937; }
+          h1 { text-align: center; color: #1d4ed8; margin-bottom: 24px; }
+          .section { margin-bottom: 24px; }
+          .section h2 { font-size: 16px; text-transform: uppercase; letter-spacing: 1px; color: #0f172a; margin-bottom: 12px; }
+          table { width: 100%; border-collapse: collapse; }
+          td, th { padding: 8px 12px; border: 1px solid #cbd5f5; text-align: left; }
+          .totales { font-size: 18px; font-weight: bold; text-align: right; }
+          .firma { margin-top: 48px; display: flex; justify-content: space-between; }
+          .firma div { width: 45%; text-align: center; border-top: 1px solid #94a3b8; padding-top: 8px; }
+        </style>
+      </head>
+      <body>
+        <h1>Factura de Venta #${venta.id ?? 'N/A'}</h1>
+
+        <div class="section">
+          <h2>Datos del cliente</h2>
+          <table>
+            <tbody>
+              <tr><th>Nombre</th><td>${cliente?.nombre ?? 'No disponible'}</td></tr>
+              <tr><th>Email</th><td>${cliente?.email ?? 'No disponible'}</td></tr>
+              <tr><th>Teléfono</th><td>${cliente?.telefono ?? 'No disponible'}</td></tr>
+              <tr><th>Tipo</th><td>${cliente?.tipo ?? 'No disponible'}</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section">
+          <h2>Detalles de la venta</h2>
+          <table>
+            <tbody>
+              <tr><th>Fecha</th><td>${fechaLegible}</td></tr>
+              <tr><th>Monto</th><td>${formatCurrency(totalVenta)}</td></tr>
+              <tr><th>Estado</th><td>${estadoVenta}</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section">
+          <h2>Vehículo</h2>
+          <table>
+            <tbody>
+              <tr><th>Marca y modelo</th><td>${vehiculo ? `${vehiculo.marca} ${vehiculo.modelo}` : 'No disponible'}</td></tr>
+              <tr><th>Año</th><td>${vehiculo?.anio ?? 'No disponible'}</td></tr>
+              <tr><th>Precio listado</th><td>${vehiculo ? formatCurrency(vehiculo.precio) : 'No disponible'}</td></tr>
+              <tr><th>Descripción</th><td>${vehiculo?.descripcion ?? 'Sin especificaciones registradas'}</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="totales">Total a pagar: ${formatCurrency(totalVenta)}</div>
+
+        <div class="firma">
+          <div>Firma del concesionario</div>
+          <div>Firma del cliente</div>
+        </div>
+      </body>
+    </html>`;
+
+    const printWindow = window.open('', '_blank', 'width=900,height=700');
+    if (!printWindow) {
+      alert('No se pudo abrir la ventana de impresión. Verifica los bloqueadores emergentes.');
+      return;
+    }
+
+    printWindow.document.write(invoiceHtml);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+  };
+
   if (loading) {
     return (
       <div className="p-6 max-w-3xl mx-auto">
@@ -167,7 +255,7 @@ const VentasAdmin = () => {
           required
         >
           <option value="">Seleccionar Cliente</option>
-          {clientes.map((cliente) => (
+          {clientes.map((cliente: Cliente) => (
             <option key={cliente.id} value={cliente.id}>
               {cliente.nombre} - {cliente.email}
             </option>
@@ -182,7 +270,7 @@ const VentasAdmin = () => {
           required
         >
           <option value="">Seleccionar Vehículo</option>
-          {vehiculos.map((vehiculo) => (
+          {vehiculos.map((vehiculo: Vehiculo) => (
             <option key={vehiculo.id} value={vehiculo.id}>
               {vehiculo.marca} {vehiculo.modelo} ({vehiculo.anio}) - ${vehiculo.precio}
             </option>
@@ -254,7 +342,7 @@ const VentasAdmin = () => {
             </tr>
           </thead>
           <tbody>
-            {ventas.map((venta) => (
+            {ventas.map((venta: Venta) => (
               <tr key={venta.id} className="border-t hover:bg-gray-50">
                 <td className="p-3">
                   {venta.cliente ? venta.cliente.nombre : getClienteNombre(venta.clienteId)}
@@ -292,6 +380,13 @@ const VentasAdmin = () => {
                     disabled={loading || venta.estado === 'Completada'}
                   >
                     Completar
+                  </button>
+                  <button
+                    className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+                    onClick={() => handlePrintInvoice(venta)}
+                    disabled={loading}
+                  >
+                    Imprimir factura
                   </button>
                 </td>
               </tr>
