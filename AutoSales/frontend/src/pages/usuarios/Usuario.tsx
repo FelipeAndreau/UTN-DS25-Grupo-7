@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Slider from "react-slick";
 import { FaHome, FaCar, FaUser, FaCog, FaCalendarAlt, FaWhatsapp } from "react-icons/fa";
-import CalendarModal from "../../components/CalendarModal";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -280,44 +279,12 @@ const Usuario = () => {
                     <p className="text-sm text-gray-500 mb-2">{vehiculo.descripcion}</p>
                     <p className="text-sm text-gray-500">Estado: {vehiculo.estado}</p>
                     {vehiculo.estado === "Disponible" && (
-                      <div className="mt-3 w-full">
-                        {vehiculoSeleccionado === vehiculo.id ? (
-                          <div className="space-y-2">
-                            <input
-                              type="date"
-                              value={fechaVisita}
-                              onChange={(e) => setFechaVisita(e.target.value)}
-                              min={new Date().toISOString().split('T')[0]}
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                              placeholder="Selecciona fecha de visita"
-                            />
-                            <div className="flex gap-2">
-                              <button
-                                onClick={confirmarReserva}
-                                className="flex-1 p-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center justify-center gap-1"
-                              >
-                                📱 Confirmar por WhatsApp
-                              </button>
-                              <button
-                                onClick={() => {
-                                  setVehiculoSeleccionado(null);
-                                  setFechaVisita("");
-                                }}
-                                className="px-3 p-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-                              >
-                                Cancelar
-                              </button>
-                            </div>
-                          </div>
-                        ) : (
-                          <button
-                            onClick={() => handleReservar(vehiculo.id)}
-                            className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                          >
-                            Reservar
-                          </button>
-                        )}
-                      </div>
+                      <button
+                        onClick={() => handleReservar(vehiculo.id)}
+                        className="mt-3 w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                      >
+                        Reservar
+                      </button>
                     )}
                   </div>
                 ))}
@@ -416,6 +383,69 @@ const Usuario = () => {
           </div>
         )}
       </div>
+
+      {/* Modal de reserva personalizado */}
+      {modalAbierto && vehiculoSeleccionado && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="bg-white w-full max-w-lg rounded-lg shadow-xl overflow-hidden animate-fade-in">
+            <div className="px-6 py-4 border-b flex items-center justify-between">
+              <h3 className="text-xl font-semibold text-gray-800">Reservar vehículo</h3>
+              <button
+                onClick={cerrarModal}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="p-6 space-y-4">
+              {(() => {
+                const vehiculo = vehiculos.find(v => v.id === vehiculoSeleccionado);
+                return vehiculo ? (
+                  <>
+                    <div className="bg-gray-50 p-4 rounded-md">
+                      <p className="text-sm font-medium text-gray-600 mb-1">Vehículo a reservar</p>
+                      <p className="text-gray-800 font-semibold">{vehiculo.marca} {vehiculo.modelo}</p>
+                      <p className="text-sm text-green-600 font-medium mt-1">Estado: {vehiculo.estado}</p>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="md:col-span-2 text-sm text-gray-600 bg-blue-50 border border-blue-200 p-3 rounded">
+                        ✅ Se utilizarán automáticamente los datos del usuario autenticado.
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Fecha de visita</label>
+                        <input
+                          type="date"
+                          min={new Date().toISOString().split('T')[0]}
+                          value={fechaVisita}
+                          onChange={(e) => setFechaVisita(e.target.value)}
+                          className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Selecciona el día en que deseas visitar el concesionario.</p>
+                      </div>
+                    </div>
+                    <div className="flex justify-end gap-3 pt-4 border-t">
+                      <button
+                        onClick={cerrarModal}
+                        className="px-4 py-2 rounded-md border text-gray-700 hover:bg-gray-100"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        onClick={confirmarReserva}
+                        disabled={!fechaVisita}
+                        className="px-5 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed flex items-center gap-2"
+                      >
+                        <FaWhatsapp />
+                        Confirmar por WhatsApp
+                      </button>
+                    </div>
+                  </>
+                ) : null;
+              })()}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
