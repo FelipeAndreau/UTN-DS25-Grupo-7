@@ -146,17 +146,22 @@ const VentasAdmin = () => {
     return vehiculo ? `${vehiculo.marca} ${vehiculo.modelo}` : 'Vehículo no encontrado';
   };
 
+  const safeCurrency = (valor: number | string | undefined | null) => {
+    const numerico = typeof valor === 'number' ? valor : Number(valor ?? 0);
+    if (!Number.isFinite(numerico)) {
+      return '$0,00';
+    }
+    return numerico.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' });
+  };
+
   const handlePrintInvoice = (venta: Venta) => {
     const cliente = venta.cliente || clientes.find((c: Cliente) => c.id === venta.clienteId);
     const vehiculo = venta.vehiculo || vehiculos.find((v: Vehiculo) => v.id === venta.vehiculoId);
 
     const fechaVenta = new Date(venta.fecha);
     const fechaLegible = isNaN(fechaVenta.getTime()) ? venta.fecha : fechaVenta.toLocaleDateString();
-    const totalVenta = Number.isFinite(venta.monto) ? venta.monto : 0;
+    const totalVenta = typeof venta.monto === 'number' ? venta.monto : Number(venta.monto ?? 0);
     const estadoVenta = (venta as Venta & { estado?: string }).estado ?? 'Sin estado';
-
-    const formatCurrency = (valor: number) =>
-      valor.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' });
 
     const invoiceHtml = `<!DOCTYPE html>
     <html lang="es">
@@ -195,7 +200,7 @@ const VentasAdmin = () => {
           <table>
             <tbody>
               <tr><th>Fecha</th><td>${fechaLegible}</td></tr>
-              <tr><th>Monto</th><td>${formatCurrency(totalVenta)}</td></tr>
+              <tr><th>Monto</th><td>${safeCurrency(totalVenta)}</td></tr>
               <tr><th>Estado</th><td>${estadoVenta}</td></tr>
             </tbody>
           </table>
@@ -207,13 +212,13 @@ const VentasAdmin = () => {
             <tbody>
               <tr><th>Marca y modelo</th><td>${vehiculo ? `${vehiculo.marca} ${vehiculo.modelo}` : 'No disponible'}</td></tr>
               <tr><th>Año</th><td>${vehiculo?.anio ?? 'No disponible'}</td></tr>
-              <tr><th>Precio listado</th><td>${vehiculo ? formatCurrency(vehiculo.precio) : 'No disponible'}</td></tr>
+              <tr><th>Precio listado</th><td>${vehiculo ? safeCurrency(vehiculo.precio) : 'No disponible'}</td></tr>
               <tr><th>Descripción</th><td>${vehiculo?.descripcion ?? 'Sin especificaciones registradas'}</td></tr>
             </tbody>
           </table>
         </div>
 
-        <div class="totales">Total a pagar: ${formatCurrency(totalVenta)}</div>
+        <div class="totales">Total a pagar: ${safeCurrency(totalVenta)}</div>
 
         <div class="firma">
           <div>Firma del concesionario</div>
@@ -357,7 +362,7 @@ const VentasAdmin = () => {
                   {new Date(venta.fecha).toLocaleDateString()}
                 </td>
                 <td className="p-3">
-                  ${venta.monto.toLocaleString()}
+                  {safeCurrency(venta.monto)}
                 </td>
                 <td className="p-3 flex gap-2">
                   <button 
