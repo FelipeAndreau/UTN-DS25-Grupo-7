@@ -753,15 +753,24 @@ const Catalogo = () => {
                               {veh?.precio ? `$${veh.precio.toLocaleString()}` : '—'}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                              {reserva.estado === 'Activa' && (
+                              <div className="flex flex-wrap items-center gap-3">
                                 <button
-                                  onClick={() => handleCancelarReserva(reserva.id.toString())}
-                                  disabled={loading}
-                                  className="text-red-600 hover:text-red-900 disabled:text-gray-400"
+                                  onClick={() => enviarWhatsAppReserva(reserva)}
+                                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md border border-green-500 text-green-600 hover:bg-green-50"
                                 >
-                                  {loading ? 'Cancelando...' : 'Cancelar'}
+                                  <FaWhatsapp />
+                                  WhatsApp
                                 </button>
-                              )}
+                                {reserva.estado === 'Activa' && (
+                                  <button
+                                    onClick={() => handleCancelarReserva(reserva.id.toString())}
+                                    disabled={loading}
+                                    className="text-red-600 hover:text-red-900 disabled:text-gray-400"
+                                  >
+                                    {loading ? 'Cancelando...' : 'Cancelar'}
+                                  </button>
+                                )}
+                              </div>
                             </td>
                           </tr>
                         );
