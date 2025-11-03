@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaCar, FaUser, FaSignOutAlt, FaCalendarAlt, FaSearch, FaFilter } from "react-icons/fa";
+import { FaCar, FaUser, FaSignOutAlt, FaCalendarAlt, FaSearch, FaFilter, FaWhatsapp } from "react-icons/fa";
 import { vehiculosService, reservasService, authService, type Reserva, type Vehiculo } from "../../services/api";
 import { useToast } from "../../context/ToastContext";
 
@@ -229,6 +229,16 @@ const Catalogo = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const enviarWhatsAppReserva = (reserva: Reserva) => {
+    const veh = reserva.vehiculo;
+    const fechaVisita = reserva.fechaVisita ? new Date(reserva.fechaVisita).toLocaleDateString() : 'fecha no especificada';
+    const mensaje = `Hola! Tengo una reserva confirmada para visitar el concesionario el día ${fechaVisita} y ver el vehículo ${veh ? `${veh.marca} ${veh.modelo}` : 'vehículo reservado'}. ¿Podrían confirmarme los detalles de la visita?`;
+    const numeroWhatsApp = "5492216335590"; // Número del concesionario
+    const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+    
+    window.open(urlWhatsApp, '_blank');
   };
 
   const handleLogout = () => {
