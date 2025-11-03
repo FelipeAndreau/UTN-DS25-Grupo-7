@@ -109,10 +109,12 @@ const Usuario = () => {
       const numeroWhatsApp = "5492216335590"; // Número del concesionario
       const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
       
-      // Abrir WhatsApp
-      window.open(urlWhatsApp, '_blank');
-
       alert("Reserva realizada con éxito. Se abrirá WhatsApp para confirmar tu visita.");
+      
+      // Abrir WhatsApp después del alert
+      setTimeout(() => {
+        window.open(urlWhatsApp, '_blank');
+      }, 500);
       
       // Limpiar estado
       setVehiculoSeleccionado(null);
@@ -123,10 +125,12 @@ const Usuario = () => {
     }
   };
 
-  const cerrarModal = () => {
-    setModalAbierto(false);
-    setVehiculoSeleccionado(null);
-    setFechaVisita("");
+  const enviarWhatsAppReserva = (reserva: any) => {
+    const mensaje = `Hola! Tengo una reserva confirmada para visitar el concesionario el día ${reserva.fecha} y ver el vehículo ${reserva.vehiculo}. ¿Podrían confirmarme los detalles de la visita?`;
+    const numeroWhatsApp = "5492216335590"; // Número del concesionario
+    const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+    
+    window.open(urlWhatsApp, '_blank');
   };
 
   const handleCancelarReserva = (reservaId: string) => {
@@ -324,12 +328,21 @@ const Usuario = () => {
                       </span>
                     </td>
                     <td className="border border-gray-300 p-2">
-                      <button
-                        onClick={() => handleCancelarReserva(reserva.id)}
-                        className="p-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-                      >
-                        Cancelar
-                      </button>
+                      <div className="flex gap-2 justify-center">
+                        <button
+                          onClick={() => enviarWhatsAppReserva(reserva)}
+                          className="p-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center gap-1"
+                          title="Contactar por WhatsApp"
+                        >
+                          <FaWhatsapp size={14} />
+                        </button>
+                        <button
+                          onClick={() => handleCancelarReserva(reserva.id)}
+                          className="p-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                        >
+                          Cancelar
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
