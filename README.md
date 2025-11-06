@@ -7,9 +7,6 @@ Sistema de Venta de Automóviles. El proyecto consiste en desarrollar un sistema
 ## Documento de Visión y Alcance del proyecto
 [DDS GRUPO 7 VISIÓN Y ALCANCE DEL PRODUCTO.pdf](https://github.com/user-attachments/files/19805795/DDS.GRUPO.7.VISION.Y.ALCANCE.DEL.PRODUCTO.pdf)
 
-## Documento de Visión y Alncance del proyecto
-[DDS GRUPO 7 VISIÓN Y ALCANCE DEL PRODUCTO.pdf](https://github.com/user-attachments/files/19805795/DDS.GRUPO.7.VISION.Y.ALCANCE.DEL.PRODUCTO.pdf)
-
 ## Miembros del Equipo 
 - Nombre completo: Katrina Ariadna Fernandez
 - Legajo: 33182  
