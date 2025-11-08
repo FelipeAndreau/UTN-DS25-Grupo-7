@@ -136,9 +136,9 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="w-4/5 h-full overflow-y-auto p-5 bg-blue-500">
+      <div className="w-4/5 h-full overflow-y-auto p-5">
         {seccionActiva === "dashboard" && (
-          <div className="p-6 bg-gray-100 min-h-screen">
+          <div className="p-6 bg-blue-500 min-h-screen">
             <h1 className="text-2xl font-bold mb-6 text-gray-800 flex items-center justify-between">
               Dashboard
               <button
