@@ -157,11 +157,11 @@ const Reportes = () => {
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={tabValue} onChange={handleTabChange} aria-label="reportes tabs">
-          <Tab label="Dashboard General" />
-          <Tab label="Ventas" />
-          <Tab label="Clientes" />
-          <Tab label="Vehículos" />
-          <Tab label="Logs del Sistema" />
+        <Tab label="Dashboard General" sx={{ color: '#000 !important' }} />
+        <Tab label="Ventas" sx={{ color: '#000 !important' }} />
+        <Tab label="Clientes" sx={{ color: '#000 !important' }} />
+        <Tab label="Vehículos" sx={{ color: '#000 !important' }} />
+        <Tab label="Logs del Sistema" sx={{ color: '#000 !important' }} />
         </Tabs>
       </Box>
 
