@@ -207,7 +207,8 @@ const GestionVehiculos = () => {
               className="p-2 border border-gray-300 rounded-md flex-1"
             />
             <input
-              type="number"
+              type="text"
+              inputMode="numeric"
               placeholder="Año"
               value={nuevoVehiculo.anio}
               onChange={(e) =>
@@ -216,7 +217,8 @@ const GestionVehiculos = () => {
               className="p-2 border border-gray-300 rounded-md flex-1"
             />
             <input
-              type="number"
+              type="text"
+              inputMode="numeric"
               placeholder="Precio"
               value={nuevoVehiculo.precio}
               onChange={(e) =>
