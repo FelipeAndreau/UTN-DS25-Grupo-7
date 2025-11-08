@@ -249,9 +249,8 @@ const VentasAdmin = () => {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Gestión de Ventas</h2>
-      
       <form onSubmit={handleSubmit} className="bg-white shadow rounded p-4 mb-6 flex flex-col gap-3">
+        <h2 className="text-2xl font-bold mb-4">Gestión de Ventas</h2>
         <select
           className="border p-2 rounded"
           name="clienteId"
