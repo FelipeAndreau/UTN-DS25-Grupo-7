@@ -206,26 +206,42 @@ const GestionVehiculos = () => {
               }
               className="p-2 border border-gray-300 rounded-md flex-1"
             />
-            <input
-              type="text"
-              inputMode="numeric"
-              placeholder="Año"
-              value={nuevoVehiculo.anio}
-              onChange={(e) =>
-                setNuevoVehiculo({ ...nuevoVehiculo, anio: parseInt(e.target.value) || new Date().getFullYear() })
-              }
-              className="p-2 border border-gray-300 rounded-md flex-1"
-            />
-            <input
-              type="text"
-              inputMode="numeric"
-              placeholder="Precio"
-              value={nuevoVehiculo.precio}
-              onChange={(e) =>
-                setNuevoVehiculo({ ...nuevoVehiculo, precio: parseFloat(e.target.value) || 0 })
-              }
-              className="p-2 border border-gray-300 rounded-md flex-1"
-            />
+            <div className="flex flex-col flex-1">
+              <label htmlFor="anio" className="mb-1 text-sm font-medium text-gray-700">
+                Año
+              </label>
+              <input
+                id="anio"
+                type="number"
+                placeholder="EJ. 2020"
+                value={nuevoVehiculo.anio}
+                onChange={(e) =>
+                  setNuevoVehiculo({
+                    ...nuevoVehiculo,
+                    anio: parseInt(e.target.value) || new Date().getFullYear(),
+                  })
+                }
+                className="p-2 border border-gray-300 rounded-md"
+              />
+            </div>
+            <div className="flex flex-col flex-1">
+              <label htmlFor="precio" className="mb-1 text-sm font-medium text-gray-700">
+                Precio
+              </label>
+              <input
+                id="precio"
+                type="number"
+                placeholder="EJ. 1500000"
+                value={nuevoVehiculo.precio}
+                onChange={(e) =>
+                  setNuevoVehiculo({
+                    ...nuevoVehiculo,
+                    precio: parseFloat(e.target.value) || 0,
+                  })
+                }
+                className="p-2 border border-gray-300 rounded-md"
+              />
+            </div>
             <input
               type="file"
               accept="image/*"
