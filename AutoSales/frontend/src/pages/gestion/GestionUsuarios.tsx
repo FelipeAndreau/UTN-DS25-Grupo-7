@@ -128,7 +128,7 @@ const GestionUsuarios = () => {
       className="w-full h-full p-5 bg-cover bg-center"
       style={{ backgroundImage: "url('/GestionClienteBK.png')" }}
     >
-      <div className="bg-white p-5 rounded-lg shadow-lg">
+      <div className="bg-white p-5 shadow-lg">
         <h2 className="text-xl font-bold mb-5">Gestión de Usuarios</h2>
 
         {/* Formulario para agregar usuario */}
