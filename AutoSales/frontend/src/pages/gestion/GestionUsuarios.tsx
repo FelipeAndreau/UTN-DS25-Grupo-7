@@ -124,47 +124,52 @@ const GestionUsuarios = () => {
   };
 
   return (
-    <div className="p-5">
-      <h2 className="text-xl font-bold mb-5">Gestión de Usuarios</h2>
+    <div
+      className="w-full h-full p-5 bg-cover bg-center"
+      style={{ backgroundImage: "url('/GestionClienteBK.png')" }}
+    >
+      <div className="p-5">
+        <h2 className="text-xl font-bold mb-5">Gestión de Usuarios</h2>
 
-      {/* Formulario para agregar usuario */}
-      <div className="mb-5">
-        <div className="flex flex-wrap gap-4">
-          <input
-            type="text"
-            placeholder="Nombre"
-            value={nuevoUsuario.nombre}
-            onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, nombre: e.target.value })}
-            className="p-2 border border-gray-300 rounded-md flex-1"
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            value={nuevoUsuario.email}
-            onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, email: e.target.value })}
-            className="p-2 border border-gray-300 rounded-md flex-1"
-          />
-          <input
-            type="password"
-            placeholder="Contraseña"
-            value={nuevoUsuario.password}
-            onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, password: e.target.value })}
-            className="p-2 border border-gray-300 rounded-md flex-1"
-          />
-          <select
-            value={nuevoUsuario.rol}
-            onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, rol: e.target.value as 'admin' | 'viewer' })}
-            className="p-2 border border-gray-300 rounded-md"
-          >
-            <option value="viewer">Viewer</option>
-            <option value="admin">Admin</option>
-          </select>
-          <button
-            onClick={agregarUsuario}
-            className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-          >
-            Agregar Usuario
-          </button>
+        {/* Formulario para agregar usuario */}
+        <div className="mb-5">
+          <div className="flex flex-wrap gap-4">
+            <input
+              type="text"
+              placeholder="Nombre"
+              value={nuevoUsuario.nombre}
+              onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, nombre: e.target.value })}
+              className="p-2 border border-gray-300 rounded-md flex-1"
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={nuevoUsuario.email}
+              onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, email: e.target.value })}
+              className="p-2 border border-gray-300 rounded-md flex-1"
+            />
+            <input
+              type="password"
+              placeholder="Contraseña"
+              value={nuevoUsuario.password}
+              onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, password: e.target.value })}
+              className="p-2 border border-gray-300 rounded-md flex-1"
+            />
+            <select
+              value={nuevoUsuario.rol}
+              onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, rol: e.target.value as 'admin' | 'viewer' })}
+              className="p-2 border border-gray-300 rounded-md"
+            >
+              <option value="viewer">Viewer</option>
+              <option value="admin">Admin</option>
+            </select>
+            <button
+              onClick={agregarUsuario}
+              className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            >
+              Agregar Usuario
+            </button>
+          </div>
         </div>
       </div>
 
