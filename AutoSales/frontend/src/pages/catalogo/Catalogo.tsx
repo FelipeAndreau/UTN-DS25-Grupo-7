@@ -671,8 +671,8 @@ const Catalogo = () => {
                 <h1 className="text-3xl font-bold text-gray-800 mb-2">
                   Mis Reservas
                 </h1>
-                <p className="text-gray-600">
-                  Gestiona tus reservas de vehículos.
+                <p className="text-black">
+                  Gestioná tus reservas de vehículos.
                 </p>
               </div>
 
