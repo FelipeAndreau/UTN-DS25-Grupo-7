@@ -316,7 +316,7 @@ const Dashboard = () => {
                     
                     {logs.length > 10 && (
                       <div className="mt-3 text-center">
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm text-black">
                           Mostrando los últimos 10 de {logs.length} logs
                         </span>
                       </div>

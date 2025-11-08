@@ -409,14 +409,14 @@ const Catalogo = () => {
                 <h1 className="text-3xl font-bold text-gray-800 mb-2">
                   Catálogo de Vehículos
                 </h1>
-                <p className="text-gray-600">
-                  Explora nuestra selección de vehículos disponibles y reserva el que más te guste.
+                <p className="text-black">
+                  Explorá nuestra selección de vehículos disponibles y reservá el que más te guste.
                 </p>
               </div>
 
               {/* Filtros */}
               <div className="bg-white p-4 rounded-lg shadow mb-6">
-                <h3 className="text-lg font-semibold mb-4">Filtros de búsqueda</h3>
+                <h3 className="text-lg font-semibold mb-4">Filtros de Búsqueda</h3>
                 {/* Barra de búsqueda general */}
                 <div className="mb-6">
                   <div className="relative">
@@ -533,7 +533,7 @@ const Catalogo = () => {
 
               {/* Información de resultados */}
               <div className="mb-4">
-                <p className="text-gray-600">
+                <p className="text-black">
                   Mostrando {vehiculosFiltrados.length} vehículo{vehiculosFiltrados.length !== 1 ? 's' : ''} de {totalVehiculos} disponible{totalVehiculos !== 1 ? 's' : ''} (Página {currentPage} de {totalPages})
                 </p>
               </div>

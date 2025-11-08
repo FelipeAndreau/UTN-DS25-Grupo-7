@@ -275,7 +275,9 @@ const VentasAdmin = () => {
           required
         >
           <option value="">Seleccionar Vehículo</option>
-          {vehiculos.map((vehiculo: Vehiculo) => (
+          {vehiculos
+            .filter((vehiculo: Vehiculo) => vehiculo.estado === 'Disponible' || vehiculo.estado === 'Reservado')
+            .map((vehiculo: Vehiculo) => (
             <option key={vehiculo.id} value={vehiculo.id}>
               {vehiculo.marca} {vehiculo.modelo} ({vehiculo.anio}) - ${vehiculo.precio}
             </option>
