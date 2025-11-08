@@ -389,7 +389,7 @@ const Catalogo = () => {
       </div>
 
       {/* Contenido principal */}
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-auto bg-blue-400">
         <div className="p-6">
           {loading && (
             <div className="flex justify-center items-center p-8">
@@ -404,7 +404,7 @@ const Catalogo = () => {
           )}
 
           {seccionActiva === "catalogo" && (
-            <div className="bg-blue-400">
+            <div>
               <div className="mb-6">
                 <h1 className="text-3xl font-bold text-gray-800 mb-2">
                   Catálogo de Vehículos
