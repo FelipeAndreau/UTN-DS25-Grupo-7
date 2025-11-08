@@ -34,7 +34,7 @@ const VentasAdmin = () => {
       const [ventasData, clientesData, vehiculosData] = await Promise.all([
         ventasService.getAll(),
         clientesService.getAll(),
-        vehiculosService.getAll()
+        vehiculosService.getAllAdmin()
       ]);
       setVentas(ventasData);
       setClientes(clientesData);

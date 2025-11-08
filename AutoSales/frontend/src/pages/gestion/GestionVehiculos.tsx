@@ -28,8 +28,8 @@ const GestionVehiculos = () => {
     try {
       setLoading(true);
       setError(null);
-  const vehiculosData = await vehiculosService.getAllAdmin();
-  setVehiculos(vehiculosData);
+      const vehiculosData = await vehiculosService.getAllAdmin();
+      setVehiculos(vehiculosData);
     } catch (error) {
       console.error('Error al cargar vehículos:', error);
       setError('Error al cargar los vehículos');

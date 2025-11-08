@@ -415,7 +415,7 @@ export const carService = {
             price: v.precio,
             description: v.descripcion,
             imageUrl: v.imagen,
-            isAvailable: v.estado === 'Disponible' || v.estado === 'Reservado'
+            isAvailable: v.estado === 'Disponible'
         }));
     },
 
