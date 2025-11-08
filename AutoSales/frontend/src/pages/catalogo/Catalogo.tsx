@@ -404,7 +404,7 @@ const Catalogo = () => {
           )}
 
           {seccionActiva === "catalogo" && (
-            <div>
+            <div className="bg-blue-400">
               <div className="mb-6">
                 <h1 className="text-3xl font-bold text-gray-800 mb-2">
                   Catálogo de Vehículos
