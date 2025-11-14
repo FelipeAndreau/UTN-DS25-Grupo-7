@@ -1,0 +1,248 @@
+{
+  "info": {
+    "name": "AutoSales API",
+    "description": "API para el sistema de gestión de ventas de vehículos",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "🔐 Autenticación",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@test.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Login para obtener token JWT"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🧪 Test",
+      "item": [
+        {
+          "name": "Test Server",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/test",
+              "host": ["{{base_url}}"],
+              "path": ["test"]
+            },
+            "description": "Verificar que el servidor está funcionando"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "👥 Clientes",
+      "item": [
+        {
+          "name": "GET Clientes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/clientes",
+              "host": ["{{base_url}}"],
+              "path": ["clientes"]
+            },
+            "description": "Obtener lista de todos los clientes"
+          },
+          "response": []
+        },
+        {
+          "name": "POST Cliente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Carlos Rodriguez\",\n  \"email\": \"carlos@example.com\",\n  \"telefono\": \"+1234567892\",\n  \"tipo\": \"Particular\",\n  \"estado\": \"Activo\",\n  \"actividad\": \"Ingeniero\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/clientes",
+              "host": ["{{base_url}}"],
+              "path": ["clientes"]
+            },
+            "description": "Crear un nuevo cliente"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🚗 Vehículos",
+      "item": [
+        {
+          "name": "GET Vehículos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/vehiculos",
+              "host": ["{{base_url}}"],
+              "path": ["vehiculos"]
+            },
+            "description": "Obtener lista de todos los vehículos"
+          },
+          "response": []
+        },
+        {
+          "name": "POST Vehículo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"marca\": \"Nissan\",\n  \"modelo\": \"Sentra\",\n  \"anio\": 2023,\n  \"precio\": 22000,\n  \"estado\": \"Disponible\",\n  \"imagen\": \"nissan_sentra.jpg\",\n  \"descripcion\": \"Sedán económico y confiable\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/vehiculos",
+              "host": ["{{base_url}}"],
+              "path": ["vehiculos"]
+            },
+            "description": "Crear un nuevo vehículo"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "💰 Ventas",
+      "item": [
+        {
+          "name": "GET Ventas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/ventas",
+              "host": ["{{base_url}}"],
+              "path": ["ventas"]
+            },
+            "description": "Obtener lista de todas las ventas"
+          },
+          "response": []
+        },
+        {
+          "name": "POST Venta",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clienteId\": \"29f3553f-28e2-40c8-963c-56c05dfdd98d\",\n  \"vehiculoId\": 2,\n  \"fecha\": \"2025-08-23T21:00:00.000Z\",\n  \"monto\": 27000\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/ventas",
+              "host": ["{{base_url}}"],
+              "path": ["ventas"]
+            },
+            "description": "Crear una nueva venta"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "📊 Dashboard",
+      "item": [
+        {
+          "name": "GET Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/dashboard/stats",
+              "host": ["{{base_url}}"],
+              "path": ["dashboard", "stats"]
+            },
+            "description": "Obtener estadísticas del dashboard"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
